@@ -1,0 +1,68 @@
+import datetime
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from imagekit.models import ProcessedImageField
+from pilkit.processors import ResizeToFill
+from apps.utils.func import user_avatar
+from unixtimestampfield.fields import UnixTimeStampField
+from dateutil.relativedelta import relativedelta
+import datetime
+
+
+
+
+class User(AbstractUser):
+    username = models.CharField(
+        'Phone',
+        unique=True,
+        max_length=20
+    )
+    fio = models.CharField('FIO', max_length=255)
+    
+    image = ProcessedImageField(
+        verbose_name='ImagePNG',
+        processors=[ResizeToFill(600, 600)],
+        options={'quality': 100},
+        null=True,
+        blank=True
+    )
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = [
+        'fio',
+    ]
+
+    @staticmethod
+    def _create_user( fio,password, **extra_fields):
+        if not fio:
+            raise ValueError('The given fio must be set')
+        user = User.objects.create(
+            fio=fio,
+            **extra_fields
+        )
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_user(self, fio, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(fio, password,  **extra_fields)
+
+    def create_superuser(self, fio, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_user(fio, password,  **extra_fields)
+
+    def __str__(self):
+        return str(self.username)
+
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
