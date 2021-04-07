@@ -17,7 +17,7 @@ class User(AbstractUser):
         unique=True,
         max_length=20
     )
-    fio = models.CharField('FIO', max_length=255)
+    fio = models.CharField('FIO', max_length=255, null=True, blank=True)
     
     image = ProcessedImageField(
         verbose_name='ImagePNG',
@@ -35,27 +35,23 @@ class User(AbstractUser):
     
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [
-        'fio',
     ]
 
     @staticmethod
-    def _create_user( fio,password, **extra_fields):
-        if not fio:
-            raise ValueError('The given fio must be set')
+    def _create_user( password, **extra_fields):
         user = User.objects.create(
-            fio=fio,
             **extra_fields
         )
         user.set_password(password)
         user.save()
         return user
 
-    def create_user(self, fio, password=None, **extra_fields):
+    def create_user(self, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user(fio, password,  **extra_fields)
+        return self._create_user(password,  **extra_fields)
 
-    def create_superuser(self, fio, password=None, **extra_fields):
+    def create_superuser(self, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -64,7 +60,7 @@ class User(AbstractUser):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user(fio, password,  **extra_fields)
+        return self._create_user(password,  **extra_fields)
 
     def __str__(self):
         return str(self.username)

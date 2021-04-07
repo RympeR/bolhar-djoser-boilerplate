@@ -5,8 +5,33 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.views import APIView
 from .serializers import *
 from .models import *
+import random
+from rest_framework.response import Response
+from twilio.rest import Client
 
-
+acount_sid = 'AC7e26aa22e1d6d1f9439687e1959c6a67'
+acount_token = 'dbe920a4d7f4f96ded9394435749bb14'
+client = Client(acount_sid,acount_token)
+class GetSmsCode(APIView):
+    permission_classes = (permissions.AllowAny, )
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
+    def get(self, request, phone ):
+        code = random.randint(1,19999)
+        message =client.messages.create(
+            body=str(code),
+            from_='+13615416379',
+            to=phone
+        )
+        user, created = User.objects.get_or_create(
+            username=phone
+        )
+        user.set_password(str(code))
+        user.save()
+        return Response(
+            {
+                "dude": "dude"
+            }
+        )
 class CreateUserAPI(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny, )
     queryset = User.objects.all()
