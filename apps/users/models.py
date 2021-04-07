@@ -27,6 +27,12 @@ class User(AbstractUser):
         blank=True
     )
 
+    contacts = models.ManyToManyField(
+        'self',
+        blank=True,
+        related_name='user_contacts'
+    )
+    
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [
         'fio',
