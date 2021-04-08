@@ -44,3 +44,23 @@ class UserSerializer(serializers.ModelSerializer):
             'last_login'
         )
         model = User
+
+
+class GetUserSerializer(serializers.ModelSerializer):
+
+    contacts = UserSerializer(required=False, many=True)
+    class Meta:
+        exclude = (
+            "email",
+            'is_superuser',
+            "date_joined",
+            "is_active",
+            'last_name',
+            'first_name',
+            'is_staff',
+            'password',
+            'user_permissions',
+            'groups',
+            'last_login'
+        )
+        model = User

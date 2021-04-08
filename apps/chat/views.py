@@ -7,28 +7,36 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser, FileUploadParser
 from .models import Room, Chat
 from .serializers import *
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return
 
 class PostRoom(generics.CreateAPIView):
     permission_classes = (AllowAny, )
     queryset = Room.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = RoomCreateSerializer
-
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
 class GetRoom(generics.RetrieveDestroyAPIView):
     permission_classes = (AllowAny, )
     queryset = Room.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = RoomSerializer
-
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
 class PutRoom(generics.UpdateAPIView):
     permission_classes = (AllowAny, )
     queryset = Room.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = RoomCreateSerializer
-
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
 class PostChat(generics.CreateAPIView):
     permission_classes = (AllowAny, )
@@ -36,7 +44,8 @@ class PostChat(generics.CreateAPIView):
     parser_classes = (JSONParser, MultiPartParser,
                       FileUploadParser, FormParser)
     serializer_class = ChatCreateSerializer
-
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
 class GetChat(generics.RetrieveDestroyAPIView):
     permission_classes = (AllowAny, )
@@ -44,7 +53,8 @@ class GetChat(generics.RetrieveDestroyAPIView):
     parser_classes = (JSONParser, MultiPartParser,
                       FileUploadParser, FormParser)
     serializer_class = ChatSerializer
-
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
 class PutChat(generics.UpdateAPIView):
     permission_classes = (AllowAny, )
@@ -52,13 +62,16 @@ class PutChat(generics.UpdateAPIView):
     parser_classes = (JSONParser, MultiPartParser,
                       FileUploadParser, FormParser)
     serializer_class = ChatCreateSerializer
-
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
 class GetUserRooms(APIView):
     permission_classes = (IsAuthenticated, )
     queryset = Room.objects.all()
     parser_classes = (JSONParser, FormParser)
     serializer_class = RoomSerializer
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
     def get(self, request):
         rooms = Room.objects.filter(
@@ -86,7 +99,9 @@ class GetChatMessages(APIView):
     renderer_classes = (JSONRenderer, )
     parser_classes = (JSONParser, MultiPartParser,
                       FileUploadParser, FormParser)
-
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
+        
     def get(self, request, room_id):
         room = Room.objects.get(pk=room_id)
         objects = Chat.objects.filter(

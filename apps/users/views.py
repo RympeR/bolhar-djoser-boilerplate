@@ -8,14 +8,22 @@ from .models import *
 import random
 from rest_framework.response import Response
 from twilio.rest import Client
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return
 
 acount_sid = 'AC7e26aa22e1d6d1f9439687e1959c6a67'
 acount_token = 'dbe920a4d7f4f96ded9394435749bb14'
-client = Client(acount_sid,acount_token)
 class GetSmsCode(APIView):
     permission_classes = (permissions.AllowAny, )
     parser_classes = (JSONParser, MultiPartParser, FormParser)
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
+
     def get(self, request, phone ):
+        client = Client(acount_sid,acount_token)
         code = random.randint(1,19999)
         message =client.messages.create(
             body=str(code),
@@ -29,7 +37,7 @@ class GetSmsCode(APIView):
         user.save()
         return Response(
             {
-                "dude": "dude"
+                "status": True
             }
         )
 class CreateUserAPI(generics.ListCreateAPIView):
@@ -37,13 +45,16 @@ class CreateUserAPI(generics.ListCreateAPIView):
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserCreateSerializer
-
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
 class GetUserAPI(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticated, )
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
-    serializer_class = UserSerializer
+    serializer_class = GetUserSerializer
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
     def get_object(self):
         return self.request.user
@@ -54,6 +65,8 @@ class UserAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserSerializer
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
     def get_object(self):
         return self.request.user
@@ -64,13 +77,16 @@ class UserListAPI(generics.ListAPIView):
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserSerializer
-
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
 class AddContactAPI(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated, )
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserSerializer
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
 
     def get_object(self):
         return self.request.user
