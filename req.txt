@@ -1,0 +1,17 @@
+django
+djangorestframework
+asgi
+gunicorn
+Pillow
+psycopg2
+zeep
+djoser
+autopep8
+channels-redis
+django-imagekit
+django-unixtimestampfield
+django-cors-headers
+django-filter
+django-silk
+wheel
+twilio

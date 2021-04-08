@@ -14,8 +14,7 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
     def enforce_csrf(self, request):
         return
 
-acount_sid = 'AC7e26aa22e1d6d1f9439687e1959c6a67'
-acount_token = 'dbe920a4d7f4f96ded9394435749bb14'
+
 class GetSmsCode(APIView):
     permission_classes = (permissions.AllowAny, )
     parser_classes = (JSONParser, MultiPartParser, FormParser)
@@ -23,6 +22,8 @@ class GetSmsCode(APIView):
         CsrfExemptSessionAuthentication, BasicAuthentication)
 
     def get(self, request, phone ):
+        acount_sid = 'AC7e26aa22e1d6d1f9439687e1959c6a67'
+        acount_token = 'dbe920a4d7f4f96ded9394435749bb14'
         client = Client(acount_sid,acount_token)
         code = random.randint(1,19999)
         message =client.messages.create(
@@ -37,7 +38,8 @@ class GetSmsCode(APIView):
         user.save()
         return Response(
             {
-                "status": True
+                "user_id": user.pk,
+                "new_user": created
             }
         )
 class CreateUserAPI(generics.ListCreateAPIView):
