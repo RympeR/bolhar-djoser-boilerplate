@@ -6,9 +6,7 @@ Pillow
 psycopg2
 zeep
 djoser
-autopep8
-channels-redis
-django-imagekit
+autopep8я   
 django-unixtimestampfield
 django-cors-headers
 django-filter

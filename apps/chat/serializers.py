@@ -32,11 +32,10 @@ class RoomCreateSerializer(serializers.ModelSerializer):
 class ChatSerializer(serializers.ModelSerializer):
     date = TimestampField(required=False)
     user = UserSerializer()
-
+    room = RoomSerializer()
     class Meta:
         model = Chat
         fields = '__all__'
-
 
 class ChatCreateSerializer(serializers.ModelSerializer):
     date = TimestampField(required=False)

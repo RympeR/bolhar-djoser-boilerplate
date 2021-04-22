@@ -8,6 +8,7 @@ from rest_framework.parsers import JSONParser, MultiPartParser, FormParser, File
 from .models import Room, Chat
 from .serializers import *
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from django.db.models import Q
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
 
@@ -144,3 +145,32 @@ def room(request, room_name):
     return render(request, 'room.html', {
         'room_name': room_name
     })
+
+
+class GetUserRooms(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticated, )
+    renderer_classes = (JSONRenderer, )
+    parser_classes = (JSONParser, MultiPartParser,
+                      FileUploadParser, FormParser)
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, BasicAuthentication)
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer()
+
+    def get_queryset(self):
+        user = self.request.user
+        rooms = Room.objects.filter(
+            Q(creator_id=user) |
+            Q(accepter_id=user)
+        )[self.request.data['chat_id']:self.request.data['chat_id'] + 15]
+        room_values = rooms.values()
+        for ind, room in enumerate(rooms):
+            message = Chat.objects.filter(
+                Q(room=room)
+            ).order_by('-date').values()[:1]
+            room_values[ind]['message'] = message
+        print(room_values)
+        return room_values    
+
+
+# Q(id__lte=self.request.data['message_id'])

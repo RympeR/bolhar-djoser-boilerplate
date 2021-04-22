@@ -19,11 +19,6 @@ class Migration(migrations.Migration):
             name='room',
             options={'verbose_name': 'Комната', 'verbose_name_plural': 'Комнаты'},
         ),
-        migrations.AddField(
-            model_name='attachment',
-            name='attachment_type',
-            field=models.CharField(choices=[('image', 'image'), ('video', 'video'), ('audio', 'audio')], default='image', max_length=15, verbose_name='Тип файла'),
-        ),
         migrations.AlterField(
             model_name='attachment',
             name='chat',
