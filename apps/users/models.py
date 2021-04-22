@@ -68,3 +68,18 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
+
+
+class Phone(models.Model):
+    phone = models.BigIntegerField(db_index=True)
+    code = models.IntegerField('Code', db_index=True)
+    is_checked = models.BooleanField('Is checked', default=False)
+    created_at = models.DateTimeField('Created at', auto_now=True)
+    expires_at = models.DateTimeField('Expires at', default=datetime.date.today() + relativedelta(minutes=20))
+
+    def __str__(self):
+        return str(self.phone)
+
+    class Meta:
+        verbose_name = 'Phone'
+        verbose_name_plural = 'Phones'
