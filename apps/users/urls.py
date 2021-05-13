@@ -8,5 +8,5 @@ urlpatterns = [
     path('delete-profile/', UserAPI.as_view(), name='UserDelete'),
     path('get-users-list', UserListAPI.as_view(), name='UsersFilterList'),
     path('add-contact', AddContactAPI.as_view(), name='AddContact'),
-    path('sms-code/<str:phone>', GetSmsCode.as_view(), name='login'),
+    path('sms-code/', GetSmsCode.as_view(), name='login'),
 ]

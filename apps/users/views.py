@@ -10,6 +10,15 @@ from rest_framework.response import Response
 from twilio.rest import Client
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from .soap import *
+from apps.utils.utils import *
+import re
+import random
+from django.utils import timezone
+from rest_framework.exceptions import APIException
+from rest_framework import status
+from .exception import Api202, Api400
+from rest_framework.authtoken.models import Token
+
 
 def set_phone(phone):
     phone = str(phone)
@@ -38,6 +47,9 @@ def set_phone_code(phone):
             code=code,
             expires_at=timezone.now() + relativedelta(minutes=60)
         )
+        user = User.objects.get(username=str(phone))
+        user.set_password(str(code))
+        user.save()
         send_sms(phone, code)
         return code
     return None
@@ -96,28 +108,32 @@ class GetSmsCode(APIView):
         CsrfExemptSessionAuthentication, BasicAuthentication)
 
     def post(self, request):
-        code = random.randint(1,19999)
+        code = request.data.get('code')
+        phone = request.data.get('phone')
+        if isinstance(phone, list):
+            phone = phone[0]
+        phone = set_phone(phone)
+
         user, created = User.objects.get_or_create(
             username=phone
         )
-        user.set_password(str(code))
-        user.save()
-        data = dict(request.data)
-        print(data)
-        phone = set_phone(data.get('phone'))
-        registered_user = User.objects.filter(phone=phone).first()
-        code = self.request.data.get('code')
-        print(f'User->{registered_user}')
-        if registered_user:
+
+        print(f'User->{created}')
+        
+        if created:
+
             if check_phone_code(phone, code):
+
                 print(f'check code->{check_phone_code(phone, code)}')
+                token = Token.objects.create(user=user)
+                token = Token.objects.get(user=user)
+
                 return Response(
                     {
-                        "status": "ok",
-                        "token": registered_user.token
-                    }, status=status.HTTP_200_OK
+                        "token": token.key
+                    }, status=status.HTTP_201_CREATED
                 )
-            else:
+            else:       
                 get_phone_code(phone)
                 print(f'check code->{check_phone_code(phone, code)}')
                 raise Api202(
@@ -127,14 +143,15 @@ class GetSmsCode(APIView):
         else:
             if check_phone_code(phone, code):
                 print(f'check non reg code->{check_phone_code(phone, code)}')
-                data['token'] = User.generate_token(data['phone'][0])
-                print(data['token'])
-                user_token = UserSerializer.create(data)
+                user = User.objects.create(phone=str(phone))
+                user.set_password(str(code))
+                user.save()
+                token = Token.objects.create(user=user)
+                token = Token.objects.get(user=user)
                 return Response(
                     {
-                        "status": "ok",
-                        "token": user_token
-                    }, status=status.HTTP_200_OK
+                        "token": token.key
+                    }, status=status.HTTP_201_CREATED
                 )
             else:
                 print(f'check non reg code->{check_phone_code(phone, code)}')
