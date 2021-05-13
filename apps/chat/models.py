@@ -1,6 +1,7 @@
 from django.db import models
 from apps.users.models import User
 from unixtimestampfield.fields import UnixTimeStampField
+from django.db.models.signals import post_save
 
 FILE_TYPES = (
     ('image', 'image'),
@@ -22,6 +23,17 @@ class Room(models.Model):
         verbose_name = 'Комната'
         verbose_name_plural = 'Комнаты'
 
+
+class Attachment(models.Model):
+    attachment = models.FileField("Файл", null=True, blank=True)
+    attachment_type = models.CharField(
+        'Тип файла', null=False, default='image', max_length=15, choices=FILE_TYPES)
+
+    class Meta:
+        verbose_name = 'Вложение'
+        verbose_name_plural = 'Вложения'
+
+
 class Chat(models.Model):
     room = models.ForeignKey(Room, verbose_name='Комната',
                              related_name='chat_room', on_delete=models.CASCADE)
@@ -30,6 +42,8 @@ class Chat(models.Model):
     text = models.TextField("Message", max_length=500, null=True, blank=True)
     date = UnixTimeStampField(
         "Send datetime", auto_now_add=True, null=True, blank=True)
+    attachment = models.ManyToManyField(
+        Attachment, related_name='chat_attachment')
 
     class Meta:
         verbose_name = 'Чат'
@@ -37,13 +51,33 @@ class Chat(models.Model):
         ordering = ['-date']
 
 
-class Attachment(models.Model):
-    chat = models.ForeignKey(Chat,
-        verbose_name='Сообщение',  related_name='chat_attachment', null=True, blank=True, on_delete=models.DO_NOTHING)
-    attachment = models.FileField("Файл", null=True, blank=True)
-    attachment_type = models.CharField(
-        'Тип файла', null=False, default='image', max_length=15, choices=FILE_TYPES)
+class UserMessage(models.Model):
+    message = models.ForeignKey(Chat, verbose_name='Доставленное сообщение',
+                                related_name='delivered_message', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='destination_user',
+                             verbose_name='Конечный пользователь', on_delete=models.CASCADE)
+    readed = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = 'Вложение'
-        verbose_name_plural = 'Вложения'
+        verbose_name = 'Статус сообщения'
+        verbose_name_plural = 'Статусы сообщений'
+        ordering = ['-message__date']
+
+    def __str__(self):
+        return f"{self.message}-{self.user}"
+
+
+def create_message(sender, instance, created, **kwargs):
+    if created:
+        room = instance.room
+        if room.creator_id.pk != instance.user.pk:
+            user = room.creator_id
+        else:
+            user = room.accepter_id
+        UserMessage.objects.create(
+            message=instance,
+            user=user
+        ).save()
+
+
+post_save.connect(create_message, sender=Chat)

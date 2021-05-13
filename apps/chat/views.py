@@ -103,19 +103,17 @@ class GetChatMessages(APIView):
     authentication_classes = (
         CsrfExemptSessionAuthentication, BasicAuthentication)
         
-    def get(self, request, room_id):
+    def post(self, request, room_id):
         room = Room.objects.get(pk=room_id)
         objects = Chat.objects.filter(
-            room=room
-        ).order_by('-date')
+            room=room,
+            pk__lte=request.data['message_id']
+        ).order_by('-date')[:15]
         results = []
         domain = request.get_host()
         for obj in objects:
-            try:
+            if hasattr(obj.attachment, 'url') :
                 path_image = obj.attachment.url
-            except Exception:
-                path_image = None
-            if path_image:
                 image_url = 'http://{domain}{path}'.format(
                     domain=domain, path=path_image)
             else:

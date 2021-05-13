@@ -23,12 +23,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class UserPartialSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = ('contacts')
+        fields = ('contacts',)
         model = User
 
 
 class UserSerializer(serializers.ModelSerializer):
-
+    username = serializers.CharField(required=False)
+    contacts = UserCreateSerializer(required=False, many=True)
     class Meta:
         exclude = (
             "email",

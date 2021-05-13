@@ -38,17 +38,7 @@ class ChatSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ChatCreateSerializer(serializers.ModelSerializer):
-    date = TimestampField(required=False)
 
     class Meta:
         model = Chat
-        fields = '__all__'
-
-# class RoomHandshakeSerializer(serializers.ModelSerializer):
-#     request_id = UserRequsetSerializer()
-#     proposition_id = UserPropositionsSerializer(req)
-#     date = TimestampField(required=False)
-
-#     class Meta:
-#         model = Room
-#         fields = '__all__' 
+        exclude = ('date', )

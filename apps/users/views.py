@@ -18,7 +18,9 @@ from rest_framework.exceptions import APIException
 from rest_framework import status
 from .exception import Api202, Api400
 from rest_framework.authtoken.models import Token
-
+from .soap import *
+from apps.utils.utils import *
+import requests
 
 def set_phone(phone):
     phone = str(phone)
@@ -47,9 +49,6 @@ def set_phone_code(phone):
             code=code,
             expires_at=timezone.now() + relativedelta(minutes=60)
         )
-        user = User.objects.get(username=str(phone))
-        user.set_password(str(code))
-        user.save()
         send_sms(phone, code)
         return code
     return None
@@ -86,6 +85,7 @@ def check_phone_code(phone, code):
         print(f'cpde - > {code}')
         data = Phone.objects.filter(
             phone=phone, code=code, expires_at__gte=timezone.now()).first()
+        print(data)
         if data:
             data.is_checked = True
             data.save()
@@ -108,31 +108,32 @@ class GetSmsCode(APIView):
         CsrfExemptSessionAuthentication, BasicAuthentication)
 
     def post(self, request):
-        code = request.data.get('code')
         phone = request.data.get('phone')
+    
         if isinstance(phone, list):
             phone = phone[0]
-        phone = set_phone(phone)
-
         user, created = User.objects.get_or_create(
             username=phone
         )
 
         print(f'User->{created}')
-        
+        code = self.request.data.get('code')
+        print(created)
         if created:
 
             if check_phone_code(phone, code):
 
                 print(f'check code->{check_phone_code(phone, code)}')
-                token = Token.objects.create(user=user)
-                token = Token.objects.get(user=user)
-
+                user, created = User.objects.get_or_create(username=str(phone))
+                user.set_password(str(code))
+                user.save()
+                token, created = Token.objects.get_or_create(user=user)
+                print(token)
                 return Response(
-                    {
-                        "token": token.key
-                    }, status=status.HTTP_201_CREATED
-                )
+                        {
+                            "auth_token": str(token)
+                        }, status=status.HTTP_201_CREATED
+                    )
             else:       
                 get_phone_code(phone)
                 print(f'check code->{check_phone_code(phone, code)}')
@@ -143,16 +144,16 @@ class GetSmsCode(APIView):
         else:
             if check_phone_code(phone, code):
                 print(f'check non reg code->{check_phone_code(phone, code)}')
-                user = User.objects.create(phone=str(phone))
+                user, created = User.objects.get_or_create(username=str(phone))
                 user.set_password(str(code))
                 user.save()
-                token = Token.objects.create(user=user)
-                token = Token.objects.get(user=user)
+                token, created = Token.objects.get_or_create(user=user)
+                print(token)
                 return Response(
-                    {
-                        "token": token.key
-                    }, status=status.HTTP_201_CREATED
-                )
+                        {
+                            "auth_token": str(token)
+                        }, status=status.HTTP_201_CREATED
+                    )
             else:
                 print(f'check non reg code->{check_phone_code(phone, code)}')
                 get_phone_code(phone)
@@ -163,7 +164,7 @@ class GetSmsCode(APIView):
 
 
 class CreateUserAPI(generics.ListCreateAPIView):
-    permission_classes = (permissions.AllowAny, )
+    permission_classes = (permissions.IsAuthenticated, )
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserCreateSerializer
@@ -192,7 +193,10 @@ class UserAPI(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         return self.request.user
-
+    
+    def partial_update(self):
+        self.request.user.contacts = self.request.user.contacts
+        return super().partial_update(self.request, *args, **kwargs)
 
 class UserListAPI(generics.ListAPIView):
     permission_classes = (permissions.AllowAny, )

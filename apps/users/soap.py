@@ -22,7 +22,7 @@ def send_sms(phone, text):
     print(f'{result} ->auth')
     phone = '+' + str(phone)
     result = client.service.SendSMS(
-        sender="Turan",
+        sender="IT Alarm",
         destination=phone,
         text='Code ' + str(text),
     )
