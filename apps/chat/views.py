@@ -157,10 +157,11 @@ class GetUserRooms(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
+        id_chat = self.request.data['chat_id']
         rooms = Room.objects.filter(
             Q(creator_id=user) |
             Q(accepter_id=user)
-        )[self.request.data['chat_id']:self.request.data['chat_id'] + 15]
+        )[id_chat:id_chat + 15]
         room_values = rooms.values()
         for ind, room in enumerate(rooms):
             message = Chat.objects.filter(
@@ -170,5 +171,3 @@ class GetUserRooms(generics.ListCreateAPIView):
         print(room_values)
         return room_values    
 
-
-# Q(id__lte=self.request.data['message_id'])
