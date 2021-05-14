@@ -66,12 +66,12 @@ class ChatConsumer(WebsocketConsumer):
             if str(_file).isdigit():
                 message_obj = int(_file)
                 paths = []
-                for attachment in Chat.chat_attachment.filter(pk=message_obj):
-                    if hasattr(attachment, 'url'):
-                        path = f'http://api-teus.maximusapp.com{Chat.objects.get(pk=message_obj).attachment.url}'
-                    else:
-                        path = None
-                    paths.append(path)
+                # for attachment in Chat.chat_attachment.filter(pk=message_obj):
+                #     if hasattr(attachment, 'url'):
+                #         path = f'http://api-teus.maximusapp.com{Chat.objects.get(pk=message_obj).attachment.url}'
+                #     else:
+                #         path = None
+                #     paths.append(path)
 
         self.send(text_data=json.dumps({
             "room": room,

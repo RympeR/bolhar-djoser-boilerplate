@@ -166,13 +166,19 @@ class CreateUserAPI(generics.ListCreateAPIView):
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserCreateSerializer
-   
+
+    def perform_create(self, serializer):
+        user = User.objects.create(
+            username=self.request.data['username']
+        )
+        user.set_password(self.request.data['password'])
+        user.save()
+
 class GetUserAPI(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticated, )
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = GetUserSerializer
-
 
     def get_object(self):
         print(self.request.user.username)
@@ -191,6 +197,7 @@ class UserAPI(generics.RetrieveUpdateDestroyAPIView):
 
     def partial_update(self, *args, **kwargs):
         self.request.user.contacts = self.request.user.contacts
+        self.self.request.user.contacts = self.self.request.user.contacts
         return super().partial_update(self.request, *args, **kwargs)
 
 
@@ -199,19 +206,18 @@ class UserListAPI(generics.ListAPIView):
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserSerializer
-    
 
 class AddContactAPI(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated, )
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserSerializer
-    
+
     def get_object(self):
         return self.request.user
 
     def partial_update(self, request, *args, **kwargs):
-        request.user.contacts.add(
+        self.request.user.contacts.add(
             User.objects.get(username=request.data['phone'])
         )
         return super().partial_update(request, *args, **kwargs)
