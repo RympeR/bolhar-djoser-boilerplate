@@ -104,9 +104,7 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 class GetSmsCode(APIView):
     permission_classes = (permissions.AllowAny, )
     parser_classes = (JSONParser, MultiPartParser, FormParser)
-    authentication_classes = (
-        CsrfExemptSessionAuthentication, BasicAuthentication)
-
+    
     def post(self, request):
         phone = request.data.get('phone')
     
@@ -168,16 +166,20 @@ class CreateUserAPI(generics.ListCreateAPIView):
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserCreateSerializer
-    authentication_classes = (
-        CsrfExemptSessionAuthentication, BasicAuthentication)
+    
 
+    def perform_create(self, serializer):
+        user = User.objects.create(
+            username=self.request.data['username']
+        )
+        user.set_password(self.request.data['password'])
+        user.save()
+        
 class GetUserAPI(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticated, )
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = GetUserSerializer
-    authentication_classes = (
-        CsrfExemptSessionAuthentication, BasicAuthentication)
 
     def get_object(self):
         return self.request.user
@@ -188,14 +190,12 @@ class UserAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserSerializer
-    authentication_classes = (
-        CsrfExemptSessionAuthentication, BasicAuthentication)
-
+    
     def get_object(self):
         return self.request.user
     
     def partial_update(self):
-        self.request.user.contacts = self.request.user.contacts
+        self.self.request.user.contacts = self.self.request.user.contacts
         return super().partial_update(self.request, *args, **kwargs)
 
 class UserListAPI(generics.ListAPIView):
@@ -203,22 +203,18 @@ class UserListAPI(generics.ListAPIView):
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserSerializer
-    authentication_classes = (
-        CsrfExemptSessionAuthentication, BasicAuthentication)
+
 
 class AddContactAPI(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated, )
     queryset = User.objects.all()
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserSerializer
-    authentication_classes = (
-        CsrfExemptSessionAuthentication, BasicAuthentication)
-
     def get_object(self):
         return self.request.user
 
     def partial_update(self, request, *args, **kwargs):
-        request.user.contacts.add(
+        self.request.user.contacts.add(
             User.objects.get(username=request.data['phone'])
         )
         return super().partial_update(request, *args, **kwargs)
