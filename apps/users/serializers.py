@@ -13,6 +13,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             'is_superuser',
             'last_name',
             'is_staff',
+            'password',
             'user_permissions',
             'groups',
             'last_login'
@@ -62,6 +63,7 @@ class GetUserSerializer(serializers.ModelSerializer):
             'password',
             'user_permissions',
             'groups',
+            
             'last_login'
         )
         model = User

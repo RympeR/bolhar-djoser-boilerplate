@@ -43,7 +43,7 @@ class Chat(models.Model):
     date = UnixTimeStampField(
         "Send datetime", auto_now_add=True, null=True, blank=True)
     attachment = models.ManyToManyField(
-        Attachment, related_name='chat_attachment')
+        Attachment, related_name='chat_attachment', blank=True)
 
     class Meta:
         verbose_name = 'Чат'

@@ -37,7 +37,8 @@ class ChatConsumer(WebsocketConsumer):
         payload = {
             'room': room,
             'user': user,
-            'text': message
+            'text': message,
+            'attachment': _file
         }
         chat = ChatCreateSerializer(data=payload)
         if chat.is_valid():
@@ -61,17 +62,16 @@ class ChatConsumer(WebsocketConsumer):
         room = event['room']
         user = event['user']
         _file = event['file']
-
+        paths = []
         if _file:
             if str(_file).isdigit():
                 message_obj = int(_file)
-                paths = []
-                # for attachment in Chat.chat_attachment.filter(pk=message_obj):
-                #     if hasattr(attachment, 'url'):
-                #         path = f'http://api-teus.maximusapp.com{Chat.objects.get(pk=message_obj).attachment.url}'
-                #     else:
-                #         path = None
-                #     paths.append(path)
+                for attachment in Chat.chat_attachment.filter(pk=message_obj):
+                    if hasattr(attachment, 'url'):
+                        path = f'http://api-teus.maximusapp.com{Chat.objects.get(pk=message_obj).attachment.url}'
+                    else:
+                        path = None
+                    paths.append(path)
 
         self.send(text_data=json.dumps({
             "room": room,

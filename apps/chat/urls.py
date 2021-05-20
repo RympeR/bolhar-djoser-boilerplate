@@ -3,7 +3,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('user-rooms/<int:pk>', GetUserRooms.as_view()),
+    path('user-rooms/<int:index>', GetUserRooms.as_view()),
     path('create-room/', PostRoom.as_view()),
     path('update-room/<int:pk>', PutRoom.as_view()),
     path('delete-room/<int:pk>', GetRoom.as_view()),
