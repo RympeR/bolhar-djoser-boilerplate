@@ -22,7 +22,6 @@ ALLOWED_HOSTS = [
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -97,7 +96,7 @@ CHANNEL_LAYERS = {
 #     }
 # }
 
-DATABASES ={
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'turan',
@@ -155,18 +154,19 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 300,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
-
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = (
-        'GET',
-        'POST',
-        'PUT',
-        'PATCH',
-        'DELETE',
-        'OPTIONS'
-    )
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+)

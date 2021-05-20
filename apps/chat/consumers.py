@@ -38,6 +38,7 @@ class ChatConsumer(WebsocketConsumer):
             'room': room,
             'user': user,
             'text': message,
+            'attachment': _file
         }
         chat = ChatCreateSerializer(data=payload)
         if chat.is_valid():
@@ -65,7 +66,6 @@ class ChatConsumer(WebsocketConsumer):
         if _file:
             if str(_file).isdigit():
                 message_obj = int(_file)
-                
                 for attachment in Chat.chat_attachment.filter(pk=message_obj):
                     if hasattr(attachment, 'url'):
                         path = f'http://api-teus.maximusapp.com{Chat.objects.get(pk=message_obj).attachment.url}'

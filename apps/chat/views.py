@@ -1,3 +1,4 @@
+from typing import Generic
 from django.shortcuts import render
 from rest_framework import generics, authentication
 from rest_framework.views import APIView
@@ -7,7 +8,6 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser, FileUploadParser
 from .models import Room, Chat
 from .serializers import *
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.db.models import Q
 class PostRoom(generics.CreateAPIView):
     queryset = Room.objects.all()
@@ -44,17 +44,6 @@ class PutChat(generics.UpdateAPIView):
     parser_classes = (JSONParser, MultiPartParser,
                       FileUploadParser, FormParser)
     serializer_class = ChatCreateSerializer
-
-class GetUserRooms(APIView):
-    permission_classes = (IsAuthenticated, )
-    queryset = Room.objects.all()
-    parser_classes = (JSONParser, FormParser)
-    serializer_class = RoomSerializer
-
-    def get(self, request):
-        rooms = Room.objects.filter(
-            creator_id=self.request.user).values()
-        return Response(rooms)
 
 
 class GetChatMessages(APIView):

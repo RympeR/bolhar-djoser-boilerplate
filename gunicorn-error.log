@@ -27699,3 +27699,1125 @@ not valid
 2021-05-20 09:49:17,793 WARNING  not valid
 not valid
 2021-05-20 09:49:52,739 WARNING  not valid
+2021-05-20 09:51:38,400 INFO     Killed 4 pending application instances
+2021-05-20 09:51:38,400 INFO     Killed 8 pending application instances
+2021-05-20 09:51:38,402 INFO     Killed 8 pending application instances
+2021-05-20 09:51:38,407 INFO     Killed 7 pending application instances
+2021-05-20 09:51:46,046 INFO     Starting server at fd:fileno=0, unix:/tmp/daphne1.sock
+2021-05-20 09:51:46,051 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2021-05-20 09:51:46,052 INFO     Configuring endpoint fd:fileno=0
+2021-05-20 09:51:46,125 INFO     Starting server at fd:fileno=0, unix:/tmp/daphne0.sock
+2021-05-20 09:51:46,126 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2021-05-20 09:51:46,126 INFO     Configuring endpoint fd:fileno=0
+2021-05-20 09:51:46,128 INFO     Listening on TCP address 127.0.0.1:8000
+2021-05-20 09:51:46,131 INFO     Configuring endpoint unix:/tmp/daphne1.sock
+2021-05-20 09:51:46,132 INFO     Starting server at fd:fileno=0, unix:/tmp/daphne3.sock
+2021-05-20 09:51:46,132 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2021-05-20 09:51:46,133 INFO     Configuring endpoint fd:fileno=0
+2021-05-20 09:51:46,151 INFO     Starting server at fd:fileno=0, unix:/tmp/daphne2.sock
+2021-05-20 09:51:46,152 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2021-05-20 09:51:46,152 INFO     Configuring endpoint fd:fileno=0
+2021-05-20 09:51:46,178 INFO     Listening on TCP address 127.0.0.1:8000
+2021-05-20 09:51:46,178 INFO     Configuring endpoint unix:/tmp/daphne0.sock
+2021-05-20 09:51:46,181 INFO     Listening on TCP address 127.0.0.1:8000
+2021-05-20 09:51:46,181 INFO     Configuring endpoint unix:/tmp/daphne3.sock
+2021-05-20 09:51:46,193 INFO     Listening on TCP address 127.0.0.1:8000
+2021-05-20 09:51:46,193 INFO     Configuring endpoint unix:/tmp/daphne2.sock
+2021-05-20 09:51:54,332 WARNING  Response to request with pk 348350e7-254d-4927-a557-70a2eb085712 has content type text/javascript but was unable to parse it
+2021-05-20 09:51:56,359 WARNING  Response to request with pk a69a11c7-03a0-41b0-b2fe-fcb044c02098 has content type text/javascript but was unable to parse it
+2021-05-20 09:53:42,335 WARNING  Response to request with pk c263f4c7-f6e7-4ff5-baf0-1554e351c7f0 has content type text/javascript but was unable to parse it
+2021-05-20 09:53:43,590 WARNING  Response to request with pk 0cdfd0e1-bc7b-45fd-ac47-130a1ddc01b7 has content type text/javascript but was unable to parse it
+Not Found: /
+2021-05-20 09:58:12,445 WARNING  Not Found: /
+Not Found: /
+2021-05-20 10:49:22,201 WARNING  Not Found: /
+2021-05-20 10:50:46,027 WARNING  Response to request with pk e9f17d5c-5b72-4655-a7f6-61e043202fa0 has content type text/javascript but was unable to parse it
+Not Found: /owa/
+2021-05-20 10:57:15,280 WARNING  Not Found: /owa/
+2021-05-20 11:01:28,614 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:01:33,626 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:04:33,739 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:04:46,751 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:06:01,773 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:09:55,083 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:09:57,026 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:10:08,039 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:10:12,196 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:10:34,122 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:10:37,226 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:10:40,128 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+Not Found: /owa/auth/x.js
+2021-05-20 11:12:39,739 WARNING  Not Found: /owa/auth/x.js
+2021-05-20 11:24:31,008 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:24:47,146 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:24:51,152 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:25:25,188 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:25:57,221 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:26:12,166 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:26:25,252 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:27:06,170 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:27:09,153 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:27:26,193 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:27:32,254 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:27:52,277 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:28:20,309 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:28:55,349 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:29:21,435 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:29:51,348 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+2021-05-20 11:30:53,418 ERROR    Exception inside application: 'message'
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 71, in __call__
+    return await application(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/sessions.py", line 254, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/auth.py", line 181, in __call__
+    return await super().__call__(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/middleware.py", line 26, in __call__
+    return await self.inner(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/routing.py", line 150, in __call__
+    return await application(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/utils.py", line 51, in await_many_dispatch
+    await dispatch(result)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/usr/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/db.py", line 13, in thread_handler
+    return super().thread_handler(loop, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/consumer.py", line 125, in dispatch
+    handler(message)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/channels/generic/websocket.py", line 60, in websocket_receive
+    self.receive(text_data=message["text"])
+  File "./apps/chat/consumers.py", line 34, in receive
+    message = text_data_json['message']
+KeyError: 'message'
+Unauthorized: /api/user/update-profile/
+2021-05-20 12:18:41,356 WARNING  Unauthorized: /api/user/update-profile/
+Unauthorized: /auth/token/login
+2021-05-20 12:21:52,016 WARNING  Unauthorized: /auth/token/login
+Unauthorized: /api/user/get-user/
+2021-05-20 12:21:52,979 WARNING  Unauthorized: /api/user/get-user/
+Unauthorized: /api/user/get-user/
+2021-05-20 12:22:00,741 WARNING  Unauthorized: /api/user/get-user/
+Unauthorized: /auth/token/logout
+2021-05-20 12:26:33,311 WARNING  Unauthorized: /auth/token/logout
+Unauthorized: /api/user/update-profile/
+2021-05-20 12:27:37,139 WARNING  Unauthorized: /api/user/update-profile/
