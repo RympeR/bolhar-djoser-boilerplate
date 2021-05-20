@@ -77,7 +77,7 @@ class GetChatMessages(APIView):
                     "user_id": obj.user.pk,
                     "text": obj.text,
                     "attachment": image_url,
-                    "date": obj.date
+                    "date": int(obj.date.timestamp())
                 },
             )
         return Response(
