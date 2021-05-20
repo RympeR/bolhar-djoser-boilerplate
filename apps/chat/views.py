@@ -82,7 +82,7 @@ class GetChatMessages(APIView):
             )
         return Response(
             {
-                results
+                "results": results
             }
         )
 
