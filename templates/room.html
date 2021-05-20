@@ -40,13 +40,13 @@
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const fileInputDom = document.querySelector('#chat-file-input');
-            const file = fileInputDom.value;
+            
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
                 'user': 1,
                 'room': roomName,
                 'message': message,
-                'file': file
+                'file': []
             }));
             messageInputDom.value = '';
         };

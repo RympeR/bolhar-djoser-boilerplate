@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, authentication
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -9,41 +9,37 @@ from .models import Room, Chat
 from .serializers import *
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.db.models import Q
-
 class PostRoom(generics.CreateAPIView):
-    permission_classes = (AllowAny, )
     queryset = Room.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = RoomCreateSerializer
+
 
 class GetRoom(generics.RetrieveDestroyAPIView):
-    permission_classes = (AllowAny, )
     queryset = Room.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = RoomSerializer
 
+
 class PutRoom(generics.UpdateAPIView):
-    permission_classes = (AllowAny, )
     queryset = Room.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = RoomCreateSerializer
 
+
 class PostChat(generics.CreateAPIView):
-    permission_classes = (AllowAny, )
+    authentication_classes = authentication.TokenAuthentication, 
     queryset = Chat.objects.all()
     parser_classes = (JSONParser, MultiPartParser,
                       FileUploadParser, FormParser)
     serializer_class = ChatCreateSerializer
 
+
 class GetChat(generics.RetrieveDestroyAPIView):
-    permission_classes = (AllowAny, )
     queryset = Chat.objects.all()
     parser_classes = (JSONParser, MultiPartParser,
                       FileUploadParser, FormParser)
     serializer_class = ChatSerializer
 
+
 class PutChat(generics.UpdateAPIView):
-    permission_classes = (AllowAny, )
     queryset = Chat.objects.all()
     parser_classes = (JSONParser, MultiPartParser,
                       FileUploadParser, FormParser)
@@ -59,29 +55,10 @@ class GetUserRooms(APIView):
         rooms = Room.objects.filter(
             creator_id=self.request.user).values()
         return Response(rooms)
-        # results = []
-        # for obj in rooms:
-        #     results.append(
-        #         {
-        #             "id": obj.pk,
-        #             "creator_id": obj.creator_id.pk,
-        #             "accepter_id": obj.accepter_id.pk,
-        #             "date": obj.date
-        #         }
-        #     )
-        # return Response(
-        #     {
-        #         "results": results
-        #     }
-        # )
 
 
 class GetChatMessages(APIView):
-    permission_classes = (IsAuthenticated, )
-    renderer_classes = (JSONRenderer, )
-    parser_classes = (JSONParser, MultiPartParser,
-                      FileUploadParser, FormParser)
-        
+
     def post(self, request, room_id):
         room = Room.objects.get(pk=room_id)
         objects = Chat.objects.filter(
@@ -91,7 +68,7 @@ class GetChatMessages(APIView):
         results = []
         domain = request.get_host()
         for obj in objects:
-            if hasattr(obj.attachment, 'url') :
+            if hasattr(obj.attachment, 'url'):
                 path_image = obj.attachment.url
                 image_url = 'http://{domain}{path}'.format(
                     domain=domain, path=path_image)
@@ -109,7 +86,7 @@ class GetChatMessages(APIView):
             )
         return Response(
             {
-                "results": results
+                results
             }
         )
 
@@ -124,28 +101,23 @@ def room(request, room_name):
     })
 
 
-class GetUserRooms(generics.ListCreateAPIView):
-    permission_classes = (IsAuthenticated, )
-    renderer_classes = (JSONRenderer, )
-    parser_classes = (JSONParser, MultiPartParser,
-                      FileUploadParser, FormParser)
+class GetUserRooms(generics.GenericAPIView):
     queryset = Room.objects.all()
-    serializer_class = RoomSerializer()
+    serializer_class = RoomSerializer
 
-    def get_queryset(self):
-        user = self.request.user
+    def get(self, request, index):
+        user = request.user
+        id_chat = int(index)
         rooms = Room.objects.filter(
             Q(creator_id=user) |
             Q(accepter_id=user)
-        )[self.request.data['chat_id']:self.request.data['chat_id'] + 15]
-        room_values = rooms.values()
+        )[id_chat:id_chat + 15]
+        room_values = list(rooms.values())
         for ind, room in enumerate(rooms):
             message = Chat.objects.filter(
                 Q(room=room)
-            ).order_by('-date').values()[:1]
+            ).order_by('-date').values().first()
             room_values[ind]['message'] = message
-        print(room_values)
-        return room_values    
-
-
-# Q(id__lte=self.request.data['message_id'])
+            room_values[ind]['message']['date'] = int(message['date'].timestamp() * 100000)
+            room_values[ind]['date'] = int(room_values[ind]['date'].timestamp() * 100000)
+        return Response(room_values)
