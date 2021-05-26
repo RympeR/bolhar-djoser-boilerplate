@@ -221,3 +221,24 @@ class AddContactAPI(generics.UpdateAPIView):
             User.objects.get(username=request.data['phone'])
         )
         return super().partial_update(request, *args, **kwargs)
+
+class AddBlockedUserAPI(generics.UpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated, )
+    queryset = User.objects.all()
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+    def partial_update(self, request, *args, **kwargs):
+        self.request.user.blocked_users.add(
+            User.objects.get(username=request.data['phone'])
+        )
+        return super().partial_update(request, *args, **kwargs)
+
+class CreatePendingUserAPI(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticated, )
+    queryset = PendingUser.objects.all()
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
+    serializer_class = PendingUserCreateSerializer

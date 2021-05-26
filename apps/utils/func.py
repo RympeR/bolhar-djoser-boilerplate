@@ -48,8 +48,14 @@ def set_unique_file_name(file):
 
 def user_avatar(instance, filename):
     instance.original_file_name = filename
-    file = set_unique_file_name(filename)
-    return os.path.join('user', file)
+    # file = set_unique_file_name(filename)
+    return os.path.join('user', filename)
+
+
+def user_avatar(instance, filename):
+    instance.original_file_name = filename
+    # file = set_unique_file_name(filename)
+    return os.path.join('pending_docs', filename)
 
 
 def profession_image(instance, filename):
@@ -83,7 +89,7 @@ class MyPagination(pagination.PageNumberPagination):
             'count': self.page.paginator.count,
             'results': data,
             'links': {
-               'next': self.get_next_link(),
-               'previous': self.get_previous_link()
+                'next': self.get_next_link(),
+                'previous': self.get_previous_link()
             },
         })

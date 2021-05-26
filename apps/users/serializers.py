@@ -7,6 +7,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         exclude = (
             "email",
+            "verified",
             "date_joined",
             "is_active",
             'first_name',
@@ -19,6 +20,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
             'last_login'
         )
         model = User
+
+class PendingUserCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        exclude = "verified",
+        model = PendingUser
 
 
 class UserPartialSerializer(serializers.ModelSerializer):

@@ -27,7 +27,7 @@ class PutRoom(generics.UpdateAPIView):
 
 
 class PostChat(generics.CreateAPIView):
-    authentication_classes = authentication.TokenAuthentication, 
+    authentication_classes = authentication.TokenAuthentication,
     queryset = Chat.objects.all()
     parser_classes = (JSONParser, MultiPartParser,
                       FileUploadParser, FormParser)
@@ -64,10 +64,9 @@ class GetChatMessages(APIView):
         results = []
         domain = request.get_host()
         for obj in objects:
-            if hasattr(obj.attachment, 'url'):
-                path_image = obj.attachment.url
-                image_url = 'http://{domain}{path}'.format(
-                    domain=domain, path=path_image)
+            if obj.attachment and hasattr(obj.attachment, 'url'):
+                image_url = 'https://{domain}{path}'.format(
+                    domain=domain, path=obj.attachment.url)
             else:
                 image_url = None
             results.append(
@@ -113,7 +112,18 @@ class GetUserRooms(generics.GenericAPIView):
             message = Chat.objects.filter(
                 Q(room=room)
             ).order_by('-date').values().first()
-            room_values[ind]['message'] = message
-            room_values[ind]['message']['date'] = int(message['date'].timestamp() * 100000)
-            room_values[ind]['date'] = int(room_values[ind]['date'].timestamp() * 100000)
+            creator = room.creator_id
+            accepter = room.accepter_id
+            has_blocked = False
+            was_blocked = False
+            if creator in accepter.blocked_users.all():
+                has_blocked = True
+            if accepter in creator.blocked_users.all():
+                was_blocked = True
+            room_values[ind]['has_blocked'] = has_blocked
+            room_values[ind]['was_blocked'] = was_blocked
+            room_values[ind]['message']['date'] = int(
+                message['date'].timestamp() * 100000)
+            room_values[ind]['date'] = int(
+                room_values[ind]['date'].timestamp() * 100000)
         return Response(room_values)
