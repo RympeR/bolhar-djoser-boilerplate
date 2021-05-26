@@ -32,14 +32,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'apps.users',
-    'apps.chat',
+    
+    'admin_actions',
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
     'corsheaders',
     'silk',
+
+    'apps.users',
+    'apps.chat',
+    
 ]
 
 MIDDLEWARE = [

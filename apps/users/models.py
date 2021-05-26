@@ -1,23 +1,23 @@
 import datetime
-from django.db import models
+
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.utils.safestring import mark_safe
 from imagekit.models import ProcessedImageField
 from pilkit.processors import ResizeToFill
-from apps.utils.func import user_avatar
 from unixtimestampfield.fields import UnixTimeStampField
-from dateutil.relativedelta import relativedelta
-import datetime
 
-
+from apps.utils.func import user_avatar
 
 
 class User(AbstractUser):
     username = models.CharField(
-        'Phone',
+        'Телефон',
         unique=True,
         max_length=20
     )
-    fio = models.CharField('FIO', max_length=255, null=True, blank=True)
+    fio = models.CharField('ФИО', max_length=255, null=True, blank=True)
     
     image = ProcessedImageField(
         verbose_name='ImagePNG',
@@ -33,9 +33,30 @@ class User(AbstractUser):
         related_name='user_contacts'
     )
     
+    blocked_users = models.ManyToManyField(
+        'self',
+        blank=True,
+        related_name='blocked_contacts'
+    )
+    
+    customer = models.BooleanField(verbose_name='Продавец', default=False)
+    verified = models.BooleanField(verbose_name='Верифицирован', default=False)
+
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [
     ]
+
+    def user_photo(self):
+        if self.image and hasattr(self.image, 'url'):
+            return mark_safe('<img src="{}" width="100" /'.format(self.image.url))
+        return None
+
+    def get_contacts(self):
+        return ' || '.join(self.contacts.all())
+    
+    def get_blocked_users(self):
+        return ' || '.join(self.blocked_users.all())
 
     @staticmethod
     def _create_user( password, **extra_fields):
@@ -83,3 +104,24 @@ class Phone(models.Model):
     class Meta:
         verbose_name = 'Phone'
         verbose_name_plural = 'Phones'
+
+class PendingUser(models.Model):
+    user = models.ForeignKey(User, related_name='penging_user', verbose_name='Пользователь', on_delete=models.CASCADE)
+    docs = ProcessedImageField(
+        verbose_name='Фото документов',
+        processors=[ResizeToFill(600, 600)],
+        options={'quality': 100},
+        null=True,
+        blank=True
+    )
+    verified = models.BooleanField(verbose_name='Верифицирован', default=False)
+
+    def user_docs(self):
+        if hasattr(self.docs, 'url'):
+            return mark_safe('<img src="{}" width="100" /'.format(self.docs.url))
+        return None
+
+
+    class Meta:
+        verbose_name = 'PendingUser'
+        verbose_name_plural = 'PendingUsers'
