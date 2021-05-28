@@ -92,7 +92,7 @@ class User(AbstractUser):
 
 
 class Phone(models.Model):
-    phone = models.BigIntegerField(db_index=True)
+    phone = models.CharField(max_length=20, db_index=True)
     code = models.IntegerField('Code', db_index=True)
     is_checked = models.BooleanField('Is checked', default=False)
     created_at = models.DateTimeField('Created at', auto_now=True)

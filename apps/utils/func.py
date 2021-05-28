@@ -5,8 +5,13 @@ import string
 from django.core.validators import validate_email
 from rest_framework import pagination
 from rest_framework.response import Response
+from twilio.rest import Client
 
 
+acount_sid = 'AC3bce9d49f6e044010b3d392f4b9e5921'
+auth_token = '77a4e4491f7ed361ad570cc9d75e84c8'
+
+client = Client(acount_sid, auth_token)
 def set_phone(phone):
     if not phone:
         return None

@@ -3,27 +3,33 @@ from requests import Session
 from zeep.transports import Transport
 from requests.auth import HTTPBasicAuth
 from zeep.wsse.username import UsernameToken
-
+from apps.utils.func import client
 
 def send_sms(phone, text):
-    session = Session()
-    session.auth = HTTPBasicAuth('turan', 'turan2021')
-    session.verify = False
-    transport = Transport(session=session)
-    client = Client(
-        'http://turbosms.in.ua/api/wsdl.html',
-        transport=transport,
-        wsse=UsernameToken('turan', 'turan2021')
+    message = client.messages.create(
+        body=f'Code ' + str(text),
+        from_='+12053954148',
+        to=phone
     )
-    result = client.service.Auth(
-        login="turan",
-        password='turan2021',
-    )
-    print(f'{result} ->auth')
-    phone = '+' + str(phone)
-    result = client.service.SendSMS(
-        sender="IT Alarm",
-        destination=phone,
-        text='Code ' + str(text),
-    )
-    print(f'{result} ->sendsms')
+    # session = Session()
+    # session.auth = HTTPBasicAuth('turan', 'turan2021')
+    # session.verify = False
+    # transport = Transport(session=session)
+    # client = Client(
+    #     'http://turbosms.in.ua/api/wsdl.html',
+    #     transport=transport,
+    #     wsse=UsernameToken('turan', 'turan2021')
+    # )
+    # result = client.service.Auth(
+    #     login="turan",
+    #     password='turan2021',
+    # )
+    # print(f'{result} ->auth')
+    # phone = '+' + str(phone)
+    # result = client.service.SendSMS(
+    #     sender="IT Alarm",
+    #     destination=phone,
+    #     text='Code ' + str(text),
+    # )
+    # print(f'{result} ->sendsms')
+

@@ -22,27 +22,10 @@ from .soap import *
 from apps.utils.utils import *
 import requests
 from rest_framework.authentication import TokenAuthentication
-
-def set_phone(phone):
-    phone = str(phone)
-    if phone and type(phone) is not int:
-        phone = re.sub("\D", '', phone)
-
-        if len(phone) == 9:
-            phone = '380' + phone
-
-        if phone[:1] == '0':
-            phone = '38' + phone
-        if phone[:1] == '8':
-            phone = '3' + phone
-
-        if len(phone) == 12:
-            return int(phone)
-    return None
+from apps.utils.func import client
 
 
 def set_phone_code(phone):
-    phone = set_phone(phone)
     if phone:
         code = random.randint(1000, 9999)
         Phone.objects.create(
@@ -56,37 +39,15 @@ def set_phone_code(phone):
 
 
 def get_phone_code(phone):
-    phone = set_phone(phone)
     if phone:
-        sms_timeout = 1
-        switch = SettingsSwitch()
-        if sms_timeout:
-            sms_timeout = switch.dispatch(sms_timeout)
-            check = Phone.objects.filter(
-                created_at__gte=(timezone.now() -
-                                 relativedelta(minutes=sms_timeout)),
-                phone=phone
-            ).first()
-        sms_limit = 60
-        switch = SettingsSwitch()
-        sms_limit = switch.dispatch(sms_limit)
-        check = Phone.objects.filter(
-            created_at__gte=(timezone.now() - relativedelta(hours=1)),
-            phone=phone
-        ).count()
-        print(check)
         code = set_phone_code(phone)
-
         return code
 
 
 def check_phone_code(phone, code):
-    phone = set_phone(phone)
     if code:
-        print(f'cpde - > {code}')
         data = Phone.objects.filter(
             phone=phone, code=code, expires_at__gte=timezone.now()).first()
-        print(data)
         if data:
             data.is_checked = True
             data.save()
@@ -96,15 +57,10 @@ def check_phone_code(phone, code):
         return False
 
 
-class CsrfExemptSessionAuthentication(SessionAuthentication):
-    def enforce_csrf(self, request):
-        return
-
-
 class GetSmsCode(APIView):
     permission_classes = (permissions.AllowAny, )
     parser_classes = (JSONParser, MultiPartParser, FormParser)
-    
+
     def post(self, request):
         phone = request.data.get('phone')
 
@@ -113,20 +69,13 @@ class GetSmsCode(APIView):
         user, created = User.objects.get_or_create(
             username=phone
         )
-
-        print(f'User->{created}')
         code = self.request.data.get('code')
-        print(created)
         if created:
-
             if check_phone_code(phone, code):
-
-                print(f'check code->{check_phone_code(phone, code)}')
                 user, created = User.objects.get_or_create(username=str(phone))
                 user.set_password(str(code))
                 user.save()
                 token, created = Token.objects.get_or_create(user=user)
-                print(token)
                 return Response(
                     {
                         "auth_token": str(token)
@@ -134,19 +83,16 @@ class GetSmsCode(APIView):
                 )
             else:
                 get_phone_code(phone)
-                print(f'check code->{check_phone_code(phone, code)}')
                 raise Api202(
                     ['This phone is not confirmed, we sent SMS with a confirmation code'],
                     'user'
                 )
         else:
             if check_phone_code(phone, code):
-                print(f'check non reg code->{check_phone_code(phone, code)}')
                 user, created = User.objects.get_or_create(username=str(phone))
                 user.set_password(str(code))
                 user.save()
                 token, created = Token.objects.get_or_create(user=user)
-                print(token)
                 return Response(
                     {
                         "auth_token": str(token)
@@ -173,6 +119,7 @@ class CreateUserAPI(generics.ListCreateAPIView):
         )
         user.set_password(self.request.data['password'])
         user.save()
+
 
 class GetUserAPI(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticated, )
@@ -207,6 +154,7 @@ class UserListAPI(generics.ListAPIView):
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = UserSerializer
 
+
 class AddContactAPI(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated, )
     queryset = User.objects.all()
@@ -222,6 +170,7 @@ class AddContactAPI(generics.UpdateAPIView):
         )
         return super().partial_update(request, *args, **kwargs)
 
+
 class AddBlockedUserAPI(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated, )
     queryset = User.objects.all()
@@ -236,6 +185,7 @@ class AddBlockedUserAPI(generics.UpdateAPIView):
             User.objects.get(username=request.data['phone'])
         )
         return super().partial_update(request, *args, **kwargs)
+
 
 class CreatePendingUserAPI(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated, )
