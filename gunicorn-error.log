@@ -34772,3 +34772,489 @@ Not Found: /owa/
 2021-05-28 11:45:53,932 WARNING  Not Found: /owa/
 Not Found: /
 2021-05-28 12:03:06,047 WARNING  Not Found: /
+Internal Server Error: /api/user/sms-code/
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.UndefinedFunction: operator does not exist: character varying = bigint
+LINE 1: ...5:18.304472'::timestamp AND "users_phone"."phone" = 38095309...
+                                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 458, in thread_handler
+    raise exc_info[1]
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 38, in inner
+    response = await get_response(request)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "./apps/users/views.py", line 143, in post
+    return self.request.user
+  File "./apps/users/views.py", line 87, in check_phone_code
+    ['This phone is not confirmed, we sent SMS with a confirmation code'],
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 678, in first
+    for obj in (self if self.ordered else self.order_by('pk'))[:1]:
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 287, in __iter__
+    self._fetch_all()
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1308, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 53, in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/silk/sql.py", line 48, in execute_sql
+    return self._execute_sql(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py", line 1156, in execute_sql
+    cursor.execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: operator does not exist: character varying = bigint
+LINE 1: ...5:18.304472'::timestamp AND "users_phone"."phone" = 38095309...
+                                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+
+2021-05-28 12:35:18,430 ERROR    Internal Server Error: /api/user/sms-code/
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.UndefinedFunction: operator does not exist: character varying = bigint
+LINE 1: ...5:18.304472'::timestamp AND "users_phone"."phone" = 38095309...
+                                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 458, in thread_handler
+    raise exc_info[1]
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 38, in inner
+    response = await get_response(request)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "./apps/users/views.py", line 143, in post
+    return self.request.user
+  File "./apps/users/views.py", line 87, in check_phone_code
+    ['This phone is not confirmed, we sent SMS with a confirmation code'],
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 678, in first
+    for obj in (self if self.ordered else self.order_by('pk'))[:1]:
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 287, in __iter__
+    self._fetch_all()
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1308, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 53, in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/silk/sql.py", line 48, in execute_sql
+    return self._execute_sql(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py", line 1156, in execute_sql
+    cursor.execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: operator does not exist: character varying = bigint
+LINE 1: ...5:18.304472'::timestamp AND "users_phone"."phone" = 38095309...
+                                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+
+Internal Server Error: /api/user/sms-code/
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.UndefinedFunction: operator does not exist: character varying = bigint
+LINE 1: ...4:33.150941'::timestamp AND "users_phone"."phone" = 38095309...
+                                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 458, in thread_handler
+    raise exc_info[1]
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 38, in inner
+    response = await get_response(request)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "./apps/users/views.py", line 157, in post
+  File "./apps/users/views.py", line 65, in get_phone_code
+    phone = request.data.get('phone')
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 678, in first
+    for obj in (self if self.ordered else self.order_by('pk'))[:1]:
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 287, in __iter__
+    self._fetch_all()
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1308, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 53, in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/silk/sql.py", line 48, in execute_sql
+    return self._execute_sql(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py", line 1156, in execute_sql
+    cursor.execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: operator does not exist: character varying = bigint
+LINE 1: ...4:33.150941'::timestamp AND "users_phone"."phone" = 38095309...
+                                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+
+2021-05-28 12:35:33,292 ERROR    Internal Server Error: /api/user/sms-code/
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.UndefinedFunction: operator does not exist: character varying = bigint
+LINE 1: ...4:33.150941'::timestamp AND "users_phone"."phone" = 38095309...
+                                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 458, in thread_handler
+    raise exc_info[1]
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 38, in inner
+    response = await get_response(request)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "./apps/users/views.py", line 157, in post
+  File "./apps/users/views.py", line 65, in get_phone_code
+    phone = request.data.get('phone')
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 678, in first
+    for obj in (self if self.ordered else self.order_by('pk'))[:1]:
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 287, in __iter__
+    self._fetch_all()
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1308, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/query.py", line 53, in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/silk/sql.py", line 48, in execute_sql
+    return self._execute_sql(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py", line 1156, in execute_sql
+    cursor.execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: operator does not exist: character varying = bigint
+LINE 1: ...4:33.150941'::timestamp AND "users_phone"."phone" = 38095309...
+                                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+
+2021-05-28 12:35:57,667 WARNING  Response to request with pk fba7083d-352f-42fe-96c4-5f0a4da62797 has content type text/javascript but was unable to parse it
+2021-05-28 12:36:17,048 WARNING  Response to request with pk 9d3b8788-b154-455e-9c4e-1977bd9bc0b9 has content type text/javascript but was unable to parse it
+2021-05-28 12:36:21,478 WARNING  Response to request with pk 499b5fec-bb6f-4c1d-883b-b24da4eada09 has content type text/javascript but was unable to parse it
+2021-05-28 12:36:26,724 WARNING  Response to request with pk ce24f285-9b6d-49e5-98bf-c48c00f6b38d has content type text/javascript but was unable to parse it
+2021-05-28 12:36:30,331 WARNING  Response to request with pk c1d182f4-33d0-468f-9d92-068b66961dc1 has content type text/javascript but was unable to parse it
+2021-05-28 12:37:25,249 INFO     Killed 0 pending application instances
+2021-05-28 12:37:25,249 INFO     Killed 0 pending application instances
+2021-05-28 12:37:25,252 INFO     Killed 0 pending application instances
+2021-05-28 12:37:25,268 INFO     Killed 0 pending application instances
+2021-05-28 12:37:32,824 INFO     Starting server at fd:fileno=0, unix:/tmp/daphne1.sock
+2021-05-28 12:37:32,825 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2021-05-28 12:37:32,825 INFO     Configuring endpoint fd:fileno=0
+2021-05-28 12:37:32,827 INFO     Starting server at fd:fileno=0, unix:/tmp/daphne0.sock
+2021-05-28 12:37:32,828 INFO     Starting server at fd:fileno=0, unix:/tmp/daphne2.sock
+2021-05-28 12:37:32,829 INFO     Starting server at fd:fileno=0, unix:/tmp/daphne3.sock
+2021-05-28 12:37:32,830 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2021-05-28 12:37:32,830 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2021-05-28 12:37:32,835 INFO     Configuring endpoint fd:fileno=0
+2021-05-28 12:37:32,835 INFO     Configuring endpoint fd:fileno=0
+2021-05-28 12:37:32,836 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2021-05-28 12:37:32,838 INFO     Configuring endpoint fd:fileno=0
+2021-05-28 12:37:32,892 INFO     Listening on TCP address 127.0.0.1:8000
+2021-05-28 12:37:32,895 INFO     Listening on TCP address 127.0.0.1:8000
+2021-05-28 12:37:32,896 INFO     Listening on TCP address 127.0.0.1:8000
+2021-05-28 12:37:32,896 INFO     Configuring endpoint unix:/tmp/daphne1.sock
+2021-05-28 12:37:32,897 INFO     Listening on TCP address 127.0.0.1:8000
+2021-05-28 12:37:32,903 INFO     Configuring endpoint unix:/tmp/daphne3.sock
+2021-05-28 12:37:32,905 INFO     Configuring endpoint unix:/tmp/daphne0.sock
+2021-05-28 12:37:32,906 INFO     Configuring endpoint unix:/tmp/daphne2.sock
+2021-05-28 12:37:33,596 WARNING  Response to request with pk c5e22972-a65c-4195-9c9c-5b72e29e59d6 has content type text/javascript but was unable to parse it
+2021-05-28 12:37:37,656 INFO     POST Request: https://api.twilio.com/2010-04-01/Accounts/AC3bce9d49f6e044010b3d392f4b9e5921/Messages.json
+2021-05-28 12:37:37,656 INFO     PAYLOAD: {'To': '+380953091094', 'From': '+12053954148', 'Body': 'Code 1860'}
+2021-05-28 12:37:39,109 INFO     POST Response: 401 {"code": 20003, "detail": "", "message": "Authenticate", "more_info": "https://www.twilio.com/docs/errors/20003", "status": 401}
+Internal Server Error: /api/user/sms-code/
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 458, in thread_handler
+    raise exc_info[1]
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 38, in inner
+    response = await get_response(request)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "./apps/users/views.py", line 85, in post
+    get_phone_code(phone)
+  File "./apps/users/views.py", line 43, in get_phone_code
+    code = set_phone_code(phone)
+  File "./apps/users/views.py", line 36, in set_phone_code
+    send_sms(phone, code)
+  File "./apps/users/soap.py", line 9, in send_sms
+    message = client.messages.create(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/twilio/rest/api/v2010/account/message/__init__.py", line 88, in create
+    payload = self._version.create(method='POST', uri=self._uri, data=data, )
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/twilio/base/version.py", line 205, in create
+    raise self.exception(method, uri, response, 'Unable to create record')
+twilio.base.exceptions.TwilioRestException: HTTP 401 error: Unable to create record: Authenticate
+2021-05-28 12:37:39,190 ERROR    Internal Server Error: /api/user/sms-code/
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 458, in thread_handler
+    raise exc_info[1]
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 38, in inner
+    response = await get_response(request)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "./apps/users/views.py", line 85, in post
+    get_phone_code(phone)
+  File "./apps/users/views.py", line 43, in get_phone_code
+    code = set_phone_code(phone)
+  File "./apps/users/views.py", line 36, in set_phone_code
+    send_sms(phone, code)
+  File "./apps/users/soap.py", line 9, in send_sms
+    message = client.messages.create(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/twilio/rest/api/v2010/account/message/__init__.py", line 88, in create
+    payload = self._version.create(method='POST', uri=self._uri, data=data, )
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/twilio/base/version.py", line 205, in create
+    raise self.exception(method, uri, response, 'Unable to create record')
+twilio.base.exceptions.TwilioRestException: HTTP 401 error: Unable to create record: Authenticate
+2021-05-28 12:38:52,895 INFO     POST Request: https://api.twilio.com/2010-04-01/Accounts/AC3bce9d49f6e044010b3d392f4b9e5921/Messages.json
+2021-05-28 12:38:52,896 INFO     PAYLOAD: {'To': '+380953091094', 'From': '+12053954148', 'Body': 'Code 4059'}
+2021-05-28 12:38:53,308 INFO     POST Response: 401 {"code": 20003, "detail": "", "message": "Authenticate", "more_info": "https://www.twilio.com/docs/errors/20003", "status": 401}
+Internal Server Error: /api/user/sms-code/
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 458, in thread_handler
+    raise exc_info[1]
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 38, in inner
+    response = await get_response(request)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "./apps/users/views.py", line 103, in post
+    get_phone_code(phone)
+  File "./apps/users/views.py", line 43, in get_phone_code
+    code = set_phone_code(phone)
+  File "./apps/users/views.py", line 36, in set_phone_code
+    send_sms(phone, code)
+  File "./apps/users/soap.py", line 9, in send_sms
+    message = client.messages.create(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/twilio/rest/api/v2010/account/message/__init__.py", line 88, in create
+    payload = self._version.create(method='POST', uri=self._uri, data=data, )
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/twilio/base/version.py", line 205, in create
+    raise self.exception(method, uri, response, 'Unable to create record')
+twilio.base.exceptions.TwilioRestException: HTTP 401 error: Unable to create record: Authenticate
+2021-05-28 12:38:53,374 ERROR    Internal Server Error: /api/user/sms-code/
+Traceback (most recent call last):
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 458, in thread_handler
+    raise exc_info[1]
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 38, in inner
+    response = await get_response(request)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 423, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "/usr/lib/python3.8/asyncio/tasks.py", line 455, in wait_for
+    return await fut
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/asgiref/sync.py", line 462, in thread_handler
+    return func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "./apps/users/views.py", line 103, in post
+    get_phone_code(phone)
+  File "./apps/users/views.py", line 43, in get_phone_code
+    code = set_phone_code(phone)
+  File "./apps/users/views.py", line 36, in set_phone_code
+    send_sms(phone, code)
+  File "./apps/users/soap.py", line 9, in send_sms
+    message = client.messages.create(
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/twilio/rest/api/v2010/account/message/__init__.py", line 88, in create
+    payload = self._version.create(method='POST', uri=self._uri, data=data, )
+  File "/var/www/api_turan/venv/lib/python3.8/site-packages/twilio/base/version.py", line 205, in create
+    raise self.exception(method, uri, response, 'Unable to create record')
+twilio.base.exceptions.TwilioRestException: HTTP 401 error: Unable to create record: Authenticate
