@@ -8,8 +8,8 @@ from rest_framework.response import Response
 from twilio.rest import Client
 
 
-acount_sid = 'AC3bce9d49f6e044010b3d392f4b9e5921'
-auth_token = '79a1ee2b55bd3b360d2f9260c4cab91f'
+acount_sid = 'AC387b7c232d6acb1a2834a84ad56d703d'
+auth_token = '68e38a5596828b2823e5fab89df63d30'
 
 client = Client(acount_sid, auth_token)
 def set_phone(phone):
