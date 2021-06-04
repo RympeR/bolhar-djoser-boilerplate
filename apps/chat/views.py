@@ -1,6 +1,6 @@
 from typing import Generic
 from django.shortcuts import render
-from rest_framework import generics, authentication
+from rest_framework import generics, authentication, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -106,24 +106,28 @@ class GetUserRooms(generics.GenericAPIView):
         rooms = Room.objects.filter(
             Q(creator_id=user) |
             Q(accepter_id=user)
-        )[id_chat:id_chat + 15]
-        room_values = list(rooms.values())
-        for ind, room in enumerate(rooms):
-            message = Chat.objects.filter(
-                Q(room=room)
-            ).order_by('-date').values().first()
-            creator = room.creator_id
-            accepter = room.accepter_id
-            has_blocked = False
-            was_blocked = False
-            if creator in accepter.blocked_users.all():
-                has_blocked = True
-            if accepter in creator.blocked_users.all():
-                was_blocked = True
-            room_values[ind]['has_blocked'] = has_blocked
-            room_values[ind]['was_blocked'] = was_blocked
-            room_values[ind]['message']['date'] = int(
-                message['date'].timestamp() * 100000)
-            room_values[ind]['date'] = int(
-                room_values[ind]['date'].timestamp() * 100000)
-        return Response(room_values)
+        )
+        if rooms.exists():
+            rooms = rooms[id_chat:id_chat + 15]
+            room_values = list(rooms.values())
+            for ind, room in enumerate(rooms):
+                message = Chat.objects.filter(
+                    Q(room=room)
+                ).order_by('-date').values().first()
+                creator = room.creator_id
+                accepter = room.accepter_id
+                has_blocked = False
+                was_blocked = False
+                if creator in accepter.blocked_users.all():
+                    has_blocked = True
+                if accepter in creator.blocked_users.all():
+                    was_blocked = True
+                room_values[ind]['has_blocked'] = has_blocked
+                room_values[ind]['was_blocked'] = was_blocked
+                room_values[ind]['message']['date'] = int(
+                    message['date'].timestamp() * 100000)
+                room_values[ind]['date'] = int(
+                    room_values[ind]['date'].timestamp() * 100000)
+            return Response(room_values)
+        else:
+            return Response({}, status=status.HTTP_404_NOT_FOUND)

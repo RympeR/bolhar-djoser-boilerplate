@@ -1,28 +1,19 @@
-from rest_framework import generics
-from rest_framework import permissions
-from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
-from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
-from rest_framework.views import APIView
-from .serializers import *
-from .models import *
 import random
-from rest_framework.response import Response
-from twilio.rest import Client
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from .soap import *
-from apps.utils.utils import *
-import re
-import random
+
 from django.utils import timezone
-from rest_framework.exceptions import APIException
-from rest_framework import status
-from .exception import Api202, Api400
+from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
-from .soap import *
+from rest_framework.exceptions import APIException
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from apps.utils.utils import *
-import requests
-from rest_framework.authentication import TokenAuthentication
-from apps.utils.func import client
+
+from .exception import Api202, Api400
+from .models import *
+from .serializers import *
+from .soap import *
 
 
 def set_phone_code(phone):

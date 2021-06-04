@@ -66,7 +66,7 @@ class GetUserSerializer(serializers.ModelSerializer):
             "is_active",
             'last_name',
             'first_name',
-            'is_staff',
+            'is_staff', 
             'password',
             'user_permissions',
             'groups',

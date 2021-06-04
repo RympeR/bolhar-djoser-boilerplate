@@ -67,8 +67,8 @@ class ChatConsumer(WebsocketConsumer):
             if str(_file).isdigit():
                 message_obj = int(_file)
                 for attachment in Chat.chat_attachment.filter(pk=message_obj):
-                    if hasattr(attachment, 'url'):
-                        path = f'http://api-teus.maximusapp.com{Chat.objects.get(pk=message_obj).attachment.url}'
+                    if attachment and hasattr(attachment, 'url'):
+                        path = f'http://mobile.turancoin.net{Chat.objects.get(pk=message_obj).attachment.url}'
                     else:
                         path = None
                     paths.append(path)
