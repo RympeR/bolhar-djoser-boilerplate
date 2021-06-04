@@ -8,7 +8,7 @@ from apps.utils.func import client
 def send_sms(phone, text):
     message = client.messages.create(
         body=f'Code ' + str(text),
-        from_='+12053954148',
+        from_='+18337740633',
         to=phone
     )
     # session = Session()
