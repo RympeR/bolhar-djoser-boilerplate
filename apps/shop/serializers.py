@@ -6,6 +6,7 @@ from apps.users.serializers import (
 from apps.users.models import (
     User
 )
+from apps.utils.customFields import TimestampField
 from apps.chat.serializers import AttachmentSerializer
 from .models import (
     Category,
@@ -84,7 +85,7 @@ class RateGetSerializer(serializers.ModelSerializer):
 
 class CommentGetSerializer(serializers.ModelSerializer):
     user = ShortUserSerializer()
-
+    datetime = TimestampField(required=False)
     class Meta:
         model = Comment
         fields = '__all__'
