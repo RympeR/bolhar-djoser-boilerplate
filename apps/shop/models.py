@@ -54,36 +54,6 @@ class DelieverChoice(models.Model):
         verbose_name_plural = 'Виды доставок'
 
 
-class Comment(models.Model):
-    user = models.ForeignKey(
-        User, related_name='comment', verbose_name='Комментатор', null=True, on_delete=models.SET_NULL,)
-    comment = models.TextField(verbose_name='Комментарий')
-    datetime = UnixTimeStampField(
-        verbose_name="Время комментария", auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.user}--{self.comment}'
-
-    class Meta:
-        verbose_name = 'Комментарий'
-        verbose_name_plural = 'Комментарии'
-
-
-class Rate(models.Model):
-
-    user = models.ForeignKey(
-        User, related_name='user_rate', verbose_name='Оценщик', null=True, on_delete=models.SET_NULL,)
-    rate = models.IntegerField(
-        verbose_name='Оценка', validators=[validators.MinValueValidator(1), validators.MaxValueValidator(5)]
-    )
-
-    def __str__(self):
-        return f'{self.user}--{self.rate}'
-
-    class Meta:
-        verbose_name = 'оценка'
-        verbose_name_plural = 'Оценки'
-
 class Card(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название')
     description = models.TextField(
@@ -124,3 +94,35 @@ class Card(models.Model):
         ]
         verbose_name = 'Карточка товара'
         verbose_name_plural = 'Карточки товаров'
+
+class Comment(models.Model):
+    user = models.ForeignKey(
+        User, related_name='comment', verbose_name='Комментатор', null=True, on_delete=models.SET_NULL,)
+    card = models.ForeignKey(Card, related_name='card_comment', blank=True , null=True, on_delete=models.CASCADE, verbose_name='Комментируемая карта') 
+    comment = models.TextField(verbose_name='Комментарий')
+    datetime = UnixTimeStampField(
+        verbose_name="Время комментария", auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user}--{self.comment}'
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+
+class Rate(models.Model):
+
+    user = models.ForeignKey(
+        User, related_name='user_rate', verbose_name='Оценщик', null=True, on_delete=models.SET_NULL,)
+    card = models.ForeignKey(Card, related_name='card_rate', blank=True , null=True, on_delete=models.CASCADE, verbose_name='Оцениваемая карта') 
+    rate = models.IntegerField(
+        verbose_name='Оценка', validators=[validators.MinValueValidator(1), validators.MaxValueValidator(5)]
+    )
+
+    def __str__(self):
+        return f'{self.user}--{self.rate}'
+
+    class Meta:
+        verbose_name = 'оценка'
+        verbose_name_plural = 'Оценки'

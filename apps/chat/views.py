@@ -1,14 +1,13 @@
-from typing import Generic
-from django.shortcuts import render
-from rest_framework import generics, authentication, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser, MultiPartParser, FormParser, FileUploadParser
-from .models import Room, Chat
-from .serializers import *
 from django.db.models import Q
+from django.shortcuts import get_object_or_404, render
+from rest_framework import authentication, generics, status
+from rest_framework.parsers import (FileUploadParser, FormParser, JSONParser,
+                                    MultiPartParser)
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Chat, Room
+from .serializers import *
 
 
 class PostRoom(generics.CreateAPIView):
@@ -51,7 +50,7 @@ class PutChat(generics.UpdateAPIView):
 class GetChatMessages(APIView):
 
     def post(self, request, room_id):
-        room = Room.objects.get(pk=room_id)
+        room = get_object_or_404(Room, pk=room_id)
         if request.data.get('message_id'):
             objects = Chat.objects.filter(
                 room=room,
@@ -64,18 +63,28 @@ class GetChatMessages(APIView):
         results = []
         domain = request.get_host()
         for obj in objects:
-            if obj.attachment and hasattr(obj.attachment, 'url'):
-                image_url = 'https://{domain}{path}'.format(
-                    domain=domain, path=obj.attachment.url)
-            else:
-                image_url = None
+            attachments = obj.attachment.all()
+            attachments_info = []
+            for attachment in attachments:
+                if attachment.attachment and hasattr(attachment.attachment, 'url'):
+                    path_file = attachment.attachment.url
+                    file_url = 'http://{domain}{path}'.format(
+                        domain=domain, path=path_file)
+                    attachments_info.append(
+                        {
+                            "file_type": attachment.attachment_type,
+                            "file_url": file_url,
+                        }
+                    )
+                else:
+                    file_url = None
             results.append(
                 {
                     "id": obj.pk,
                     "room_id": obj.room.pk,
                     "user_id": obj.user.pk,
                     "text": obj.text,
-                    "attachment": image_url,
+                    "attachment": attachments_info,
                     "date": int(obj.date.timestamp())
                 },
             )

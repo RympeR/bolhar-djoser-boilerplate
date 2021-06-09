@@ -74,3 +74,15 @@ class GetUserSerializer(serializers.ModelSerializer):
             'last_login'
         )
         model = User
+
+class ShortUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        fields = (
+            'pk',
+            'username',
+            'image',
+            'fio',
+            'verified'
+        )
+        model = User

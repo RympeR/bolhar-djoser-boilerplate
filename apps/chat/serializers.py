@@ -1,6 +1,13 @@
 from rest_framework import serializers
-from .models import Room, Chat
+from .models import Room, Chat, Attachment
 from apps.users.serializers import UserSerializer
+
+
+class AttachmentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Attachment
+        fields = '__all__'
 
 
 class TimestampField(serializers.Field):
@@ -10,8 +17,9 @@ class TimestampField(serializers.Field):
     def to_internal_value(self, value):
         return value
 
+
 class RoomSerializer(serializers.ModelSerializer):
-    
+
     creator_id = UserSerializer()
     accepter_id = UserSerializer()
     date = TimestampField(required=False)
@@ -32,10 +40,13 @@ class RoomCreateSerializer(serializers.ModelSerializer):
 class ChatSerializer(serializers.ModelSerializer):
     date = TimestampField(required=False)
     user = UserSerializer()
-    room = RoomSerializer() 
+    room = RoomSerializer()
+    attachment = AttachmentSerializer(many=True)
+
     class Meta:
         model = Chat
         fields = '__all__'
+
 
 class ChatCreateSerializer(serializers.ModelSerializer):
 
