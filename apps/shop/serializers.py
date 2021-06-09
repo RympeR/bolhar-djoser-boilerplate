@@ -73,7 +73,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         user = request.user
         attrs['user'] = user
         return attrs
-        
+
 class RateGetSerializer(serializers.ModelSerializer):
     user = ShortUserSerializer()
 
@@ -107,7 +107,7 @@ class CardGetSerializer(serializers.ModelSerializer):
     seller = ShortUserSerializer()
     payment_methods = PaymentChoiceGetSerializer(many=True)
     deliver_methpods = DeliverChoiceGetSerializer(many=True)
-    catefory = CategoryShortSerializer()
+    category = CategoryShortSerializer()
     calc_price = serializers.SerializerMethodField()
     attachments = AttachmentSerializer(many=True)
     comments = serializers.SerializerMethodField()
