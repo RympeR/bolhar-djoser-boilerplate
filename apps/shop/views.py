@@ -42,7 +42,7 @@ class CardGetAPI(generics.RetrieveAPIView):
     serializer_class = CardGetSerializer
 
 
-class CardCreateAPI(generics.RetrieveAPIView):
+class CardCreateAPI(generics.CreateAPIView):
     queryset = Card.objects.all()
     serializer_class = CardCreateSerializer
 
