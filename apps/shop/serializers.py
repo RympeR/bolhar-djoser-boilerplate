@@ -106,7 +106,7 @@ class PaymentChoiceGetSerializer(serializers.ModelSerializer):
 class CardGetSerializer(serializers.ModelSerializer):
     seller = ShortUserSerializer()
     payment_methods = PaymentChoiceGetSerializer(many=True)
-    deliver_methpods = DeliverChoiceGetSerializer(many=True)
+    deliver_methods = DeliverChoiceGetSerializer(many=True)
     category = CategoryShortSerializer()
     calc_price = serializers.SerializerMethodField()
     attachments = AttachmentSerializer(many=True)
