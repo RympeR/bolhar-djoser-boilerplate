@@ -62,20 +62,28 @@ class ChatConsumer(WebsocketConsumer):
         room = event['room']
         user = event['user']
         _file = event['file']
-        paths = []
+        attachments_info = []
         if _file:
             if str(_file).isdigit():
-                message_obj = int(_file)
-                for attachment in Chat.chat_attachment.filter(pk=message_obj):
-                    if attachment and hasattr(attachment, 'url'):
-                        path = f'http://mobile.turancoin.net{Chat.objects.get(pk=message_obj).attachment.url}'
+                message_obj = Chat.chat_attachment.get(pk=int(_file))
+                attachments = message_obj.attachment.all()
+                for attachment in attachments:
+                    if attachment.attachment and hasattr(attachment.attachment, 'url'):
+                        path_file = attachment.attachment.url
+                        file_url = 'https://{domain}{path}'.format(
+                            domain='mobile.turancoin.net', path=path_file)
+                        attachments_info.append(
+                            {
+                                "file_type": attachment.attachment_type,
+                                "file_url": file_url,
+                            }
+                        )
                     else:
-                        path = None
-                    paths.append(path)
+                        file_url = None
 
         self.send(text_data=json.dumps({
             "room": room,
             "user": user,
             'message': message,
-            'file': paths if any(paths) else []
+            'file': attachments_info if any(attachments_info) else []
         }))
