@@ -120,10 +120,10 @@ class CardGetSerializer(serializers.ModelSerializer):
         )
 
     def get_rate(self, card):
-        return [RateGetSerializer(intance=rate) for rate in card.card_rate.all()]
+        return [RateGetSerializer(instance=rate) for rate in card.card_rate.all()]
 
     def get_comments(self, card):
-        return [CommentGetSerializer(intance=comm) for comm in card.card_comment.all().order_by('-datetime')]
+        return [CommentGetSerializer(instance=comm) for comm in card.card_comment.all().order_by('-datetime')]
 
     def get_calc_price(self, card):
         if card.discount_price != 0:
