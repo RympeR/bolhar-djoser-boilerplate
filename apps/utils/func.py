@@ -9,7 +9,7 @@ from twilio.rest import Client
 
 
 acount_sid = 'AC387b7c232d6acb1a2834a84ad56d703d'
-auth_token = '7852f02d98d6d78ea3a4ace66b7ced73'
+auth_token = '4c4c8a76d31ad0fb573a7cdf84f3aad4'
 
 client = Client(acount_sid, auth_token)
 def set_phone(phone):
@@ -19,13 +19,6 @@ def set_phone(phone):
     phone = str(phone)
     if phone and type(phone) is not int:
         phone = re.sub("\D", '', phone)
-
-        # if phone[:1] == '0':
-        #     phone = '38' + phone
-        # if phone[:1] == '8':
-        #     phone = '3' + phone
-        #
-        # if len(phone) == 12:
         return int(phone)
     return None
 
@@ -69,6 +62,16 @@ def profession_image(instance, filename):
     return os.path.join('profession', file)
 
 
+def attachments(instance, filename):
+    instance.original_file_name = filename
+    # file = set_unique_file_name(filename)
+    return os.path.join('attachments', filename)
+
+def preview_cards(instance, filename):
+    instance.original_file_name = filename
+    # file = set_unique_file_name(filename)
+    return os.path.join('preview_cards', filename)
+    
 def transform_get_value(value):
     if value == 'null':
         value = None
