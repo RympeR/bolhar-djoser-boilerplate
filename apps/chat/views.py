@@ -134,6 +134,7 @@ class GetUserRooms(generics.GenericAPIView):
                 room_values[ind]['has_blocked'] = has_blocked
                 room_values[ind]['was_blocked'] = was_blocked
                 if message:
+                    room_values[ind]['message'] = message
                     room_values[ind]['message']['date'] = int(
                         message['date'].timestamp() * 100000)
                 room_values[ind]['date'] = int(
