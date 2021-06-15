@@ -25,6 +25,7 @@ class UserAdmin(admin.ModelAdmin):
         'fio',
         'customer',
         'verified',
+        'top_seller',
     )
     list_display_links = 'pk', 'username',
     list_filter = 'customer', 'verified',
