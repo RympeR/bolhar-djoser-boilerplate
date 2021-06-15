@@ -86,15 +86,3 @@ class ShortUserSerializer(serializers.ModelSerializer):
             'verified'
         )
         model = User
-
-class SellersSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = (
-            'pk',
-            'username',
-            'image',
-            'fio',
-            'verified'
-        )
