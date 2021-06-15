@@ -7,7 +7,6 @@ from rest_framework import pagination
 from rest_framework.response import Response
 from twilio.rest import Client
 
-
 acount_sid = 'AC387b7c232d6acb1a2834a84ad56d703d'
 auth_token = '66858642e726b707a2570094f8cebaab'
 
