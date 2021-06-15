@@ -41,6 +41,7 @@ class User(AbstractUser):
     
     customer = models.BooleanField(verbose_name='Продавец', default=False)
     verified = models.BooleanField(verbose_name='Верифицирован', default=False)
+    top_seller = models.BooleanField(verbose_name='Купил место', default=False)
 
 
     USERNAME_FIELD = 'username'

@@ -1,4 +1,5 @@
 from rest_framework import generics, permissions
+from apps.users.models import User
 from .models import (
     Category,
     PaymentChoice,
@@ -15,6 +16,7 @@ from .serializers import (
     DeliverChoiceGetSerializer,
     PaymentChoiceGetSerializer,
     CardCreateSerializer,
+    SellersSerializer,
 )
 
 
@@ -49,6 +51,7 @@ class CardCreateAPI(generics.CreateAPIView):
     def get_serializer_context(self):
         return {'request': self.request}
 
+
 class RateCreateAPI(generics.CreateAPIView):
     queryset = Rate.objects.all()
     serializer_class = RateCreateSerializer
@@ -56,9 +59,24 @@ class RateCreateAPI(generics.CreateAPIView):
     def get_serializer_context(self):
         return {'request': self.request}
 
+
 class CommentCreateAPI(generics.CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentCreateSerializer
 
     def get_serializer_context(self):
         return {'request': self.request}
+
+
+class SellersList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = SellersSerializer
+
+    def get_queryset(self):
+        sellers = []
+        sold_user = User.objects.filter(
+            top_seller=True,
+        ).order_by('-rank')
+        sellers.extend(sold_user)
+
+

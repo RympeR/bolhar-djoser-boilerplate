@@ -3,13 +3,22 @@ from django.contrib.admin import DateFieldListFilter
 from mptt.admin import DraggableMPTTAdmin, TreeRelatedFieldListFilter
 
 from .models import (
-    Card, 
-    Category, 
-    Comment, 
-    DelieverChoice, 
+    Card,
+    Category,
+    Comment,
+    DelieverChoice,
     PaymentChoice,
-    Rate
+    ProductBrand,
+    ProductCountry,
+    Rate,
 )
+
+
+@admin.register(ProductBrand, ProductCountry)
+class ProductParamAmin(admin.ModelAdmin):
+    list_display = 'title',
+    list_display_links = 'title',
+    search_fields = 'title',
 
 
 @admin.register(Comment)
@@ -36,7 +45,7 @@ class RateAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(DraggableMPTTAdmin):
-    list_display = ('tree_actions', 'name', 'display')
+    list_display = ('tree_actions', 'name', 'display', 'admin_preview')
     list_display_links = ('name',)
     filter_fields = ('display')
     search_fields = ('name',)
