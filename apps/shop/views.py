@@ -1,4 +1,5 @@
 from rest_framework import generics, permissions
+from rest_framework.response import Response
 from apps.users.models import User
 from .models import (
     Category,
@@ -72,11 +73,15 @@ class SellersList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = SellersSerializer
 
-    def get_queryset(self):
+    def list(self, request):
         sellers = []
         sold_user = User.objects.filter(
             top_seller=True,
         ).order_by('-rank')
-        sellers.extend(sold_user)
-
-
+        sellers.append(sold_user)
+        all_sellers = User.objects.filter(
+            top_seller=False,
+            customer=True
+        )
+        sellers.append(all_sellers)
+        return Response([self.get_serializer(instance=seller) for seller in all_sellers])
