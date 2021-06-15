@@ -150,3 +150,16 @@ class CardGetSerializer(serializers.ModelSerializer):
             'rate',
             'average_rate',
         )
+
+
+class SellersSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = (
+            'pk',
+            'username',
+            'image',
+            'fio',
+            'verified'
+        )
