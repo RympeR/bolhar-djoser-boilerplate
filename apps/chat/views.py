@@ -115,7 +115,7 @@ class GetUserRooms(generics.GenericAPIView):
         rooms = Room.objects.filter(
             (Q(creator_id=user) |
             Q(accepter_id=user)) &
-            Q(pk__lte=id_chat)
+            Q(pk__gt=id_chat)
         )
         if rooms.exists():
             rooms = rooms[:15]
