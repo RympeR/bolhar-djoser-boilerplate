@@ -113,11 +113,12 @@ class GetUserRooms(generics.GenericAPIView):
         user = request.user
         id_chat = int(index)
         rooms = Room.objects.filter(
-            Q(creator_id=user) |
-            Q(accepter_id=user)
+            (Q(creator_id=user) |
+            Q(accepter_id=user)) &
+            Q(pk__lte=id_chat)
         )
         if rooms.exists():
-            rooms = rooms[id_chat:id_chat + 15]
+            rooms = rooms[:15]
             room_values = list(rooms.values())
             for ind, room in enumerate(rooms):
                 message = Chat.objects.filter(
