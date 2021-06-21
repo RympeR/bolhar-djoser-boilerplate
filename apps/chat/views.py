@@ -123,7 +123,7 @@ class GetUserRooms(generics.GenericAPIView):
             for ind, room in enumerate(rooms):
                 message = Chat.objects.filter(
                     Q(room=room)
-                ).order_by('-date')[0]
+                ).order_by('-date')
                 creator = room.creator_id
                 accepter = room.accepter_id
                 has_blocked = False
@@ -135,6 +135,7 @@ class GetUserRooms(generics.GenericAPIView):
                 room_values[ind]['has_blocked'] = has_blocked
                 room_values[ind]['was_blocked'] = was_blocked
                 if message:
+                    message = message[0]
                     message = ChatSerializer(instance=message, context={'request': self.request}).data
                     room_values[ind]['message'] = message
                     room_values[ind]['message']['date'] = int(
