@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Room, Chat, Attachment
-from apps.users.serializers import UserSerializer
+from apps.users.serializers import UserSerializer, UserShortSerializer
 
 
 class AttachmentSerializer(serializers.ModelSerializer):
@@ -20,8 +20,18 @@ class TimestampField(serializers.Field):
 
 class RoomSerializer(serializers.ModelSerializer):
 
-    creator_id = UserSerializer()
-    accepter_id = UserSerializer()
+    creator_id = UserShortSerializer()
+    accepter_id = UserShortSerializer()
+    date = TimestampField(required=False)
+
+    class Meta:
+        model = Room
+        fields = '__all__'
+
+class RoomShortSerializer(serializers.ModelSerializer):
+
+    creator_id = UserShortSerializer()
+    accepter_id = UserShortSerializer()
     date = TimestampField(required=False)
 
     class Meta:
@@ -39,7 +49,7 @@ class RoomCreateSerializer(serializers.ModelSerializer):
 
 class ChatSerializer(serializers.ModelSerializer):
     date = TimestampField(required=False)
-    user = UserSerializer()
+    user = UserShortSerializer()
     room = RoomSerializer()
     attachment = AttachmentSerializer(many=True)
 

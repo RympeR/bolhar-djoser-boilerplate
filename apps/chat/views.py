@@ -119,11 +119,11 @@ class GetUserRooms(generics.GenericAPIView):
         )
         if rooms.exists():
             rooms = rooms[:15]
-            room_values = list(rooms.values())
+            room_values = [RoomShortSerializer(instance=room, context={'request': self.request}).data for room in rooms]
             for ind, room in enumerate(rooms):
                 message = Chat.objects.filter(
                     Q(room=room)
-                ).order_by('-date').values().first()
+                ).order_by('-date')[0]
                 creator = room.creator_id
                 accepter = room.accepter_id
                 has_blocked = False
@@ -135,11 +135,15 @@ class GetUserRooms(generics.GenericAPIView):
                 room_values[ind]['has_blocked'] = has_blocked
                 room_values[ind]['was_blocked'] = was_blocked
                 if message:
+                    message = ChatSerializer(instance=message, context={'request': self.request}).data
                     room_values[ind]['message'] = message
                     room_values[ind]['message']['date'] = int(
-                        message['date'].timestamp() * 100000)
+                        message['date'] * 100000)
                 room_values[ind]['date'] = int(
-                    room_values[ind]['date'].timestamp() * 100000) if room_values[ind].get('date') else None
+                    room_values[ind]['date'] * 100000) if room_values[ind].get('date') else None
             return Response(room_values)
         else:
             return Response({}, status=status.HTTP_404_NOT_FOUND)
+
+    def get_serializer_context(self):
+        return {'request': self.request}

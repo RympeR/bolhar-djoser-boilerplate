@@ -34,6 +34,23 @@ class UserPartialSerializer(serializers.ModelSerializer):
         fields = ('contacts',)
         model = User
 
+class UserShortSerializer(serializers.ModelSerializer):
+
+    image = serializers.SerializerMethodField()
+    class Meta:
+        fields = (
+            'pk', 
+            'username',
+            'fio',
+            'image'
+        )
+        model = User
+    def get_image(self, user):
+        request = self.context.get('request')
+        if user.image and getattr(user.image, 'url'):
+            file_url = user.image.url
+            return request.build_absolute_uri(file_url)
+        return None
 
 class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=False)
