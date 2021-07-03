@@ -21,6 +21,7 @@ class ProductBrand(models.Model):
 class ProductCountry(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название страны')
 
+
 class Schedule(models.Model):
     day = models.CharField(max_length=255, verbose_name='День')
     work_time = models.CharField(max_length=255, verbose_name='Время работы')
@@ -30,24 +31,24 @@ class Schedule(models.Model):
         verbose_name_plural = 'Время работы магазинов'
 
     def __str__(self):
-        return self.day , ' -- ' , self.work_time
+        return self.day, ' -- ', self.work_time
 
 
 class Shop(models.Model):
-    owner = models.ForeignKey(User, related_name='shop_owner', verbose_name='Владелец', on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, related_name='shop_owner',
+                              verbose_name='Владелец', on_delete=models.CASCADE)
     name = models.CharField(max_length=255, verbose_name='Название')
     logo = ProcessedImageField(
-                                verbose_name='Логотип',
-                                upload_to=preview_cards,
-                                processors=[ResizeToFill(120, 120)],
-                                options={'quality': 100})
+        verbose_name='Логотип',
+        upload_to=preview_cards,
+        processors=[ResizeToFill(120, 120)],
+        options={'quality': 100})
     schedule = models.ManyToManyField(Schedule,
-                                related_name='shop_schedule', 
-                                verbose_name='Время работы',
-                                blank=True)
+                                      related_name='shop_schedule',
+                                      verbose_name='Время работы',
+                                      blank=True)
     description = models.TextField(verbose_name='Описание')
-    
-    
+
     def admin_preview(self):
         if hasattr(self.logo, 'url') and self.logo:
             return mark_safe('<img src="{}" width="100" /'.format(self.logo.url))
@@ -55,13 +56,13 @@ class Shop(models.Model):
 
     admin_preview.short_description = 'Превью'
     admin_preview.allow_tags = True
+
     class Meta:
         verbose_name = 'Магазин'
         verbose_name_plural = 'Магазины'
 
     def __str__(self):
         return self.name
-
 
 
 class Category(MPTTModel):
@@ -151,12 +152,6 @@ class Card(models.Model):
     admin_preview.allow_tags = True
 
     class Meta:
-        constraints = [
-            # CheckConstraint(
-            #     check=(Q(seller__customer=True) & Q(seller__verified=True)),
-            #     name='check_seller_is_Ssller',
-            # ),
-        ]
         verbose_name = 'Карточка товара'
         verbose_name_plural = 'Карточки товаров'
 
@@ -194,6 +189,7 @@ class Rate(models.Model):
     class Meta:
         verbose_name = 'Оценка товара'
         verbose_name_plural = 'Оценки товара'
+
 
 class ShopComment(models.Model):
     user = models.ForeignKey(
@@ -258,8 +254,8 @@ class OrderItem(models.Model):
 
 
 class Address(models.Model):
-    street_address = models.CharField('Улица',max_length=100)
-    apartment_address = models.CharField('Квартира',max_length=100)
+    street_address = models.CharField('Улица', max_length=100)
+    apartment_address = models.CharField('Квартира', max_length=100)
 
     class Meta:
         verbose_name = 'Адрес'
@@ -281,26 +277,29 @@ class Coupon(models.Model):
     def __str__(self):
         return self.code
 
+
 class Order(models.Model):
-    user = models.ForeignKey(User, related_name='orser_user', verbose_name='Клиент', on_delete=models.SET_NULL, null=True)
-    approved = models.BooleanField('Подтвержден',null=True, default=False)
-    ref_code = models.CharField('Пригласительный код', max_length=20, blank=True, null=True)
-    items = models.ManyToManyField(OrderItem, related_name='order_items', verbose_name='Продукты в заказе')
+    user = models.ForeignKey(User, related_name='orser_user',
+                             verbose_name='Клиент', on_delete=models.SET_NULL, null=True)
+    approved = models.BooleanField('Подтвержден', null=True, default=False)
+    items = models.ManyToManyField(
+        OrderItem, related_name='order_items', verbose_name='Продукты в заказе')
     fio = models.CharField('Фио', max_length=50, blank=False, null=True)
-    phone_number = models.CharField('Номер телефона', max_length=40, blank=False, null=True)
+    phone_number = models.CharField(
+        'Номер телефона', max_length=40, blank=False, null=True)
     email = models.EmailField('Почта', blank=True, null=True)
-    start_date = models.DateTimeField(auto_now_add=True)
     ordered = models.BooleanField('Заказан', default=False)
     address = models.ForeignKey(
         Address, related_name='shipping_address', on_delete=models.SET_NULL, blank=True, null=True)
     coupon = models.ForeignKey(
         Coupon, on_delete=models.SET_NULL, blank=True, null=True)
-    comment = models.CharField('комментарий', max_length=255,null=True, blank=True)
+    comment = models.CharField(
+        'комментарий', max_length=255, null=True, blank=True)
     being_delivered = models.BooleanField('Был доставлен', default=False)
     received = models.BooleanField('Товар получен', default=False)
     refund_requested = models.BooleanField('Возврат запрошен', default=False)
     refund_granted = models.BooleanField('Возврат выполнен', default=False)
-
+    created_at = UnixTimeStampField('Время заказа', auto_now_add=True)
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
@@ -315,4 +314,3 @@ class Order(models.Model):
         if self.coupon:
             total -= total*(self.coupon.discount_percent / 100)
         return total
-
