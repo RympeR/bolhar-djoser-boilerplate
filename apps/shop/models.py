@@ -227,7 +227,6 @@ class ShopRate(models.Model):
 
 
 class OrderItem(models.Model):
-    ordered = models.BooleanField('Заказан', default=False)
     item = models.ForeignKey(Card, on_delete=models.CASCADE)
     quantity = models.IntegerField('Количество', default=1)
 
