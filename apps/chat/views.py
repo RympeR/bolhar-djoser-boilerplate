@@ -139,9 +139,9 @@ class GetUserRooms(generics.GenericAPIView):
                     message = ChatSerializer(instance=message, context={'request': self.request}).data
                     room_values[ind]['message'] = message
                     room_values[ind]['message']['date'] = int(
-                        message['date'] * 100000)
+                        message['date'])
                 room_values[ind]['date'] = int(
-                    room_values[ind]['date'] * 100000) if room_values[ind].get('date') else None
+                    room_values[ind]['date']) if room_values[ind].get('date') else None
             return Response(room_values)
         else:
             return Response({}, status=status.HTTP_404_NOT_FOUND)
