@@ -1,6 +1,7 @@
 from django.db import models
 from django.core import validators
 from django.db.models import CheckConstraint, F, Q
+from django.db.models.aggregates import Avg
 from django.utils.safestring import mark_safe
 from mptt.models import MPTTModel, TreeForeignKey
 from unixtimestampfield.fields import UnixTimeStampField
@@ -35,7 +36,7 @@ class Schedule(models.Model):
 
 
 class Shop(models.Model):
-    owner = models.ForeignKey(User, related_name='shop_owner',
+    owner = models.OneToOneField(User, related_name='shop_owner',
                               verbose_name='Владелец', on_delete=models.CASCADE)
     name = models.CharField(max_length=255, verbose_name='Название')
     logo = ProcessedImageField(
@@ -54,6 +55,10 @@ class Shop(models.Model):
             return mark_safe('<img src="{}" width="100" /'.format(self.logo.url))
         return None
 
+    def average_rate(self):
+        return (
+            self.shop_rate.all().aggregate(Avg('rate')) if self.shop_rate.all() else 0
+        )
     admin_preview.short_description = 'Превью'
     admin_preview.allow_tags = True
 
@@ -278,7 +283,7 @@ class Coupon(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, related_name='orser_user',
+    user = models.ForeignKey(User, related_name='order_user',
                              verbose_name='Клиент', on_delete=models.SET_NULL, null=True)
     approved = models.BooleanField('Подтвержден', null=True, default=False)
     items = models.ManyToManyField(

@@ -9,7 +9,21 @@ from .views import (
     CommentCreateAPI,
     SellersList,
     CardFilteredAPI,
-
+    #! to add
+    ShopCommentCreateAPI,
+    ShopRateCreateAPI,
+    ShopCreateAPI,
+    ShopGetAPI,
+    ShopPartialUpdateAPI,
+    CouponCreateAPI,
+    AddressCreateAPI,
+    ScheduleCreateAPI,
+    OrderItemCreateAPI,
+    OrderItemGetAPI,
+    OrderItemUpdateAPI,
+    OrderCreateAPI,
+    OrderGetAPI,
+    OrderUpdateAPI,
 )
 
 urlpatterns = [
@@ -22,4 +36,20 @@ urlpatterns = [
     path('card-create/', CardCreateAPI.as_view(), name=''),
     path('rate-create/', RateCreateAPI.as_view(), name=''),
     path('comment-create/', CommentCreateAPI.as_view(), name=''),
+
+    path('shop-comment-create/', ShopCommentCreateAPI.as_view(), name=''),
+    path('shop-rate-create/', ShopRateCreateAPI.as_view(), name=''),
+    path('shop-create/', ShopCreateAPI.as_view(), name=''),
+    path('shop-get/', ShopGetAPI.as_view(), name=''),
+    path('shop-partial-update/', ShopPartialUpdateAPI.as_view(), name=''),
+    path('coupon-create/', CouponCreateAPI.as_view(), name=''),
+    path('address-create/', AddressCreateAPI.as_view(), name=''),
+    path('schedule-create/', ScheduleCreateAPI.as_view(), name=''),
+    path('order-item-create/', OrderItemCreateAPI.as_view(), name=''),
+    path('order-item-get/<int:pk>', OrderItemGetAPI.as_view(), name=''),
+    path('order-item-partial-update/<int:pk>', OrderItemUpdateAPI.as_view(), name=''),
+    path('order-create/', OrderCreateAPI.as_view(), name=''),
+    path('order-get/', OrderGetAPI.as_view(), name=''),
+    path('order-partial-update/', OrderUpdateAPI.as_view(), name=''),
+
 ]

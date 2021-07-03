@@ -318,6 +318,23 @@ class ShopCreateSerializer(serializers.ModelSerializer):
         attrs['owner'] = user
         return attrs
 
+class ShopUpdateSerializer(serializers.ModelSerializer):
+
+    schedule = serializers.PrimaryKeyRelatedField(
+        queryset=Schedule.objects.all(), many=True, required=False)
+    name = serializers.CharField(required=False)
+    description = serializers.CharField(required=False)
+    logger = serializers.ImageField(required=False)
+    class Meta:
+        model = Shop
+        fields = '__all__'
+
+    def validate(self, attrs):
+        request = self.context.get('request')
+        user = request.user
+        attrs['owner'] = user
+        return attrs
+
 
 class OrderItemCreateSerializer(serializers.ModelSerializer):
     item = serializers.PrimaryKeyRelatedField(queryset=Card.objects.all())
