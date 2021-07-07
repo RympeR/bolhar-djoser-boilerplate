@@ -118,7 +118,7 @@ class GetUserRooms(generics.GenericAPIView):
             Q(pk__gt=id_chat)
         )
         if rooms.exists():
-            rooms = rooms[:15]
+            rooms = rooms[:30]
             room_values = [RoomShortSerializer(instance=room, context={'request': self.request}).data for room in rooms]
             for ind, room in enumerate(rooms):
                 message = Chat.objects.filter(

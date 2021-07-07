@@ -209,11 +209,7 @@ class ShopDeleteAPI(generics.DestroyAPIView):
 class ShopGetAPI(generics.RetrieveAPIView):
     queryset = Shop.objects.all()
     serializer_class = ShopGetSerializer
-
-    def get_object(self):
-        user = self.request.user
-        return user.shop_owner
-        
+      
     def get_serializer_context(self):
         return {'request': self.request}
 
