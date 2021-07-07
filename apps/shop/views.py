@@ -298,7 +298,7 @@ class OrderGetAPI(generics.RetrieveAPIView):
     
     def get_object(self):
         user = self.request.user
-        return user.order_user.filter(approved=False)
+        return user.order_user.filter(approved=False).first()
     
     def get_serializer_context(self):
         return {'request': self.request}
