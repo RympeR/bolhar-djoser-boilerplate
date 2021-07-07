@@ -418,7 +418,7 @@ class OrderGetSerializer(serializers.ModelSerializer):
     address = serializers.PrimaryKeyRelatedField(
         queryset=Address.objects.all())
     items = OrderItemGetShortSerializer(many=True)
-    create_at = TimestampField()
+    created_at = TimestampField()
     coupon = CouponSerializer()
     address = AddressSerializer()
 
