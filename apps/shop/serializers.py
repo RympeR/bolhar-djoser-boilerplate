@@ -202,8 +202,15 @@ class CardGetShortSerializer(serializers.ModelSerializer):
         )
 
 
+class ShortShopSerializer(serializers.ModelSerializer):
+    owner = ShortUserSerializer()
+
+    class Meta:
+        model = Shop
+        exclude = 'schedule', 'description'
+
 class CardGetSerializer(serializers.ModelSerializer):
-    seller = ShortUserSerializer()
+    seller = ShortShopSerializer()
     payment_methods = PaymentChoiceGetSerializer(many=True)
     deliver_methods = DeliverChoiceGetSerializer(many=True)
     category = CategoryShortSerializer()
