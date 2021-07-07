@@ -46,7 +46,7 @@ class CategoryShortSerializer(serializers.ModelSerializer):
 class CardCreateSerializer(serializers.ModelSerializer):
 
     seller = serializers.PrimaryKeyRelatedField(
-        required=False, queryset=User.objects.all())
+        required=False, queryset=Shop.objects.all())
     discount_price = serializers.FloatField(required=False)
 
     class Meta:
@@ -56,7 +56,7 @@ class CardCreateSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         request = self.context.get('request')
         user = request.user
-        attrs['seller'] = user
+        attrs['seller'] = user.shop_owner
         return attrs
 
 
@@ -277,15 +277,29 @@ class ScheduleSerializer(serializers.ModelSerializer):
 
 class ShopGetSerializer(serializers.ModelSerializer):
     owner = ShortUserSerializer()
-    schedule = ScheduleSerializer()
+    schedule = ScheduleSerializer(required=False, many=True)
     comments = serializers.SerializerMethodField()
     rate = serializers.SerializerMethodField()
     average_rate = serializers.SerializerMethodField()
     last_sold_products = serializers.SerializerMethodField()
+    comments_amount = serializers.SerializerMethodField()
 
-    def last_sold_products(self, shop):
-        # CardGetShortSerializer
-        ...
+    def get_last_sold_products(self, shop):
+        def get_pk(value):
+            return value.pk
+        orders = Order.objects.filter(approved=True).order_by('-pk')
+        res_orders = []
+        for order in orders:
+            for order_item in order.items.filter(item__seller=shop).order_by('-pk').distinct():
+                if len(res_orders) < 3:
+                    res_orders.append(CardGetShortSerializer(instance=order_item.item).data)
+                else:
+                    break
+            if len(res_orders) >= 3:
+                break
+        return [
+            res_orders
+        ]
 
     def get_average_rate(self, shop):
         return (
@@ -296,7 +310,10 @@ class ShopGetSerializer(serializers.ModelSerializer):
         return [ShopRateGetSerializer(instance=rate).data for rate in shop.shop_rate.all()]
 
     def get_comments(self, shop):
-        return [ShopCommentGetSerializer(instance=comm).data for comm in shop.card_comment.all().order_by('-datetime')]
+        return [ShopCommentGetSerializer(instance=comm).data for comm in shop.shop_comment.all().order_by('-datetime')]
+    
+    def get_comments_amount(self, shop):
+        return shop.shop_comment.all().annotate(num_comments=Count('comment'))[0].num_comments if shop.shop_comment.all() else 0
 
     class Meta:
         model = Shop

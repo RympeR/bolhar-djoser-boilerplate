@@ -21,9 +21,11 @@ from .views import (
     OrderItemCreateAPI,
     OrderItemGetAPI,
     OrderItemUpdateAPI,
+    OrderItemDeleteAPI,
     OrderCreateAPI,
     OrderGetAPI,
     OrderUpdateAPI,
+    ShopDeleteAPI,
 )
 
 urlpatterns = [
@@ -40,12 +42,14 @@ urlpatterns = [
     path('shop-comment-create/', ShopCommentCreateAPI.as_view(), name=''),
     path('shop-rate-create/', ShopRateCreateAPI.as_view(), name=''),
     path('shop-create/', ShopCreateAPI.as_view(), name=''),
+    path('shop-delete/', ShopDeleteAPI.as_view(), name=''),
     path('shop-get/', ShopGetAPI.as_view(), name=''),
     path('shop-partial-update/', ShopPartialUpdateAPI.as_view(), name=''),
     path('coupon-create/', CouponCreateAPI.as_view(), name=''),
     path('address-create/', AddressCreateAPI.as_view(), name=''),
     path('schedule-create/', ScheduleCreateAPI.as_view(), name=''),
     path('order-item-create/', OrderItemCreateAPI.as_view(), name=''),
+    path('order-item-delete/', OrderItemDeleteAPI.as_view(), name=''),
     path('order-item-get/<int:pk>', OrderItemGetAPI.as_view(), name=''),
     path('order-item-partial-update/<int:pk>', OrderItemUpdateAPI.as_view(), name=''),
     path('order-create/', OrderCreateAPI.as_view(), name=''),

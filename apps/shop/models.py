@@ -199,7 +199,7 @@ class Rate(models.Model):
 class ShopComment(models.Model):
     user = models.ForeignKey(
         User, related_name='user_comment_shop', verbose_name='Комментатор', null=True, on_delete=models.SET_NULL,)
-    card = models.ForeignKey(Card, related_name='shop_comment', blank=True,
+    shop = models.ForeignKey(Shop, related_name='shop_comment', blank=True,
                              null=True, on_delete=models.CASCADE, verbose_name='Комментируемый магазин')
     comment = models.TextField(verbose_name='Комментарий')
     datetime = UnixTimeStampField(
@@ -266,7 +266,7 @@ class Address(models.Model):
         verbose_name_plural = 'Адреса'
 
     def __str__(self):
-        return str(self.sessionOrder)
+        return str(self.street_address)
 
 
 class Coupon(models.Model):

@@ -200,6 +200,11 @@ class ShopCreateAPI(generics.CreateAPIView):
     def get_serializer_context(self):
         return {'request': self.request}
 
+class ShopDeleteAPI(generics.DestroyAPIView):
+    queryset = Shop.objects.all()
+    serializer_class = ShopCreateSerializer
+
+
 
 class ShopGetAPI(generics.RetrieveAPIView):
     queryset = Shop.objects.all()
@@ -207,7 +212,7 @@ class ShopGetAPI(generics.RetrieveAPIView):
 
     def get_object(self):
         user = self.request.user
-        return user.shop_owner.first()
+        return user.shop_owner
         
     def get_serializer_context(self):
         return {'request': self.request}
@@ -219,7 +224,7 @@ class ShopPartialUpdateAPI(GenericAPIView, UpdateModelMixin):
 
     def get_object(self):
         user = self.request.user
-        return user.shop_owner.first()
+        return user.shop_owner
     
     def get_serializer_context(self):
         return {'request': self.request}
@@ -267,6 +272,10 @@ class OrderItemGetAPI(generics.RetrieveAPIView):
     def get_serializer_context(self):
         return {'request': self.request}
 
+class OrderItemDeleteAPI(generics.DestroyAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class = OrderItemGetShortSerializer
+
 
 class OrderItemUpdateAPI(GenericAPIView, UpdateModelMixin):
     queryset = OrderItem.objects.all()
@@ -306,7 +315,7 @@ class OrderUpdateAPI(GenericAPIView, UpdateModelMixin):
     def get_object(self):
         user = self.request.user
         return user.order_user.filter(approved=False)
-        
+
     def get_serializer_context(self):
         return {'request': self.request}
 
