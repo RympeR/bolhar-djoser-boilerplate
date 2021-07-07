@@ -1,6 +1,7 @@
 from django.db import models
 from django.core import validators
 from django.db.models import CheckConstraint, F, Q
+from django.db.models.aggregates import Avg
 from django.utils.safestring import mark_safe
 from mptt.models import MPTTModel, TreeForeignKey
 from unixtimestampfield.fields import UnixTimeStampField
@@ -20,6 +21,53 @@ class ProductBrand(models.Model):
 
 class ProductCountry(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название страны')
+
+
+class Schedule(models.Model):
+    day = models.CharField(max_length=255, verbose_name='День')
+    work_time = models.CharField(max_length=255, verbose_name='Время работы')
+
+    class Meta:
+        verbose_name = 'Время работы магазина'
+        verbose_name_plural = 'Время работы магазинов'
+
+    def __str__(self):
+        return self.day, ' -- ', self.work_time
+
+
+class Shop(models.Model):
+    owner = models.OneToOneField(User, related_name='shop_owner',
+                              verbose_name='Владелец', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, verbose_name='Название')
+    logo = ProcessedImageField(
+        verbose_name='Логотип',
+        upload_to=preview_cards,
+        processors=[ResizeToFill(120, 120)],
+        options={'quality': 100})
+    schedule = models.ManyToManyField(Schedule,
+                                      related_name='shop_schedule',
+                                      verbose_name='Время работы',
+                                      blank=True)
+    description = models.TextField(verbose_name='Описание')
+
+    def admin_preview(self):
+        if hasattr(self.logo, 'url') and self.logo:
+            return mark_safe('<img src="{}" width="100" /'.format(self.logo.url))
+        return None
+
+    def average_rate(self):
+        return (
+            self.shop_rate.all().aggregate(Avg('rate')) if self.shop_rate.all() else 0
+        )
+    admin_preview.short_description = 'Превью'
+    admin_preview.allow_tags = True
+
+    class Meta:
+        verbose_name = 'Магазин'
+        verbose_name_plural = 'Магазины'
+
+    def __str__(self):
+        return self.name
 
 
 class Category(MPTTModel):
@@ -77,7 +125,7 @@ class Card(models.Model):
     description = models.TextField(
         verbose_name='Описание товара', null=True, blank=True)
     seller = models.ForeignKey(
-        User, related_name='card_creator', verbose_name='Продавец', on_delete=models.CASCADE,)
+        Shop, related_name='card_creator', verbose_name='Магазин продавца', on_delete=models.CASCADE,)
     present = models.BooleanField(default=True, verbose_name='В наличии')
     price = models.FloatField(verbose_name='Цена')
     discount_price = models.FloatField(
@@ -109,12 +157,6 @@ class Card(models.Model):
     admin_preview.allow_tags = True
 
     class Meta:
-        constraints = [
-            # CheckConstraint(
-            #     check=(Q(seller__customer=True) & Q(seller__verified=True)),
-            #     name='check_seller_is_Ssller',
-            # ),
-        ]
         verbose_name = 'Карточка товара'
         verbose_name_plural = 'Карточки товаров'
 
@@ -132,8 +174,8 @@ class Comment(models.Model):
         return f'{self.user}--{self.comment}'
 
     class Meta:
-        verbose_name = 'Комментарий'
-        verbose_name_plural = 'Комментарии'
+        verbose_name = 'Комментарий товара'
+        verbose_name_plural = 'Комментарии товара'
 
 
 class Rate(models.Model):
@@ -150,5 +192,129 @@ class Rate(models.Model):
         return f'{self.user}--{self.rate}'
 
     class Meta:
-        verbose_name = 'оценка'
-        verbose_name_plural = 'Оценки'
+        verbose_name = 'Оценка товара'
+        verbose_name_plural = 'Оценки товара'
+
+
+class ShopComment(models.Model):
+    user = models.ForeignKey(
+        User, related_name='user_comment_shop', verbose_name='Комментатор', null=True, on_delete=models.SET_NULL,)
+    shop = models.ForeignKey(Shop, related_name='shop_comment', blank=True,
+                             null=True, on_delete=models.CASCADE, verbose_name='Комментируемый магазин')
+    comment = models.TextField(verbose_name='Комментарий')
+    datetime = UnixTimeStampField(
+        verbose_name="Время комментария", auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user}--{self.comment}'
+
+    class Meta:
+        verbose_name = 'Комментарий магазина'
+        verbose_name_plural = 'Комментарии магазина'
+
+
+class ShopRate(models.Model):
+
+    user = models.ForeignKey(
+        User, related_name='user_rate_shop', verbose_name='Оценщик', null=True, on_delete=models.SET_NULL,)
+    shop = models.ForeignKey(Shop, related_name='shop_rate', blank=True,
+                             null=True, on_delete=models.CASCADE, verbose_name='Оцениваемый магазин')
+    rate = models.IntegerField(
+        verbose_name='Оценка', validators=[validators.MinValueValidator(1), validators.MaxValueValidator(5)]
+    )
+
+    def __str__(self):
+        return f'{self.user}--{self.rate}'
+
+    class Meta:
+        verbose_name = 'Оценка магазина'
+        verbose_name_plural = 'Оценки магазина'
+
+
+class OrderItem(models.Model):
+    item = models.ForeignKey(Card, on_delete=models.CASCADE)
+    quantity = models.IntegerField('Количество', default=1)
+
+    class Meta:
+        verbose_name = 'Продукт в заказе'
+        verbose_name_plural = 'Продукты в заказе'
+
+    def __str__(self):
+        return f"{self.quantity} of {self.item.title}"
+
+    def get_total_item_price(self):
+        return self.quantity * self.item.price
+
+    def get_total_discount_item_price(self):
+        return self.quantity * self.item.discount_price
+
+    def get_amount_saved(self):
+        return self.get_total_item_price() - self.get_total_discount_item_price()
+
+    def get_final_price(self):
+        if self.item.discount_price:
+            return self.get_total_discount_item_price()
+        return self.get_total_item_price()
+
+
+class Address(models.Model):
+    street_address = models.CharField('Улица', max_length=100)
+    apartment_address = models.CharField('Квартира', max_length=100)
+
+    class Meta:
+        verbose_name = 'Адрес'
+        verbose_name_plural = 'Адреса'
+
+    def __str__(self):
+        return str(self.street_address)
+
+
+class Coupon(models.Model):
+    code = models.CharField('Код', max_length=15)
+    discount_percent = models.IntegerField('Процент скидки')
+    amount = models.IntegerField('Количество использований')
+
+    class Meta:
+        verbose_name = 'Купон'
+        verbose_name_plural = 'Купоны'
+
+    def __str__(self):
+        return self.code
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, related_name='order_user',
+                             verbose_name='Клиент', on_delete=models.SET_NULL, null=True)
+    approved = models.BooleanField('Подтвержден', null=True, default=False)
+    items = models.ManyToManyField(
+        OrderItem, related_name='order_items', verbose_name='Продукты в заказе')
+    fio = models.CharField('Фио', max_length=50, blank=False, null=True)
+    phone_number = models.CharField(
+        'Номер телефона', max_length=40, blank=False, null=True)
+    email = models.EmailField('Почта', blank=True, null=True)
+    ordered = models.BooleanField('Заказан', default=False)
+    address = models.ForeignKey(
+        Address, related_name='shipping_address', on_delete=models.SET_NULL, blank=True, null=True)
+    coupon = models.ForeignKey(
+        Coupon, on_delete=models.SET_NULL, blank=True, null=True)
+    comment = models.CharField(
+        'комментарий', max_length=255, null=True, blank=True)
+    being_delivered = models.BooleanField('Был доставлен', default=False)
+    received = models.BooleanField('Товар получен', default=False)
+    refund_requested = models.BooleanField('Возврат запрошен', default=False)
+    refund_granted = models.BooleanField('Возврат выполнен', default=False)
+    created_at = UnixTimeStampField('Время заказа', auto_now_add=True)
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+
+    def __str__(self):
+        return f"{self.user}"
+
+    def get_total(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        if self.coupon:
+            total -= total*(self.coupon.discount_percent / 100)
+        return total

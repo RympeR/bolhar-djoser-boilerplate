@@ -11,7 +11,22 @@ from .models import (
     ProductBrand,
     ProductCountry,
     Rate,
+    ShopComment,
+    ShopRate,
+    Shop,
+    OrderItem,
+    Address,
+    Coupon,
+    Order,
 )
+
+
+@admin.register(Shop)
+class ShopAdmin(admin.ModelAdmin):
+    list_display = 'owner', 'name', 'admin_preview'
+    list_display_links = 'name',
+    filter_horizontal = 'schedule',
+    search_fields = 'owner__username', 'owner__fio'
 
 
 @admin.register(ProductBrand, ProductCountry)
@@ -21,7 +36,7 @@ class ProductParamAmin(admin.ModelAdmin):
     search_fields = 'title',
 
 
-@admin.register(Comment)
+@admin.register(Comment, ShopComment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
         'user',
@@ -34,7 +49,7 @@ class CommentAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Rate)
+@admin.register(Rate, ShopRate)
 class RateAdmin(admin.ModelAdmin):
     list_display = (
         'user',
@@ -83,3 +98,41 @@ class InfoAdmin(admin.ModelAdmin):
     list_display = 'name',
     list_display_links = 'name',
     search_fields = 'name',
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = [
+        'ordered',
+        'being_delivered',
+        'received',
+        'refund_requested',
+        'refund_granted',
+        'address',
+        'coupon',
+    ]
+    list_display_links = [
+        'address',
+        'coupon'
+    ]
+    list_filter = ['ordered',
+                   'being_delivered',
+                   'received',
+                   'refund_requested',
+                   'refund_granted']
+    search_fields = [
+        'ref_code'
+    ]
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = [
+        'street_address',
+        'apartment_address',
+    ]
+    search_fields = ['street_address', 'apartment_address']
+
+
+admin.site.register(OrderItem)
+admin.site.register(Coupon)
