@@ -79,7 +79,7 @@ class Category(MPTTModel):
         verbose_name='Картинка категории', blank=True, null=True)
 
     def admin_preview(self):
-        if hasattr(self.category_image, 'url') and self.category_image:
+        if self.category_image and hasattr(self.category_image, 'url')  :
             return mark_safe('<img src="{}" width="100" /'.format(self.category_image.url))
         return None
 
