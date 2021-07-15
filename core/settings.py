@@ -7,7 +7,7 @@ env = environ.Env()
 env_file = BASE_DIR / '.env'
 if env_file.exists():
     env.read_env(str(env_file))
-AUTH_TOKEN =  env.str('TWILIO_KEY')
+AUTH_TOKEN =  env.str('SMSCLUB_KEY')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 
