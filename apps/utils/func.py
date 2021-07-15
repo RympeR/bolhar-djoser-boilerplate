@@ -6,9 +6,9 @@ from django.core.validators import validate_email
 from rest_framework import pagination
 from rest_framework.response import Response
 from twilio.rest import Client
-
+from core.settings import AUTH_TOKEN
 acount_sid = 'AC387b7c232d6acb1a2834a84ad56d703d'
-auth_token = '1017eb4ca8bbe6b16801aab751dd79b7'
+auth_token = AUTH_TOKEN
 
 client = Client(acount_sid, auth_token)
 def set_phone(phone):

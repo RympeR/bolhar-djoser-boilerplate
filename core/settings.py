@@ -1,9 +1,14 @@
 from pathlib import Path
 import os
 from datetime import timedelta
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env()
+env_file = BASE_DIR / '.env'
+if env_file.exists():
+    env.read_env(str(env_file))
+AUTH_TOKEN =  env.str('TWILIO_KEY')
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 
 # Quick-start development settings - unsuitable for production
