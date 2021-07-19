@@ -58,6 +58,11 @@ class GetSmsCode(APIView):
         if isinstance(phone, list):
             phone = phone[0]
         code = self.request.data.get('code')
+        if phone == '+380999999999' and not code:
+            raise Api202(
+                    ['This phone is not confirmed, we sent SMS with a confirmation code'],
+                    'user'
+                )
         if phone == '+380999999999' and code == '1111':
             user, created = User.objects.get_or_create(username=str(phone))
             user.set_password(str(code))
