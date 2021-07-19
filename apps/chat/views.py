@@ -6,8 +6,13 @@ from rest_framework.parsers import (FileUploadParser, FormParser, JSONParser,
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Chat, Room
+from .models import Attachment, Chat, Room, UserMessage
 from .serializers import *
+
+
+class CreateAttachment(generics.CreateAPIView):
+    queryset = Attachment.objects.all()
+    serializer_class = AttachmentSerializer
 
 
 class PostRoom(generics.CreateAPIView):
@@ -19,6 +24,15 @@ class GetRoom(generics.RetrieveDestroyAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
 
+    def get_object(self):
+        room = super().get_object()
+        user = self.request.user
+        for message in room.chat_room.filter(user__ne=user):
+            user_message = UserMessage.objects.get(message=message)
+            user_message.readed = True
+            user_message.save()
+        return room
+
 
 class PutRoom(generics.UpdateAPIView):
     queryset = Room.objects.all()
@@ -26,7 +40,7 @@ class PutRoom(generics.UpdateAPIView):
 
 
 class PostChat(generics.CreateAPIView):
-    authentication_classes = authentication.TokenAuthentication,
+    
     queryset = Chat.objects.all()
     parser_classes = (JSONParser, MultiPartParser,
                       FileUploadParser, FormParser)
@@ -47,8 +61,10 @@ class PutChat(generics.UpdateAPIView):
     serializer_class = ChatCreateSerializer
 
 
-class GetChatMessages(APIView):
-
+class GetChatMessages(generics.GenericAPIView):
+    serializer_class = ChatRoomSerializer
+    queryset = Chat.objects.all()
+    
     def post(self, request, room_id):
         room = get_object_or_404(Room, pk=room_id)
         if request.data.get('message_id'):
@@ -114,12 +130,13 @@ class GetUserRooms(generics.GenericAPIView):
         id_chat = int(index)
         rooms = Room.objects.filter(
             (Q(creator_id=user) |
-            Q(accepter_id=user)) &
+             Q(accepter_id=user)) &
             Q(pk__gt=id_chat)
         )
         if rooms.exists():
             rooms = rooms[:30]
-            room_values = [RoomShortSerializer(instance=room, context={'request': self.request}).data for room in rooms]
+            room_values = [RoomShortSerializer(
+                instance=room, context={'request': self.request}).data for room in rooms]
             for ind, room in enumerate(rooms):
                 message = Chat.objects.filter(
                     Q(room=room)
@@ -136,7 +153,8 @@ class GetUserRooms(generics.GenericAPIView):
                 room_values[ind]['was_blocked'] = was_blocked
                 if message:
                     message = message[0]
-                    message = ChatSerializer(instance=message, context={'request': self.request}).data
+                    message = ChatSerializer(instance=message, context={
+                                             'request': self.request}).data
                     room_values[ind]['message'] = message
                     room_values[ind]['message']['date'] = int(
                         message['date'])

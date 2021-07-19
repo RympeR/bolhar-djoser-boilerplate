@@ -63,3 +63,6 @@ class ChatCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chat
         exclude = ('date', )
+
+class ChatRoomSerializer(serializers.Serializer):
+    message_id = serializers.IntegerField(required=False)
