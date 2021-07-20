@@ -19,8 +19,12 @@ class PostRoom(generics.CreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomCreateSerializer
 
+class DeleteRoom(generics.DestroyAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
 
-class GetRoom(generics.RetrieveDestroyAPIView):
+
+class GetRoom(generics.RetrieveAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
 
