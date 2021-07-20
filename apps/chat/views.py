@@ -27,7 +27,7 @@ class GetRoom(generics.RetrieveDestroyAPIView):
     def get_object(self):
         room = super().get_object()
         user = self.request.user
-        for message in room.chat_room.filter(user__ne=user):
+        for message in room.chat_room.exclude(user=user):
             user_message = UserMessage.objects.get(message=message)
             user_message.readed = True
             user_message.save()
