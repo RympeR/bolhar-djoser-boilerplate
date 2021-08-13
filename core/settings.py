@@ -1,15 +1,14 @@
 from pathlib import Path
 import os
-from datetime import timedelta
 import environ
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 env = environ.Env()
 env_file = BASE_DIR / '.env'
 if env_file.exists():
     env.read_env(str(env_file))
-AUTH_TOKEN =  env.str('SMSCLUB_KEY')
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-
+AUTH_TOKEN = env.str('SMSCLUB_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -20,9 +19,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '*'
-]
+ALLOWED_HOSTS = ['*']
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
 
@@ -34,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'admin_actions',
     'rest_framework',
     'django_filters',
@@ -43,11 +40,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'silk',
     'mptt',
-    
+
     'apps.users',
     'apps.shop',
     'apps.chat',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -61,6 +58,29 @@ MIDDLEWARE = [
     'silk.middleware.SilkyMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'turan-debug.log'),
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'DEBUG',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+            'propagate': False,
+        },
+    },
+}
 
 ROOT_URLCONF = 'core.urls'
 
@@ -93,6 +113,13 @@ CHANNEL_LAYERS = {
             "hosts": [('127.0.0.1', 6379)],
         },
     },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
+    }
 }
 
 DATABASES = {
