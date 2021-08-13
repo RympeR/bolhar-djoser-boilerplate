@@ -15,7 +15,7 @@ AUTH_TOKEN =  env.str('SMSCLUB_KEY')
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ahk4oo_2yzc0gj5h^5p20g$rj%(=72702ixv)o^w+x-8a_4%!@'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -25,9 +25,6 @@ ALLOWED_HOSTS = [
 ]
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'channels',
@@ -97,15 +94,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 DATABASES = {
     'default': {
@@ -120,10 +108,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-
-]
-
+AUTH_PASSWORD_VALIDATORS = []
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -137,9 +122,6 @@ USE_L10N = False
 LANGUAGE_CODE = 'ru-RU'
 
 USE_TZ = False
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
