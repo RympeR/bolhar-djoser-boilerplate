@@ -12,7 +12,7 @@ def set_value(pdUser: PendingUser, value: bool, request):
     pdUser.user.verified = value
     pdUser.save()
     pdUser.user.save()
-    return HttpResponseRedirect(reverse_lazy('admin:users_pendinguser_changelist'),request)
+    return HttpResponseRedirect(reverse_lazy('admin:users_pendinguser_changelist'), request)
 
 
 @admin.register(User)
@@ -31,6 +31,20 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = 'customer', 'verified',
     filter_horizontal = 'blocked_users', 'contacts',
     search_fields = 'username', 'fio'
+    fieldsets = (
+        ('Личная информация', {
+            'fields':  ('username', 'image', 'fio',)
+        }
+        ),
+        ('Чат', {
+            'fields':  ('contacts', 'blocked_users')
+        }
+        ),
+        ('Магазин', {
+                'fields': ('customer', 'verified', 'top_seller')
+            }
+         )
+    )
 
 
 @admin.register(PendingUser)
@@ -47,22 +61,22 @@ class PendingUserAdmin(ActionsModelAdmin):
         if pdUser.user.verified:
             messages.error(
                 request, 'User is already verified')
-            return HttpResponseRedirect(reverse_lazy('admin:users_pendinguser_changelist'),request)
+            return HttpResponseRedirect(reverse_lazy('admin:users_pendinguser_changelist'), request)
         else:
             messages.success(
                 request, 'User verified')
-            return set_value(pdUser, True,request)
+            return set_value(pdUser, True, request)
 
     def reject_user(self, request, pk):
         pdUser = PendingUser.objects.get(pk=pk)
         if not pdUser.user.verified:
             messages.error(
                 request, 'User is not verified')
-            return HttpResponseRedirect(reverse_lazy('admin:users_pendinguser_changelist'),request)
+            return HttpResponseRedirect(reverse_lazy('admin:users_pendinguser_changelist'), request)
         else:
             messages.success(
                 request, 'User rejected')
-            return set_value(pdUser, False,request)
+            return set_value(pdUser, False, request)
 
     confirm_user.short_description = 'Confirm'
     reject_user.short_description = 'Reject'

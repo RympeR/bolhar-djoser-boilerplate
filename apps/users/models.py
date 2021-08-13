@@ -3,6 +3,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.aggregates import Avg
 from django.utils.safestring import mark_safe
 from imagekit.models import ProcessedImageField
 from pilkit.processors import ResizeToFill
@@ -23,6 +24,7 @@ class User(AbstractUser):
         verbose_name='ImagePNG',
         processors=[ResizeToFill(600, 600)],
         options={'quality': 100},
+        upload_to=user_avatar,
         null=True,
         blank=True
     )
@@ -47,6 +49,11 @@ class User(AbstractUser):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [
     ]
+
+    def get_average_rate(self):
+        return (
+            self.shop_owner.average_rate if self.shop_owner else 0
+        )
 
     def user_photo(self):
         if self.image and hasattr(self.image, 'url'):

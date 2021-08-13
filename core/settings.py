@@ -1,33 +1,27 @@
 from pathlib import Path
 import os
-from datetime import timedelta
 import environ
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 env = environ.Env()
 env_file = BASE_DIR / '.env'
 if env_file.exists():
     env.read_env(str(env_file))
-AUTH_TOKEN =  env.str('SMSCLUB_KEY')
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-
+AUTH_TOKEN = env.str('SMSCLUB_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ahk4oo_2yzc0gj5h^5p20g$rj%(=72702ixv)o^w+x-8a_4%!@'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '*'
-]
+ALLOWED_HOSTS = ['*']
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'channels',
@@ -37,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'admin_actions',
     'rest_framework',
     'django_filters',
@@ -46,11 +40,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'silk',
     'mptt',
-    
+
     'apps.users',
     'apps.shop',
     'apps.chat',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -64,6 +58,29 @@ MIDDLEWARE = [
     'silk.middleware.SilkyMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'turan-debug.log'),
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'DEBUG',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+            'propagate': False,
+        },
+    },
+}
 
 ROOT_URLCONF = 'core.urls'
 
@@ -97,15 +114,13 @@ CHANNEL_LAYERS = {
         },
     },
 }
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
+    }
+}
 
 DATABASES = {
     'default': {
@@ -120,10 +135,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-
-]
-
+AUTH_PASSWORD_VALIDATORS = []
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -137,9 +149,6 @@ USE_L10N = False
 LANGUAGE_CODE = 'ru-RU'
 
 USE_TZ = False
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'

@@ -37,7 +37,7 @@ class Schedule(models.Model):
 
 class Shop(models.Model):
     owner = models.OneToOneField(User, related_name='shop_owner',
-                              verbose_name='Владелец', on_delete=models.CASCADE)
+                                 verbose_name='Владелец', on_delete=models.CASCADE)
     name = models.CharField(max_length=255, verbose_name='Название')
     logo = ProcessedImageField(
         verbose_name='Логотип',
@@ -57,7 +57,8 @@ class Shop(models.Model):
 
     def average_rate(self):
         return (
-            self.shop_rate.all().aggregate(Avg('rate')) if self.shop_rate.all() else 0
+            self.shop_rate.all().aggregate(Avg('rate')).get(
+                'rate__avg', 0) if self.shop_rate.all() else 0
         )
     admin_preview.short_description = 'Превью'
     admin_preview.allow_tags = True
@@ -79,7 +80,7 @@ class Category(MPTTModel):
         verbose_name='Картинка категории', blank=True, null=True)
 
     def admin_preview(self):
-        if self.category_image and hasattr(self.category_image, 'url')  :
+        if self.category_image and hasattr(self.category_image, 'url'):
             return mark_safe('<img src="{}" width="100" /'.format(self.category_image.url))
         return None
 
@@ -91,7 +92,7 @@ class Category(MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ['name']
-        level_attr = 'Подкатегория категории'
+        level_attr = 'subcategory'
 
     class Meta:
         verbose_name = 'Категория товара'
@@ -304,6 +305,7 @@ class Order(models.Model):
     refund_requested = models.BooleanField('Возврат запрошен', default=False)
     refund_granted = models.BooleanField('Возврат выполнен', default=False)
     created_at = UnixTimeStampField('Время заказа', auto_now_add=True)
+
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'

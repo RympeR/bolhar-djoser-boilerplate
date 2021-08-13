@@ -192,6 +192,7 @@ class CardGetShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
         fields = (
+            'pk',
             'title',
             'price',
             'discount_price',
@@ -208,6 +209,7 @@ class ShortShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
         exclude = 'schedule', 'description'
+
 
 class CardGetSerializer(serializers.ModelSerializer):
     seller = ShortShopSerializer()
@@ -243,6 +245,7 @@ class CardGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
         fields = (
+            'pk',
             'title',
             'description',
             'seller',
@@ -263,6 +266,13 @@ class CardGetSerializer(serializers.ModelSerializer):
 
 
 class SellersSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=False)
+    average_rate = serializers.SerializerMethodField()
+
+    def get_average_rate(self, user: User):
+        return (
+            user.shop_owner.average_rate() if user.customer else 0
+        )
 
     class Meta:
         model = User
@@ -271,7 +281,10 @@ class SellersSerializer(serializers.ModelSerializer):
             'username',
             'image',
             'fio',
-            'verified'
+            'customer',
+            'verified',
+            'top_seller',
+            'average_rate',
         )
 
 
@@ -292,14 +305,13 @@ class ShopGetSerializer(serializers.ModelSerializer):
     comments_amount = serializers.SerializerMethodField()
 
     def get_last_sold_products(self, shop):
-        def get_pk(value):
-            return value.pk
         orders = Order.objects.filter(approved=True).order_by('-pk')
         res_orders = []
         for order in orders:
             for order_item in order.items.filter(item__seller=shop).order_by('-pk').distinct():
                 if len(res_orders) < 3:
-                    res_orders.append(CardGetShortSerializer(instance=order_item.item).data)
+                    res_orders.append(CardGetShortSerializer(
+                        instance=order_item.item).data)
                 else:
                     break
             if len(res_orders) >= 3:
@@ -318,7 +330,7 @@ class ShopGetSerializer(serializers.ModelSerializer):
 
     def get_comments(self, shop):
         return [ShopCommentGetSerializer(instance=comm).data for comm in shop.shop_comment.all().order_by('-datetime')]
-    
+
     def get_comments_amount(self, shop):
         return shop.shop_comment.all().annotate(num_comments=Count('comment'))[0].num_comments if shop.shop_comment.all() else 0
 
@@ -342,6 +354,7 @@ class ShopCreateSerializer(serializers.ModelSerializer):
         attrs['owner'] = user
         return attrs
 
+
 class ShopUpdateSerializer(serializers.ModelSerializer):
 
     schedule = serializers.PrimaryKeyRelatedField(
@@ -349,6 +362,7 @@ class ShopUpdateSerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=False)
     description = serializers.CharField(required=False)
     logger = serializers.ImageField(required=False)
+
     class Meta:
         model = Shop
         fields = '__all__'
