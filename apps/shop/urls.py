@@ -26,6 +26,7 @@ from .views import (
     OrderGetAPI,
     OrderUpdateAPI,
     ShopDeleteAPI,
+    CardLatestAPI,
 )
 
 urlpatterns = [
@@ -35,6 +36,7 @@ urlpatterns = [
     path('payment-list/', PaymentChoiceListAPI.as_view(), name=''),
     path('card-get/<int:pk>', CardGetAPI.as_view(), name=''),
     path('cards-filtered/', CardFilteredAPI.as_view(), name=''),
+    path('cards-main-page/', CardLatestAPI.as_view(), name=''),
     path('card-create/', CardCreateAPI.as_view(), name=''),
     path('rate-create/', RateCreateAPI.as_view(), name=''),
     path('comment-create/', CommentCreateAPI.as_view(), name=''),

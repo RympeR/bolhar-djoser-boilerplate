@@ -91,7 +91,7 @@ class Category(MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ['name']
-        level_attr = 'Подкатегория категории'
+        level_attr = 'subcategory'
 
     class Meta:
         verbose_name = 'Категория товара'

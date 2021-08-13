@@ -1,9 +1,4 @@
-from rest_framework import generics, permissions
-from rest_framework.response import Response
-from rest_framework.mixins import UpdateModelMixin
-from rest_framework.generics import GenericAPIView
-from django_filters import rest_framework as filters
-from django.db.models import Q
+from apps.utils.customClasses import SellersPagination, CardFilter
 from apps.users.models import User
 from .models import (
     Category,
@@ -22,6 +17,7 @@ from .models import (
     Schedule,
 )
 from .serializers import (
+    CardGetShortSerializer,
     CategoryGetSerializer,
     CardGetSerializer,
     RateCreateSerializer,
@@ -29,7 +25,6 @@ from .serializers import (
     DeliverChoiceGetSerializer,
     PaymentChoiceGetSerializer,
     CardCreateSerializer,
-    CategoryShortSerializer,
     SellersSerializer,
     ShopRateCreateSerializer,
     ShopCommentCreateSerializer,
@@ -46,69 +41,23 @@ from .serializers import (
     OrderGetSerializer,
     OrderUpdateSerializer,
 )
-
-
-def filter_related_objects(queryset, name, value, model, serializer, related_category):
-    lookup = '__'.join([name, 'in'])
-    if value:
-        subjects = model.objects.filter(pk__in=[obj.pk for obj in value])
-        look_related = '__'.join([related_category, 'gte'])
-        result = []
-        for subj in subjects:
-            hole_tree = model.objects.filter(
-                Q(tree_id=subj.tree_id) &
-                Q(**{look_related: getattr(subj, related_category)}) &
-                Q(display=True)
-            )
-            values = [serializer(
-                instance=subject).data['id'] for subject in hole_tree]
-            result.append(values)
-        values = result
-    else:
-        subjects = model.objects.filter(display=True)
-        values = [serializer(
-            instance=subject).data['id'] for subject in subjects]
-    res = []
-    for value in values:
-        if isinstance(value, list):
-            res.extend(value)
-        else:
-            res.append(value)
-
-    return queryset.filter(**{lookup: res}).distinct()
-
-
-class CardFilter(filters.FilterSet):
-    title = filters.CharFilter(lookup_expr='icontains')
-    price = filters.NumberFilter(lookup_expr='lte')
-    category = filters.ModelMultipleChoiceFilter(
-        lookup_expr='in',
-        queryset=Category.objects.all(),
-        field_name='category',
-        method='filter_category'
-    )
-
-    def filter_category(self, queryset, name, value):
-        return filter_related_objects(queryset, name, value, Category, CategoryShortSerializer, 'Подкатегория категории')
-
-    class Meta:
-        model = Card
-        fields = (
-            'title',
-            'seller',
-            'price',
-            'category',
-            'payment_methods',
-            'deliver_methods',
-            'product_brand',
-            'product_country',
-        )
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from rest_framework.mixins import UpdateModelMixin
+from rest_framework.generics import GenericAPIView
 
 
 class CardFilteredAPI(generics.ListAPIView):
+    permissions = permissions.AllowAny,
     queryset = Card.objects.all()
     filterset_class = CardFilter
-    serializer_class = CardGetSerializer
+    serializer_class = CardGetShortSerializer
+
+
+class CardLatestAPI(generics.ListAPIView):
+    permissions = permissions.AllowAny,
+    queryset = Card.objects.all().order_by('-pk')[:10]
+    serializer_class = CardGetShortSerializer
 
 
 class CategoryListAPI(generics.ListAPIView):
@@ -162,6 +111,7 @@ class CommentCreateAPI(generics.CreateAPIView):
 class SellersList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = SellersSerializer
+    paginate_class = SellersPagination
 
     def list(self, request):
         sellers = []
@@ -174,7 +124,7 @@ class SellersList(generics.ListAPIView):
             customer=True
         )
         sellers.append(all_sellers)
-        return Response([self.get_serializer(instance=seller) for seller in all_sellers])
+        return Response([self.get_serializer(instance=seller) for seller in sellers])
 
 
 class ShopCommentCreateAPI(generics.CreateAPIView):
@@ -200,16 +150,16 @@ class ShopCreateAPI(generics.CreateAPIView):
     def get_serializer_context(self):
         return {'request': self.request}
 
+
 class ShopDeleteAPI(generics.DestroyAPIView):
     queryset = Shop.objects.all()
     serializer_class = ShopCreateSerializer
 
 
-
 class ShopGetAPI(generics.RetrieveAPIView):
     queryset = Shop.objects.all()
     serializer_class = ShopGetSerializer
-      
+
     def get_serializer_context(self):
         return {'request': self.request}
 
@@ -221,7 +171,7 @@ class ShopPartialUpdateAPI(GenericAPIView, UpdateModelMixin):
     def get_object(self):
         user = self.request.user
         return user.shop_owner
-    
+
     def get_serializer_context(self):
         return {'request': self.request}
 
@@ -268,6 +218,7 @@ class OrderItemGetAPI(generics.RetrieveAPIView):
     def get_serializer_context(self):
         return {'request': self.request}
 
+
 class OrderItemDeleteAPI(generics.DestroyAPIView):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemGetShortSerializer
@@ -295,11 +246,11 @@ class OrderCreateAPI(generics.CreateAPIView):
 class OrderGetAPI(generics.RetrieveAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderGetSerializer
-    
+
     def get_object(self):
         user = self.request.user
         return user.order_user.filter(approved=False).first()
-    
+
     def get_serializer_context(self):
         return {'request': self.request}
 
