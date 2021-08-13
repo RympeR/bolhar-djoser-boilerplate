@@ -1,5 +1,6 @@
 
 from apps.shop.models import Card, Category
+from apps.users.models import User
 from apps.shop.serializers import CategoryShortSerializer
 from django.db.models import Q, Model, QuerySet
 from django_filters import rest_framework as filters
@@ -67,4 +68,14 @@ class CardFilter(filters.FilterSet):
             'deliver_methods',
             'product_brand',
             'product_country',
+        )
+
+
+class SellersFilter(filters.FilterSet):
+    username = filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = User
+        fields = (
+            'username',
         )

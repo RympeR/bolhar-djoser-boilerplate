@@ -1,4 +1,8 @@
-from apps.utils.customClasses import SellersPagination, CardFilter
+from apps.utils.customClasses import (
+    SellersPagination,
+    CardFilter,
+    SellersFilter,
+)
 from apps.users.models import User
 from .models import (
     Category,
@@ -41,6 +45,7 @@ from .serializers import (
     OrderGetSerializer,
     OrderUpdateSerializer,
 )
+import logging
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin
@@ -112,19 +117,13 @@ class SellersList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = SellersSerializer
     paginate_class = SellersPagination
+    filterset_class = SellersFilter
 
-    def list(self, request):
-        sellers = []
-        sold_user = User.objects.filter(
-            top_seller=True,
-        ).order_by('-shop_owner__average_rate')
-        sellers.append(sold_user)
+    def get_queryset(self):
         all_sellers = User.objects.filter(
-            top_seller=False,
             customer=True
-        )
-        sellers.append(all_sellers)
-        return Response([self.get_serializer(instance=seller) for seller in sellers])
+        ).order_by('top_seller', '-user_rate_shop')
+        return all_sellers.distinct()
 
 
 class ShopCommentCreateAPI(generics.CreateAPIView):

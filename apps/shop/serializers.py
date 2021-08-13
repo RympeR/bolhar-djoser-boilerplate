@@ -266,6 +266,13 @@ class CardGetSerializer(serializers.ModelSerializer):
 
 
 class SellersSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=False)
+    average_rate = serializers.SerializerMethodField()
+
+    def get_average_rate(self, user: User):
+        return (
+            user.shop_owner.average_rate() if user.customer else 0
+        )
 
     class Meta:
         model = User
@@ -274,8 +281,10 @@ class SellersSerializer(serializers.ModelSerializer):
             'username',
             'image',
             'fio',
+            'customer',
             'verified',
             'top_seller',
+            'average_rate',
         )
 
 
