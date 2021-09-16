@@ -30,6 +30,7 @@ from .models import (
 )
 from random import sample
 
+
 class CategoryGetSerializer(serializers.ModelSerializer):
     parent = serializers.PrimaryKeyRelatedField(
         required=False, queryset=Category.objects.all(),)
@@ -426,7 +427,11 @@ class ShopGetSerializer(serializers.ModelSerializer):
 
     def get_top_products(self, shop):
         products = shop.card_creator.all()
-        return sample(products, 5 if len(products) > 5 else len(products))
+        return CardGetShortSerializer(
+            intance=sample(products, 5 if len(products) > 5 else len(products)), 
+            many=True, 
+            context={'request': self.context.get('request')}
+        ).data
 
     class Meta:
         model = Shop
