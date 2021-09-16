@@ -28,7 +28,7 @@ from .models import (
     CardCharacteristic,
     MainSlider,
 )
-
+from random import sample
 
 class CategoryGetSerializer(serializers.ModelSerializer):
     parent = serializers.PrimaryKeyRelatedField(
@@ -336,12 +336,12 @@ class SellersSerializer(serializers.ModelSerializer):
         return (
             user.shop_owner.average_rate() if user.customer else 0
         )
-    
+
     def get_products_amount(self, user: User):
         return (
             len(user.shop_owner.card_creator.all()) if user.customer else 0
         )
-    
+
     class Meta:
         model = User
         fields = (
@@ -371,6 +371,7 @@ class ShopGetSerializer(serializers.ModelSerializer):
     rate = serializers.SerializerMethodField()
     average_rate = serializers.SerializerMethodField()
     last_sold_products = serializers.SerializerMethodField()
+    top_products = serializers.SerializerMethodField()
     last_orders = serializers.SerializerMethodField()
     comments_amount = serializers.SerializerMethodField()
     products_amount = serializers.SerializerMethodField()
@@ -419,9 +420,13 @@ class ShopGetSerializer(serializers.ModelSerializer):
 
     def get_comments_amount(self, shop):
         return shop.shop_comment.all().annotate(num_comments=Count('comment'))[0].num_comments if shop.shop_comment.all() else 0
-    
+
     def get_products_amount(self, shop):
         return len(shop.card_creator.all())
+
+    def get_top_products(self, shop):
+        products = shop.card_creator.all()
+        return sample(products, 5 if len(products) > 5 else len(products))
 
     class Meta:
         model = Shop
