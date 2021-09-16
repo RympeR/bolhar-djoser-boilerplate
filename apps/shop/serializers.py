@@ -332,6 +332,12 @@ class SellersSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=False)
     average_rate = serializers.SerializerMethodField()
     products_amount = serializers.SerializerMethodField()
+    shop_logo = serializers.SerializerMethodField()
+
+    def get_shop_logo(self, user: User):
+        return (
+            user.shop_owner.logo
+        )
 
     def get_average_rate(self, user: User):
         return (
@@ -355,6 +361,7 @@ class SellersSerializer(serializers.ModelSerializer):
             'top_seller',
             'average_rate',
             'products_amount',
+            'shop_logo',
         )
 
 
