@@ -427,7 +427,7 @@ class ShopGetSerializer(serializers.ModelSerializer):
 
     def get_top_products(self, shop):
         products = CardGetShortSerializer(
-            intance=shop.card_creator.all(),
+            instance=shop.card_creator.all(),
             many=True, 
             context={'request': self.context.get('request')}
         ).data
