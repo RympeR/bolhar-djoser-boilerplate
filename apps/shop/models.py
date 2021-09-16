@@ -15,12 +15,42 @@ from apps.users.models import User
 from apps.utils.func import attachments, preview_cards
 
 
+class MainSlider(models.Model):
+    image = models.ImageField('Изображение')
+    
+    def slider_image(self):
+        if self.image and hasattr(self.image, 'url'):
+            return mark_safe('<img src="{}" width="100" /'.format(self.image.url))
+        return None
+
+    class Meta:
+        verbose_name = 'Слайдер главной'
+        verbose_name_plural = 'Слайдер главной'
+
+    def __str__(self):
+        return f"{self.image.name}"
+
+
 class ProductBrand(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название брэнда')
+
+    class Meta:
+        verbose_name = 'Брэнд продукта'
+        verbose_name_plural = 'Брэнды продукта'
+
+    def __str__(self):
+        return f"{self.title}"
 
 
 class ProductCountry(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название страны')
+
+    class Meta:
+        verbose_name = 'Страна товара'
+        verbose_name_plural = 'Страны товара'
+
+    def __str__(self):
+        return f"{self.title}"
 
 
 class Schedule(models.Model):
@@ -32,7 +62,7 @@ class Schedule(models.Model):
         verbose_name_plural = 'Время работы магазинов'
 
     def __str__(self):
-        return self.day, ' -- ', self.work_time
+        return self.day + ' -- ' + self.work_time
 
 
 class Shop(models.Model):
@@ -60,6 +90,7 @@ class Shop(models.Model):
             self.shop_rate.all().aggregate(Avg('rate')).get(
                 'rate__avg', 0) if self.shop_rate.all() else 0
         )
+
     admin_preview.short_description = 'Превью'
     admin_preview.allow_tags = True
 
@@ -121,6 +152,34 @@ class DelieverChoice(models.Model):
         verbose_name_plural = 'Виды доставок'
 
 
+class Characteristic(models.Model):
+    category = models.ForeignKey(Category, verbose_name='Категория',
+                                 on_delete=models.CASCADE, related_name='category_characteristic')
+    name = models.CharField('Название', max_length=100)
+
+    def __str__(self):
+        return f"{self.name} {self.category}"
+
+    class Meta:
+        verbose_name = 'Характеристика'
+        verbose_name_plural = 'Характеристики'
+
+
+class CardCharacteristic(models.Model):
+    card = models.ForeignKey('Card', on_delete=models.CASCADE,
+                             related_name='card_characteristic', verbose_name='Харакетристика тиовара')
+    characteristic = models.ForeignKey('Characteristic', on_delete=models.CASCADE,
+                                       related_name='characteristic_param', verbose_name='Харакетристика товара')
+    value = models.CharField('Значение', max_length=100)
+
+    def __str__(self):
+        return f"{self.characteristic.name} {self.value}"
+
+    class Meta:
+        verbose_name = 'Характеристика товара'
+        verbose_name_plural = 'Характеристики товаров'
+
+
 class Card(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название')
     description = models.TextField(
@@ -142,12 +201,12 @@ class Card(models.Model):
                                              related_name='card_payment_methods', verbose_name='Способы оплаты')
     deliver_methods = models.ManyToManyField(DelieverChoice,
                                              related_name='card_deliver_methods', verbose_name='Способы оплаты')
-    characteristics = jsonfield.JSONField(verbose_name='Характеристики')
-
     product_brand = models.ForeignKey(ProductBrand, related_name='brand_product',
                                       verbose_name='Брэнд продукта', null=True, on_delete=models.SET_NULL, blank=True)
     product_country = models.ForeignKey(ProductCountry, related_name='country_product',
                                         verbose_name='Страна продукта', null=True, on_delete=models.SET_NULL, blank=True)
+    characteristics = models.ManyToManyField(
+        Characteristic, related_name='card_characteristics', verbose_name='Характеристики товара', blank=True, through=CardCharacteristic)
 
     def admin_preview(self):
         if hasattr(self.preview, 'url') and self.preview:
@@ -233,7 +292,8 @@ class ShopRate(models.Model):
 
 
 class OrderItem(models.Model):
-    item = models.ForeignKey(Card, on_delete=models.CASCADE)
+    item = models.ForeignKey(
+        Card, on_delete=models.CASCADE, related_name='order_item')
     quantity = models.IntegerField('Количество', default=1)
 
     class Meta:
