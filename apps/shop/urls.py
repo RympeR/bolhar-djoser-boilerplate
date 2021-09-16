@@ -27,10 +27,13 @@ from .views import (
     OrderUpdateAPI,
     ShopDeleteAPI,
     CardLatestAPI,
+    UserOrderGetAPI,
+    MainSliderListAPI,
 )
 
 urlpatterns = [
     path('categories-list/', CategoryListAPI.as_view(), name=''),
+    path('main-slider-list/', MainSliderListAPI.as_view(), name=''),
     path('sellers-list/', SellersList.as_view(), name=''),
     path('delivery-list/', DelieveryChoiceListAPI.as_view(), name=''),
     path('payment-list/', PaymentChoiceListAPI.as_view(), name=''),
@@ -57,5 +60,6 @@ urlpatterns = [
     path('order-create/', OrderCreateAPI.as_view(), name=''),
     path('order-get/', OrderGetAPI.as_view(), name=''),
     path('order-partial-update/', OrderUpdateAPI.as_view(), name=''),
+    path('user-orders-get/', UserOrderGetAPI.as_view(), name=''),
 
 ]

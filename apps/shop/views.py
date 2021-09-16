@@ -6,6 +6,7 @@ from apps.utils.customClasses import (
 from apps.users.models import User
 from .models import (
     Category,
+    MainSlider,
     PaymentChoice,
     DelieverChoice,
     Comment,
@@ -19,6 +20,7 @@ from .models import (
     Coupon,
     Order,
     Schedule,
+    MainSlider,
 )
 from .serializers import (
     CardGetShortSerializer,
@@ -44,7 +46,8 @@ from .serializers import (
     OrderCreateSerializer,
     OrderGetSerializer,
     OrderUpdateSerializer,
-)
+    MainSliderSerializer,
+)   
 import logging
 from rest_framework import generics, permissions
 from rest_framework.response import Response
@@ -267,3 +270,24 @@ class OrderUpdateAPI(GenericAPIView, UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+
+class UserOrderGetAPI(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderGetSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+    
+    def get_queryset(self):
+        user = self.request.user
+        orders = user.order_user.all()
+        return orders
+
+
+class MainSliderListAPI(generics.ListAPIView):
+    queryset = MainSlider.objects.all()
+    serializer_class = MainSliderSerializer
+    
+    def get_serializer_context(self):
+        return {'request': self.request}

@@ -18,7 +18,29 @@ from .models import (
     Address,
     Coupon,
     Order,
+    Characteristic,
+    Schedule,
+    CardCharacteristic,
+    MainSlider,
 )
+
+
+@admin.register(MainSlider)
+class ScheduleAdmin(admin.ModelAdmin):
+    list_display = 'pk', 'slider_image'
+    list_display_links = 'pk',
+
+@admin.register(Schedule)
+class ScheduleAdmin(admin.ModelAdmin):
+    list_display = 'day', 'work_time',
+    list_display_links = 'day',
+    search_fields = 'day',
+
+
+@admin.register(CardCharacteristic)
+class CardCharacteristicAdmin(admin.ModelAdmin):
+    list_display = 'pk', 'characteristic', 'value',
+    list_display_links = 'pk',
 
 
 @admin.register(Shop)
@@ -46,6 +68,20 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'user__fio',)
     list_filter = (
         ('datetime', DateFieldListFilter),
+    )
+
+
+@admin.register(Characteristic)
+class CharacteristicAdmin(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'category',
+        'name',
+    )
+    list_display_links = 'name',
+    search_fields = ('name', )
+    list_filter = (
+        'category',
     )
 
 
@@ -90,6 +126,7 @@ class CardAdmin(admin.ModelAdmin):
         'attachments',
         'payment_methods',
         'deliver_methods',
+        'characteristics',
     )
 
 
