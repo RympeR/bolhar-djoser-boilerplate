@@ -432,7 +432,7 @@ class ShopGetSerializer(serializers.ModelSerializer):
             context={'request': self.context.get('request')}
         ).data
         products = sample(products, 5 if len(products) > 5 else len(products)), 
-        return products
+        return products[0]
 
     class Meta:
         model = Shop
