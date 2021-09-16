@@ -29,11 +29,15 @@ from .views import (
     CardLatestAPI,
     UserOrderGetAPI,
     MainSliderListAPI,
+    MainPageAPI,
+    UserFavouritesAPI,
+    ShopOrderGetAPI,
 )
 
 urlpatterns = [
     path('categories-list/', CategoryListAPI.as_view(), name=''),
     path('main-slider-list/', MainSliderListAPI.as_view(), name=''),
+    path('main-page/', MainPageAPI.as_view(), name=''),
     path('sellers-list/', SellersList.as_view(), name=''),
     path('delivery-list/', DelieveryChoiceListAPI.as_view(), name=''),
     path('payment-list/', PaymentChoiceListAPI.as_view(), name=''),
@@ -53,6 +57,7 @@ urlpatterns = [
     path('coupon-create/', CouponCreateAPI.as_view(), name=''),
     path('address-create/', AddressCreateAPI.as_view(), name=''),
     path('schedule-create/', ScheduleCreateAPI.as_view(), name=''),
+    path('user-favourites/', UserFavouritesAPI.as_view(), name=''),
     path('order-item-create/', OrderItemCreateAPI.as_view(), name=''),
     path('order-item-delete/', OrderItemDeleteAPI.as_view(), name=''),
     path('order-item-get/<int:pk>', OrderItemGetAPI.as_view(), name=''),
@@ -61,5 +66,6 @@ urlpatterns = [
     path('order-get/', OrderGetAPI.as_view(), name=''),
     path('order-partial-update/', OrderUpdateAPI.as_view(), name=''),
     path('user-orders-get/', UserOrderGetAPI.as_view(), name=''),
+    path('shop-orders-get/', ShopOrderGetAPI.as_view(), name=''),
 
 ]

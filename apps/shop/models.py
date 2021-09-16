@@ -207,6 +207,8 @@ class Card(models.Model):
                                         verbose_name='Страна продукта', null=True, on_delete=models.SET_NULL, blank=True)
     characteristics = models.ManyToManyField(
         Characteristic, related_name='card_characteristics', verbose_name='Характеристики товара', blank=True, through=CardCharacteristic)
+    favourite = models.ManyToManyField(
+        User, related_name='user_favourite', verbose_name='Избранное у людей', blank=True)
 
     def admin_preview(self):
         if hasattr(self.preview, 'url') and self.preview:
