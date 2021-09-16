@@ -1,3 +1,4 @@
+from rest_framework.views import APIView
 from apps.utils.customClasses import (
     SellersPagination,
     CardFilter,
@@ -26,6 +27,7 @@ from .serializers import (
     CardGetShortSerializer,
     CategoryGetSerializer,
     CardGetSerializer,
+    CategoryShortSerializer,
     RateCreateSerializer,
     CommentCreateSerializer,
     DeliverChoiceGetSerializer,
@@ -47,12 +49,13 @@ from .serializers import (
     OrderGetSerializer,
     OrderUpdateSerializer,
     MainSliderSerializer,
-)   
+)
 import logging
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.generics import GenericAPIView
+from random import sample
 
 
 class CardFilteredAPI(generics.ListAPIView):
@@ -272,22 +275,91 @@ class OrderUpdateAPI(GenericAPIView, UpdateModelMixin):
         return self.partial_update(request, *args, **kwargs)
 
 
+class ShopOrderGetAPI(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderGetSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_queryset(self):
+        user = self.request.user
+        shop = user.shop_owner
+        shop_cards = shop.card_creator.all()
+        orders = []
+        for card in shop_cards:
+            for order_item_card in card.order_item.all():
+                for order in order_item_card.order_items.all().order_by('-created_at'):
+                    orders.append(order)
+        orders = set(orders)
+        orders = sorted(orders, key=lambda x: x.created_at, reverse=True)
+        return orders
+
 class UserOrderGetAPI(generics.ListAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderGetSerializer
 
     def get_serializer_context(self):
         return {'request': self.request}
-    
+
     def get_queryset(self):
         user = self.request.user
         orders = user.order_user.all()
         return orders
 
+class UserFavouritesAPI(generics.ListAPIView):
+    queryset = Card.objects.all()
+    serializer_class = CardGetShortSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_queryset(self):
+        user = self.request.user
+        favourites = user.user_favourite.all()
+        return favourites
+
 
 class MainSliderListAPI(generics.ListAPIView):
     queryset = MainSlider.objects.all()
     serializer_class = MainSliderSerializer
-    
+
     def get_serializer_context(self):
         return {'request': self.request}
+
+
+class MainPageAPI(APIView):
+
+    def get(self, request):
+        result = {}
+        sliders = MainSlider.objects.all()
+        slider = MainSliderSerializer(
+            instance=sliders,
+            many=True,
+            context={'request': request}
+        ).data
+        slider = sample(slider, 5 if len(slider) > 5 else len(slider))
+        result['slider'] = slider
+        categories = Category.objects.all()
+        categories = CategoryShortSerializer(
+            instance=categories,
+            many=True,
+            context={'request': request}
+        ).data
+        categories = sample(categories, 5 if len(
+            categories) > 5 else len(categories))
+        result['categories'] = categories
+        sellers = User.objects.filter(top_seller=True)[:3]
+        sellers = SellersSerializer(
+            instance=sellers,
+            many=True,
+            context={'request': request}
+        ).data
+        result['sellers'] = sellers
+        products = Card.objects.all().order_by('-pk')[:100]
+        products = CardGetShortSerializer(
+            instance=products, context={'request': request}, many=True
+        ).data
+        slider = sample(products, 10 if len(products) > 10 else len(products))
+        result['products'] = products
+        return Response(result)
