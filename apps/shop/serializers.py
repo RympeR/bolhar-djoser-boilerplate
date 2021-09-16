@@ -426,12 +426,13 @@ class ShopGetSerializer(serializers.ModelSerializer):
         return len(shop.card_creator.all())
 
     def get_top_products(self, shop):
-        products = shop.card_creator.all()
-        return CardGetShortSerializer(
-            intance=sample(products, 5 if len(products) > 5 else len(products)), 
+        products = CardGetShortSerializer(
+            intance=shop.card_creator.all(),
             many=True, 
             context={'request': self.context.get('request')}
         ).data
+        products = sample(products, 5 if len(products) > 5 else len(products)), 
+        return products
 
     class Meta:
         model = Shop
