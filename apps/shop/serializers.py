@@ -336,7 +336,7 @@ class SellersSerializer(serializers.ModelSerializer):
     shop_title = serializers.SerializerMethodField()
 
     def get_shop_title(self, user: User):
-        return user.shop_owner.title
+        return user.shop_owner.name
 
     def get_shop_logo(self, user: User):
         request = self.context.get('request')
