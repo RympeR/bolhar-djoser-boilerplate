@@ -32,6 +32,7 @@ from .views import (
     MainPageAPI,
     UserFavouritesAPI,
     ShopOrderGetAPI,
+    SingleOrderGetAPI,
 )
 
 urlpatterns = [
@@ -64,6 +65,7 @@ urlpatterns = [
     path('order-item-partial-update/<int:pk>', OrderItemUpdateAPI.as_view(), name=''),
     path('order-create/', OrderCreateAPI.as_view(), name=''),
     path('order-get/', OrderGetAPI.as_view(), name=''),
+    path('single-order-get/<int:pk>', SingleOrderGetAPI.as_view(), name=''),
     path('order-partial-update/', OrderUpdateAPI.as_view(), name=''),
     path('user-orders-get/', UserOrderGetAPI.as_view(), name=''),
     path('shop-orders-get/', ShopOrderGetAPI.as_view(), name=''),

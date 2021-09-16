@@ -259,6 +259,13 @@ class OrderGetAPI(generics.RetrieveAPIView):
     def get_serializer_context(self):
         return {'request': self.request}
 
+class SingleOrderGetAPI(generics.RetrieveAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderGetSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
 
 class OrderUpdateAPI(GenericAPIView, UpdateModelMixin):
     queryset = Order.objects.all()
