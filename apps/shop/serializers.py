@@ -333,6 +333,10 @@ class SellersSerializer(serializers.ModelSerializer):
     average_rate = serializers.SerializerMethodField()
     products_amount = serializers.SerializerMethodField()
     shop_logo = serializers.SerializerMethodField()
+    shop_title = serializers.SerializerMethodField()
+
+    def get_shop_title(self, user: User):
+        return user.shop_owner.title
 
     def get_shop_logo(self, user: User):
         request = self.context.get('request')
@@ -365,6 +369,7 @@ class SellersSerializer(serializers.ModelSerializer):
             'average_rate',
             'products_amount',
             'shop_logo',
+            'shop_title',
         )
 
 
