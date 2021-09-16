@@ -335,9 +335,12 @@ class SellersSerializer(serializers.ModelSerializer):
     shop_logo = serializers.SerializerMethodField()
 
     def get_shop_logo(self, user: User):
-        return (
-            user.shop_owner.logo
-        )
+        request = self.context.get('request')
+        if user.shop_owner.logo and getattr(user.shop_owner.logo, 'url'):
+            file_url = user.shop_owner.logo.url
+            return request.build_absolute_uri(file_url)
+        return None
+        
 
     def get_average_rate(self, user: User):
         return (
