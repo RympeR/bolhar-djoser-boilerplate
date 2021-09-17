@@ -22,6 +22,8 @@ from .models import (
     Order,
     Schedule,
     MainSlider,
+    ProductBrand,
+    ProductCountry,
 )
 from .serializers import (
     CardGetShortSerializer,
@@ -49,6 +51,8 @@ from .serializers import (
     OrderGetSerializer,
     OrderUpdateSerializer,
     MainSliderSerializer,
+    ProductBrandGetSerializer,
+    ProductCountryGetSerializer,
 )
 import logging
 from rest_framework import generics, permissions
@@ -75,6 +79,16 @@ class CategoryListAPI(generics.ListAPIView):
     permissions = permissions.AllowAny,
     queryset = Category.objects.all()
     serializer_class = CategoryGetSerializer
+
+class BrandsListAPI(generics.ListAPIView):
+    permissions = permissions.AllowAny,
+    queryset = ProductBrand.objects.all()
+    serializer_class = ProductBrandGetSerializer
+
+class CountryListAPI(generics.ListAPIView):
+    permissions = permissions.AllowAny,
+    queryset = ProductCountry.objects.all()
+    serializer_class = ProductCountryGetSerializer
 
 
 class DelieveryChoiceListAPI(generics.ListAPIView):

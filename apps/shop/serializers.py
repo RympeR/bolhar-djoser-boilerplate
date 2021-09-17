@@ -27,6 +27,8 @@ from .models import (
     Characteristic,
     CardCharacteristic,
     MainSlider,
+    ProductBrand,
+    ProductCountry,
 )
 from random import sample
 
@@ -37,6 +39,19 @@ class CategoryGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
+        fields = '__all__'
+
+class ProductBrandGetSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProductBrand
+        fields = '__all__'
+
+
+class ProductCountryGetSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProductCountry
         fields = '__all__'
 
 
