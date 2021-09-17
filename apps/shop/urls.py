@@ -33,10 +33,14 @@ from .views import (
     UserFavouritesAPI,
     ShopOrderGetAPI,
     SingleOrderGetAPI,
+    BrandsListAPI,
+    CountryListAPI,
 )
 
 urlpatterns = [
     path('categories-list/', CategoryListAPI.as_view(), name=''),
+    path('brand-list/', BrandsListAPI.as_view(), name=''),
+    path('country-list/', CountryListAPI.as_view(), name=''),
     path('main-slider-list/', MainSliderListAPI.as_view(), name=''),
     path('main-page/', MainPageAPI.as_view(), name=''),
     path('sellers-list/', SellersList.as_view(), name=''),
