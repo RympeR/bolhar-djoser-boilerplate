@@ -35,7 +35,7 @@ def filter_related_objects(queryset: QuerySet, name: str, value, model: Model, s
         else:
             res.append(value)
 
-    return queryset.filter(**{lookup: res}).distinct()
+    return queryset.filter(**{lookup: res}).distinct().order_by('id')
 
 
 class SellersPagination(PageNumberPagination):
@@ -45,6 +45,7 @@ class SellersPagination(PageNumberPagination):
 
 
 class CardFilter(filters.FilterSet):
+    id = filters.NumberFilter(lookup_expr='gte')
     title = filters.CharFilter(lookup_expr='icontains')
     price = filters.NumberFilter(lookup_expr='lte')
     category = filters.ModelMultipleChoiceFilter(
@@ -55,11 +56,12 @@ class CardFilter(filters.FilterSet):
     )
 
     def filter_category(self, queryset: QuerySet, name: str, value):
-        return filter_related_objects(queryset, name, value, Category, CategoryShortSerializer, 'Подкатегория категории')
+        return filter_related_objects(queryset, name, value, Category, CategoryShortSerializer, 'subcategory')
 
     class Meta:
         model = Card
         fields = (
+            'id',
             'title',
             'seller',
             'price',

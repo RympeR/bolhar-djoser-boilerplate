@@ -44,7 +44,7 @@ class CategoryShortSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = 'pk', 'name', 'category_image'
+        fields = 'id', 'name', 'category_image'
 
     def get_category_image(self, category):
         request = self.context.get('request')
@@ -348,7 +348,6 @@ class SellersSerializer(serializers.ModelSerializer):
             file_url = user.shop_owner.logo.url
             return request.build_absolute_uri(file_url)
         return None
-        
 
     def get_average_rate(self, user: User):
         return (
@@ -397,6 +396,10 @@ class ShopGetSerializer(serializers.ModelSerializer):
     comments_amount = serializers.SerializerMethodField()
     products_amount = serializers.SerializerMethodField()
     categories = serializers.SerializerMethodField()
+    rates = serializers.SerializerMethodField()
+
+    def get_rates(self, shop: Shop):
+        ...
 
     def get_categories(self, shop):
         shop_cards = shop.card_creator.all()
@@ -448,10 +451,10 @@ class ShopGetSerializer(serializers.ModelSerializer):
     def get_top_products(self, shop):
         products = CardGetShortSerializer(
             instance=shop.card_creator.all(),
-            many=True, 
+            many=True,
             context={'request': self.context.get('request')}
         ).data
-        products = sample(products, 5 if len(products) > 5 else len(products)), 
+        products = sample(products, 5 if len(products) > 5 else len(products)),
         return products[0]
 
     class Meta:
