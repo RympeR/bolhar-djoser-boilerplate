@@ -388,6 +388,7 @@ class MainPageAPI(APIView):
         user = request.user
         if user.shop_owner:
             result['has_shop'] = True
+            result['shop_id'] = user.shop_owner.pk
         else:
             result['has_shop'] = False
 
