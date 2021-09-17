@@ -41,6 +41,7 @@ class CategoryGetSerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
+
 class ProductBrandGetSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -310,7 +311,7 @@ class CardGetSerializer(serializers.ModelSerializer):
         return [RateGetSerializer(instance=rate).data for rate in card.card_rate.all()]
 
     def get_comments(self, card):
-        return [CommentGetSerializer(instance=comm).data for comm in card.card_comment.all().order_by('-datetime')]
+        return [CommentGetSerializer(instance=comm, context={'request': self.request}).data for comm in card.card_comment.all().order_by('-datetime')]
 
     def get_comments_amount(self, card):
         return card.card_comment.all().annotate(num_comments=Count('comment'))[0].num_comments if card.card_comment.all() else 0

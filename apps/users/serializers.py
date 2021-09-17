@@ -103,3 +103,10 @@ class ShortUserSerializer(serializers.ModelSerializer):
             'verified'
         )
         model = User
+
+    def get_image(self, user):
+        request = self.context.get('request')
+        if user.image and getattr(user.image, 'url'):
+            file_url = user.image.url
+            return request.build_absolute_uri(file_url)
+        return None
