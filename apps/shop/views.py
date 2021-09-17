@@ -385,4 +385,10 @@ class MainPageAPI(APIView):
         ).data
         slider = sample(products, 10 if len(products) > 10 else len(products))
         result['products'] = products
+        user = request.user
+        if user.shop_owner:
+            result['has_shop'] = True
+        else:
+            result['has_shop'] = False
+
         return Response(result)
