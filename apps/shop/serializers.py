@@ -239,7 +239,13 @@ class AddressSerializer(serializers.ModelSerializer):
 class ShortShopSerializer(serializers.ModelSerializer):
     owner = ShortUserSerializer()
     products_amount = serializers.SerializerMethodField()
-
+    average_rate = serializers.SerializerMethodField()
+    
+    def get_average_rate(self, shop):
+        return (
+            shop.shop_rate.all().aggregate(Avg('rate')) if shop.shop_rate.all() else 0
+        )
+    
     def get_products_amount(self, shop):
         return len(shop.card_creator.all())
 
