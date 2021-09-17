@@ -238,6 +238,10 @@ class AddressSerializer(serializers.ModelSerializer):
 
 class ShortShopSerializer(serializers.ModelSerializer):
     owner = ShortUserSerializer()
+    products_amount = serializers.SerializerMethodField()
+
+    def get_products_amount(self, shop):
+        return len(shop.card_creator.all())
 
     class Meta:
         model = Shop
