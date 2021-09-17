@@ -108,6 +108,8 @@ class CardGetAPI(generics.RetrieveAPIView):
     queryset = Card.objects.all()
     serializer_class = CardGetSerializer
 
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 class CardCreateAPI(generics.CreateAPIView):
     queryset = Card.objects.all()
