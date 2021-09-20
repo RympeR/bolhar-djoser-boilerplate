@@ -392,5 +392,5 @@ class MainPageAPI(APIView):
             result['shop_id'] = user.shop_owner.pk
         else:
             result['has_shop'] = False
-        result['user'] = UserShortSerializer(instance=user).data
+        result['user'] = UserShortSerializer(instance=user, context={'request': request}).data
         return Response(result)
