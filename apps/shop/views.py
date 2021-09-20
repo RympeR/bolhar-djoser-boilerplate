@@ -1,3 +1,4 @@
+from turan.apps.users.serializers import UserShortSerializer
 from rest_framework.views import APIView
 from apps.utils.customClasses import (
     SellersPagination,
@@ -391,5 +392,5 @@ class MainPageAPI(APIView):
             result['shop_id'] = user.shop_owner.pk
         else:
             result['has_shop'] = False
-
+        result['user'] = UserShortSerializer(instance=user).data
         return Response(result)
