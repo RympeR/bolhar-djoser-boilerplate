@@ -17,7 +17,7 @@ from apps.utils.func import attachments, preview_cards
 
 class MainSlider(models.Model):
     image = models.ImageField('Изображение')
-    
+
     def slider_image(self):
         if self.image and hasattr(self.image, 'url'):
             return mark_safe('<img src="{}" width="100" /'.format(self.image.url))
@@ -78,7 +78,8 @@ class Shop(models.Model):
                                       related_name='shop_schedule',
                                       verbose_name='Время работы',
                                       blank=True)
-    description = models.TextField(verbose_name='Описание', null=True, blank=True)
+    description = models.TextField(
+        verbose_name='Описание', null=True, blank=True)
 
     def admin_preview(self):
         if hasattr(self.logo, 'url') and self.logo:

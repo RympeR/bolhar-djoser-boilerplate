@@ -387,7 +387,7 @@ class MainPageAPI(APIView):
         slider = sample(products, 10 if len(products) > 10 else len(products))
         result['products'] = products
         user = request.user
-        if user.shop_owner:
+        if user.shop_owner and hasattr(user, 'shop_owner'):
             result['has_shop'] = True
             result['shop_id'] = user.shop_owner.pk
         else:
