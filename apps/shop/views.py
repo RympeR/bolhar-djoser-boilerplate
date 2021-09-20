@@ -81,10 +81,12 @@ class CategoryListAPI(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoryGetSerializer
 
+
 class BrandsListAPI(generics.ListAPIView):
     permissions = permissions.AllowAny,
     queryset = ProductBrand.objects.all()
     serializer_class = ProductBrandGetSerializer
+
 
 class CountryListAPI(generics.ListAPIView):
     permissions = permissions.AllowAny,
@@ -111,6 +113,7 @@ class CardGetAPI(generics.RetrieveAPIView):
 
     def get_serializer_context(self):
         return {'request': self.request}
+
 
 class CardCreateAPI(generics.CreateAPIView):
     queryset = Card.objects.all()
@@ -276,6 +279,7 @@ class OrderGetAPI(generics.RetrieveAPIView):
     def get_serializer_context(self):
         return {'request': self.request}
 
+
 class SingleOrderGetAPI(generics.RetrieveAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderGetSerializer
@@ -319,6 +323,7 @@ class ShopOrderGetAPI(generics.ListAPIView):
         orders = sorted(orders, key=lambda x: x.created_at, reverse=True)
         return orders
 
+
 class UserOrderGetAPI(generics.ListAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderGetSerializer
@@ -330,6 +335,7 @@ class UserOrderGetAPI(generics.ListAPIView):
         user = self.request.user
         orders = user.order_user.all()
         return orders
+
 
 class UserFavouritesAPI(generics.ListAPIView):
     queryset = Card.objects.all()
@@ -387,10 +393,13 @@ class MainPageAPI(APIView):
         slider = sample(products, 10 if len(products) > 10 else len(products))
         result['products'] = products
         user = request.user
-        if user.shop_owner and hasattr(user, 'shop_owner'):
-            result['has_shop'] = True
-            result['shop_id'] = user.shop_owner.pk
-        else:
+        try:
+            if user.shop_owner:
+                result['has_shop'] = True
+                result['shop_id'] = user.shop_owner.pk
+        except Exception:
+
             result['has_shop'] = False
-        result['user'] = UserShortSerializer(instance=user, context={'request': request}).data
+        result['user'] = UserShortSerializer(
+            instance=user, context={'request': request}).data
         return Response(result)
