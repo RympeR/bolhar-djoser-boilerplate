@@ -240,12 +240,12 @@ class ShortShopSerializer(serializers.ModelSerializer):
     owner = ShortUserSerializer()
     products_amount = serializers.SerializerMethodField()
     average_rate = serializers.SerializerMethodField()
-    
+
     def get_average_rate(self, shop):
         return (
             shop.shop_rate.all().aggregate(Avg('rate')) if shop.shop_rate.all() else 0
         )
-    
+
     def get_products_amount(self, shop):
         return len(shop.card_creator.all())
 
@@ -492,6 +492,7 @@ class ShopCreateSerializer(serializers.ModelSerializer):
 
     schedule = serializers.PrimaryKeyRelatedField(
         queryset=Schedule.objects.all(), many=True, required=False)
+    description = serializers.CharField(required=False)
 
     class Meta:
         model = Shop

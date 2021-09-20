@@ -78,7 +78,7 @@ class Shop(models.Model):
                                       related_name='shop_schedule',
                                       verbose_name='Время работы',
                                       blank=True)
-    description = models.TextField(verbose_name='Описание')
+    description = models.TextField(verbose_name='Описание', null=True, blank=True)
 
     def admin_preview(self):
         if hasattr(self.logo, 'url') and self.logo:
