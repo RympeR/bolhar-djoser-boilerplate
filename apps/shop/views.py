@@ -1,4 +1,4 @@
-from turan.apps.users.serializers import UserShortSerializer
+from apps.users.serializers import UserShortSerializer
 from rest_framework.views import APIView
 from apps.utils.customClasses import (
     SellersPagination,
