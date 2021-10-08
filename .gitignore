@@ -5,3 +5,4 @@ migrations/
 media/
 .env
 node_modules/
+logs/
