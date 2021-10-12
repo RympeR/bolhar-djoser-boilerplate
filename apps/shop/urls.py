@@ -35,6 +35,7 @@ from .views import (
     SingleOrderGetAPI,
     BrandsListAPI,
     CountryListAPI,
+    MarkFavourite,
 )
 
 urlpatterns = [
@@ -62,11 +63,13 @@ urlpatterns = [
     path('coupon-create/', CouponCreateAPI.as_view(), name=''),
     path('address-create/', AddressCreateAPI.as_view(), name=''),
     path('schedule-create/', ScheduleCreateAPI.as_view(), name=''),
-    path('user-favourites/', UserFavouritesAPI.as_view(), name=''),
+
     path('order-item-create/', OrderItemCreateAPI.as_view(), name=''),
     path('order-item-delete/', OrderItemDeleteAPI.as_view(), name=''),
     path('order-item-get/<int:pk>', OrderItemGetAPI.as_view(), name=''),
-    path('order-item-partial-update/<int:pk>', OrderItemUpdateAPI.as_view(), name=''),
+    path('order-item-partial-update/<int:pk>',
+         OrderItemUpdateAPI.as_view(), name=''),
+
     path('order-create/', OrderCreateAPI.as_view(), name=''),
     path('order-get/', OrderGetAPI.as_view(), name=''),
     path('single-order-get/<int:pk>', SingleOrderGetAPI.as_view(), name=''),
@@ -74,4 +77,6 @@ urlpatterns = [
     path('user-orders-get/', UserOrderGetAPI.as_view(), name=''),
     path('shop-orders-get/', ShopOrderGetAPI.as_view(), name=''),
 
+    path('user-favourites/', UserFavouritesAPI.as_view(), name=''),
+    path('mark-favourite/', MarkFavourite.as_view(), name=''),
 ]

@@ -31,6 +31,7 @@ from .serializers import (
     CategoryGetSerializer,
     CardGetSerializer,
     CategoryShortSerializer,
+    OrderItemRemoveSerializer,
     RateCreateSerializer,
     CommentCreateSerializer,
     DeliverChoiceGetSerializer,
@@ -54,6 +55,7 @@ from .serializers import (
     MainSliderSerializer,
     ProductBrandGetSerializer,
     ProductCountryGetSerializer,
+    UserFavouritesSerializer,
 )
 import logging
 from rest_framework import generics, permissions
@@ -246,7 +248,7 @@ class OrderItemGetAPI(generics.RetrieveAPIView):
 
 class OrderItemDeleteAPI(generics.DestroyAPIView):
     queryset = OrderItem.objects.all()
-    serializer_class = OrderItemGetShortSerializer
+    serializer_class = OrderItemRemoveSerializer
 
 
 class OrderItemUpdateAPI(GenericAPIView, UpdateModelMixin):
@@ -403,3 +405,22 @@ class MainPageAPI(APIView):
         result['user'] = UserShortSerializer(
             instance=user, context={'request': request}).data
         return Response(result)
+
+
+class MarkFavourite(generics.GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = UserFavouritesSerializer
+
+    def put(self, request):
+        data = request.data
+        user = request.user
+        if self.serializer_class(data=data).is_valid():
+            card = Card.objects.get(pk=data['card_id'])
+            if data['favourite']:
+                card.favourite.add(user)
+                return Response(data)
+            card.favourite.remove(user)
+            return Response(data)
+
+    def get_serializer_context(self):
+        return {'request': self.request}
