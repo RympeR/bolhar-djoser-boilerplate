@@ -3,10 +3,16 @@ import re
 import random
 import string
 from django.core.validators import validate_email
+from django.db.models.aggregates import Avg
 from rest_framework import pagination
 from rest_framework.response import Response
 from twilio.rest import Client
 from core.settings import AUTH_TOKEN
+
+def average_rate(card) -> float:
+    return (
+            card.card_rate.all().aggregate(Avg('rate')) if card.card_rate.all() else 0
+        )
 
 def set_phone(phone):
     if not phone:

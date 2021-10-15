@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from apps.users.serializers import UserShortSerializer
 from rest_framework.views import APIView
 from apps.utils.customClasses import (
@@ -5,6 +6,7 @@ from apps.utils.customClasses import (
     CardFilter,
     SellersFilter,
 )
+from rest_framework.filters import OrderingFilter
 from apps.users.models import User
 from .models import (
     Category,
@@ -68,6 +70,33 @@ class CardFilteredAPI(generics.ListAPIView):
     queryset = Card.objects.all()
     filterset_class = CardFilter
     serializer_class = CardGetShortSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        params = dict(self.request.query_params)
+        order_params = [value for key,
+                        value in params.items() if key.startswith('order')][0]
+        dynamic_order_params = [value for key,
+                                value in params.items() if key.startswith('dynamic_order')][0]
+        if order_params:
+            queryset = queryset.order_by(*order_params)
+        if dynamic_order_params:
+            for param in dynamic_order_params:
+                reverse = False
+                if param.startswith('-'):
+                    param = param.replace('-', '')
+                    reverse = True
+                queryset = sorted(
+                    queryset, key=lambda obj: getattr(obj, param), reverse=reverse)
+                    
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class CardLatestAPI(generics.ListAPIView):

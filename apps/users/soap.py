@@ -16,3 +16,4 @@ def send_sms(phone, text):
     })
     headers = {'Content-Type': 'application/json', 'Authorization':'Bearer ' + AUTH_TOKEN}
     result = requests.post(url,headers=headers, data=data)
+    print(result)
