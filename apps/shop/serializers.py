@@ -640,3 +640,15 @@ class OrderUpdateSerializer(serializers.ModelSerializer):
         user = request.user
         attrs['user'] = user
         return attrs
+
+
+class UserFavouritesSerializer(serializers.Serializer):
+    favourite = serializers.BooleanField()
+    post_id = serializers.PrimaryKeyRelatedField(queryset=Card.objects.all())
+
+
+class OrderItemRemoveSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrderItem
+        fields = '__all__'

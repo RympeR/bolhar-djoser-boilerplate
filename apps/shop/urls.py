@@ -35,6 +35,7 @@ from .views import (
     SingleOrderGetAPI,
     BrandsListAPI,
     CountryListAPI,
+    MarkFavourite,
 )
 
 urlpatterns = [
@@ -52,6 +53,7 @@ urlpatterns = [
     path('card-create/', CardCreateAPI.as_view(), name='card-create'),
     path('rate-create/', RateCreateAPI.as_view(), name='rate-create'),
     path('comment-create/', CommentCreateAPI.as_view(), name='comment-create'),
+
 
     path('shop-comment-create/', ShopCommentCreateAPI.as_view(), name='shop-comment'),
     path('shop-rate-create/', ShopRateCreateAPI.as_view(), name='shop-rate'),
@@ -74,4 +76,7 @@ urlpatterns = [
     path('user-orders-get/', UserOrderGetAPI.as_view(), name='user-orders-get'),
     path('shop-orders-get/', ShopOrderGetAPI.as_view(), name='shop-orders-get'),
 
+
+    path('user-favourites/', UserFavouritesAPI.as_view(), name=''),
+    path('mark-favourite/', MarkFavourite.as_view(), name=''),
 ]
