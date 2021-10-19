@@ -4,15 +4,33 @@ import random
 import string
 from django.core.validators import validate_email
 from django.db.models.aggregates import Avg
+from django.db.models.query import QuerySet
 from rest_framework import pagination
 from rest_framework.response import Response
 from twilio.rest import Client
 from core.settings import AUTH_TOKEN
 
+
+def order_queryset(queryset: QuerySet, params: list) -> QuerySet:
+    return queryset.order_by(*params)
+
+
+def order_queryset_by_dynamic_params(queryset: QuerySet, params: list) -> QuerySet:
+    for param in params:
+        reverse = False
+        if param.startswith('-'):
+            param = param.replace('-', '')
+            reverse = True
+        queryset = sorted(
+            queryset, key=lambda obj: getattr(obj, param), reverse=reverse)
+    return queryset
+
+
 def average_rate(card) -> float:
     return (
-            card.card_rate.all().aggregate(Avg('rate')) if card.card_rate.all() else 0
-        )
+        card.card_rate.all().aggregate(Avg('rate')) if card.card_rate.all() else 0
+    )
+
 
 def set_phone(phone):
     if not phone:
@@ -69,11 +87,13 @@ def attachments(instance, filename):
     # file = set_unique_file_name(filename)
     return os.path.join('attachments', filename)
 
+
 def preview_cards(instance, filename):
     instance.original_file_name = filename
     # file = set_unique_file_name(filename)
     return os.path.join('preview_cards', filename)
-    
+
+
 def transform_get_value(value):
     if value == 'null':
         value = None

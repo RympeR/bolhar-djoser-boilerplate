@@ -8,6 +8,7 @@ from apps.utils.customClasses import (
 )
 from rest_framework.filters import OrderingFilter
 from apps.users.models import User
+from apps.utils.func import order_queryset, order_queryset_by_dynamic_params
 from .models import (
     Category,
     MainSlider,
@@ -80,16 +81,9 @@ class CardFilteredAPI(generics.ListAPIView):
         dynamic_order_params = [value for key,
                                 value in params.items() if key.startswith('dynamic_order')][0]
         if order_params:
-            queryset = queryset.order_by(*order_params)
+            queryset = order_queryset(queryset, params)
         if dynamic_order_params:
-            for param in dynamic_order_params:
-                reverse = False
-                if param.startswith('-'):
-                    param = param.replace('-', '')
-                    reverse = True
-                queryset = sorted(
-                    queryset, key=lambda obj: getattr(obj, param), reverse=reverse)
-                    
+            queryset = order_queryset_by_dynamic_params(queryset, dynamic_order_params)
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
