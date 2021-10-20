@@ -79,13 +79,13 @@ class CardFilteredAPI(generics.ListAPIView):
 
         params = dict(self.request.query_params)
         order_params = [value for key,
-                        value in params.items() if key.startswith('order')][0]
+                        value in params.items() if key.startswith('order')]
         dynamic_order_params = [value for key,
-                                value in params.items() if key.startswith('dynamic_order')][0]
+                                value in params.items() if key.startswith('dynamic_order')]
         if order_params:
-            queryset = order_queryset(queryset, params)
+            queryset = order_queryset(queryset, order_params[0])
         if dynamic_order_params:
-            queryset = order_queryset_by_dynamic_params(queryset, dynamic_order_params)
+            queryset = order_queryset_by_dynamic_params(queryset, dynamic_order_params[0])
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
