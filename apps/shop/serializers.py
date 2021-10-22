@@ -274,7 +274,8 @@ class CardGetShortSerializer(serializers.ModelSerializer):
 
     def get_average_rate(self, card):
         return (
-            card.card_rate.all().aggregate(Avg('rate'))['rate__avg'] if card.card_rate.all() else 0
+            card.card_rate.all().aggregate(Avg('rate'))[
+                'rate__avg'] if card.card_rate.all() else 0
         )
 
     def get_calc_price(self, card):
@@ -317,7 +318,8 @@ class CardGetSerializer(serializers.ModelSerializer):
 
     def get_average_rate(self, card):
         return (
-            card.card_rate.all().aggregate(Avg('rate'))['rate__avg'] if card.card_rate.all() else 0
+            card.card_rate.all().aggregate(Avg('rate'))[
+                'rate__avg'] if card.card_rate.all() else 0
         )
 
     def get_rate(self, card):
@@ -369,27 +371,49 @@ class SellersSerializer(serializers.ModelSerializer):
     shop_id = serializers.SerializerMethodField()
 
     def get_shop_title(self, user: User):
-        return user.shop_owner.name
+        shop = Shop.objects.filter(owner=user).first()
+        if shop:
+            return (
+                shop.name
+            )
+        else:
+            return ''
 
     def get_shop_id(self, user: User):
-        return user.shop_owner.pk
+        shop = Shop.objects.filter(owner=user).first()
+        if shop:
+            return (
+                shop.pk
+            )
+        else:
+            return ''
 
     def get_shop_logo(self, user: User):
         request = self.context.get('request')
-        if user.shop_owner.logo and getattr(user.shop_owner.logo, 'url'):
-            file_url = user.shop_owner.logo.url
-            return request.build_absolute_uri(file_url)
+        shop = Shop.objects.filter(owner=user).first()
+        if shop:
+            if shop.logo and getattr(shop.logo, 'url'):
+                file_url = shop.logo.url
+                return request.build_absolute_uri(file_url)
         return None
 
     def get_average_rate(self, user: User):
-        return (
-            user.shop_owner.average_rate() if user.customer else 0
-        )
+        shop = Shop.objects.filter(owner=user).first()
+        if shop:
+            return (
+                shop.average_rate()
+            )
+        else:
+            return 0
 
     def get_products_amount(self, user: User):
-        return (
-            len(user.shop_owner.card_creator.all()) if user.customer else 0
-        )
+        shop = Shop.objects.filter(owner=user).first()
+        if shop:
+            return (
+                len(user.shop_owner.card_creator.all())
+            )
+        else:
+            return 0
 
     class Meta:
         model = User
