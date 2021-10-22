@@ -396,7 +396,7 @@ class MainPageAPI(APIView):
         result['products'] = products
         user = request.user
         try:
-            if user.shop_owner:
+            if hasattr(user, 'shop_owner') and user.shop_owner:
                 result['has_shop'] = True
                 result['shop_id'] = user.shop_owner.pk
         except Exception:
