@@ -1,7 +1,7 @@
 from django.db import models
 from django.core import validators
 from django.db.models import CheckConstraint, F, Q
-from django.db.models.aggregates import Avg
+from django.db.models.aggregates import Avg, Count
 from django.utils.safestring import mark_safe
 from mptt.models import MPTTModel, TreeForeignKey
 from unixtimestampfield.fields import UnixTimeStampField
@@ -182,12 +182,14 @@ class CardCharacteristic(models.Model):
 
 
 class Card(models.Model):
+
     title = models.CharField(max_length=100, verbose_name='Название')
     description = models.TextField(
         verbose_name='Описание товара', null=True, blank=True)
     seller = models.ForeignKey(
         Shop, related_name='card_creator', verbose_name='Магазин продавца', on_delete=models.CASCADE,)
     present = models.BooleanField(default=True, verbose_name='В наличии')
+    is_new = models.BooleanField(default=True, verbose_name='Товар новый')
     price = models.FloatField(verbose_name='Цена')
     discount_price = models.FloatField(
         verbose_name='Цена со скидкой', default=0)
@@ -210,11 +212,29 @@ class Card(models.Model):
         Characteristic, related_name='card_characteristics', verbose_name='Характеристики товара', blank=True, through=CardCharacteristic)
     favourite = models.ManyToManyField(
         User, related_name='user_favourite', verbose_name='Избранное у людей', blank=True)
+    time_creation = models.DateTimeField(
+        auto_now_add=True, verbose_name='Время создания')
 
     def admin_preview(self):
         if hasattr(self.preview, 'url') and self.preview:
             return mark_safe('<img src="{}" width="100" /'.format(self.preview.url))
         return None
+
+    @property
+    def average_rate(self):
+        return (
+            self.card_rate.all().aggregate(Avg('rate'))[
+                'rate__avg'] if self.card_rate.all() else 0
+        )
+
+    @property
+    def ordered_quantity(self):
+        card_items = self.order_item.all()
+        quantity = 0
+        for order_item in card_items:
+            for _ in order_item.order_items.filter(ordered=True):
+                quantity += order_item.quantity
+        return quantity
 
     admin_preview.short_description = 'Превью'
     admin_preview.allow_tags = True

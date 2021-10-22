@@ -260,6 +260,7 @@ class CardGetShortSerializer(serializers.ModelSerializer):
     average_rate = serializers.SerializerMethodField()
     preview = serializers.SerializerMethodField()
     seller = ShortShopSerializer()
+    time_creation = TimestampField()
 
     def get_preview(self, card):
         request = self.context.get('request')
@@ -273,7 +274,7 @@ class CardGetShortSerializer(serializers.ModelSerializer):
 
     def get_average_rate(self, card):
         return (
-            card.card_rate.all().aggregate(Avg('rate')) if card.card_rate.all() else 0
+            card.card_rate.all().aggregate(Avg('rate'))['rate__avg'] if card.card_rate.all() else 0
         )
 
     def get_calc_price(self, card):
@@ -291,8 +292,10 @@ class CardGetShortSerializer(serializers.ModelSerializer):
             'preview',
             'calc_price',
             'comments_amount',
+            'time_creation',
             'average_rate',
             'seller',
+            'ordered_quantity',
         )
 
 
@@ -314,7 +317,7 @@ class CardGetSerializer(serializers.ModelSerializer):
 
     def get_average_rate(self, card):
         return (
-            card.card_rate.all().aggregate(Avg('rate')) if card.card_rate.all() else 0
+            card.card_rate.all().aggregate(Avg('rate'))['rate__avg'] if card.card_rate.all() else 0
         )
 
     def get_rate(self, card):
@@ -339,6 +342,7 @@ class CardGetSerializer(serializers.ModelSerializer):
             'description',
             'seller',
             'present',
+            'is_new',
             'discount_price',
             'preview',
             'attachments',
@@ -349,8 +353,10 @@ class CardGetSerializer(serializers.ModelSerializer):
             'comments',
             'comments_amount',
             'rate',
+            'time_creation',
             'average_rate',
             'characteristics',
+            'ordered_quantity',
         )
 
 

@@ -1,5 +1,5 @@
 
-from apps.shop.models import Card, Category
+from apps.shop.models import Card, Category, ProductBrand, ProductCountry
 from apps.users.models import User
 from apps.shop.serializers import CategoryShortSerializer
 from django.db.models import Q, Model, QuerySet
@@ -47,13 +47,26 @@ class SellersPagination(PageNumberPagination):
 class CardFilter(filters.FilterSet):
     id = filters.NumberFilter(lookup_expr='gte')
     title = filters.CharFilter(lookup_expr='icontains')
-    price = filters.NumberFilter(lookup_expr='lte')
+    price = filters.RangeFilter(lookup_expr='range')
     category = filters.ModelMultipleChoiceFilter(
         lookup_expr='in',
         queryset=Category.objects.all(),
         field_name='category',
         method='filter_category'
     )
+    product_country = filters.ModelMultipleChoiceFilter(
+        lookup_expr='in',
+        queryset=ProductCountry.objects.all(),
+        field_name='product_country',
+    )
+    product_brand = filters.ModelMultipleChoiceFilter(
+        lookup_expr='in',
+        queryset=ProductBrand.objects.all(),
+        field_name='product_brand',
+    )
+    present = filters.BooleanFilter()
+    is_new = filters.BooleanFilter()
+    
 
     def filter_category(self, queryset: QuerySet, name: str, value):
         return filter_related_objects(queryset, name, value, Category, CategoryShortSerializer, 'subcategory')
@@ -65,6 +78,8 @@ class CardFilter(filters.FilterSet):
             'title',
             'seller',
             'price',
+            'present',
+            'is_new',
             'category',
             'payment_methods',
             'deliver_methods',
